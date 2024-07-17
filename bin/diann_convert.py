@@ -9,7 +9,7 @@ Revisions:
 import logging
 import os
 import re
-from dataclasses import dataclass
+import warnings
 from pathlib import Path
 from typing import Any, List, Tuple, Dict, Set, Union
 
@@ -47,8 +47,7 @@ def cli():
 def convert(ctx, folder, exp_design, dia_params, diann_version, charge, missed_cleavages, qvalue_threshold):
     """
     Convert DIA-NN output to MSstats, Triqler or mzTab.
-     The output formats are
-    used for quality control and downstream analysis.
+    The output formats are used for quality control and downstream analysis.
 
     :param folder: DiannConvert specifies the folder where the required file resides. The folder contains
         the DiaNN main report, protein matrix, precursor matrix, experimental design file, protein sequence
@@ -195,6 +194,42 @@ def get_exp_design_dfs(exp_design_file):
 
     return s_DataFrame, f_table
 
+def compute_mass_modified_peptide(peptide_seq: str) -> float:
+    """
+    Function that takes a peptide sequence including modifications and compute the mass using the AASequence class from
+    pyopenms. The notation of a peptidoform for pyopenms is the following:
+
+    if not modifications is present:
+      AVQVHQDTLRTMYFAXR -> AVQVHQDTLRTMYFAX[178.995499]R
+    if modification is present in Methionine:
+      AVQVHQDTLRTM(Oxidation)YFAXR -> AVQVHQDTLRTM(Oxidation)YFAX[178.995499]R
+
+    @param peptide_seq: str, peptide sequence
+    @return: float, mass of the peptide
+    """
+    peptide_parts: List[str] = []
+    not_mod = True
+    aa_mass = {
+        "X": "X[178.98493453312]",  # 196.995499 - 17.003288 - 1.00727646688
+        "U": "X[132.94306553312]",  # 150.95363  - 17.003288 - 1.00727646688
+        "O": "X[237.14773053312]",  # 255.158295 - 17.003288 - 1.00727646688
+    }
+    for aa in peptide_seq:
+        # Check if the letter is in aminoacid
+        if aa == "(":
+            not_mod = False
+        elif aa == ")":
+            not_mod = True
+        # Check aminoacid letter
+        if aa in aa_mass and not_mod:
+            aa = aa_mass[aa]
+        elif aa not in ['G','A','V','L','I','F','M','P','W','S','C','T','Y','N','Q','D','E','K','R','H'] and not_mod and aa != ")":
+            logger.info(f"Unknown amino acid with mass not known:{aa}")
+        peptide_parts.append(aa)
+    new_peptide_seq = ''.join(peptide_parts)
+    mass = AASequence.fromString(new_peptide_seq).getMonoWeight()
+    logger.debug(new_peptide_seq + ":" + str(mass))
+    return mass
 
 class DiannDirectory:
     def __init__(self, base_path, diann_version_file):
@@ -349,7 +384,7 @@ class DiannDirectory:
         logger.debug("Calculating Precursor.Mz")
         # Making the map is 10x faster, and includes the mass of
         # the modification. with respect to the previous implementation.
-        uniq_masses = {k: AASequence.fromString(k).getMonoWeight() for k in report["Modified.Sequence"].unique()}
+        uniq_masses = {k: compute_mass_modified_peptide(k) for k in report["Modified.Sequence"].unique()}
         mass_vector = report["Modified.Sequence"].map(uniq_masses)
         report["Calculate.Precursor.Mz"] = (mass_vector + (PROTON_MASS_U * report["Precursor.Charge"])) / report[
             "Precursor.Charge"
@@ -442,9 +477,9 @@ def mztab_MTD(index_ref, dia_params, fasta, charge, missed_cleavages):
     out_mztab_MTD.loc[1, "title"] = "ConsensusMap export from OpenMS"
     out_mztab_MTD.loc[1, "description"] = "OpenMS export from consensusXML"
     out_mztab_MTD.loc[1, "protein_search_engine_score[1]"] = "[, , DIA-NN Global.PG.Q.Value, ]"
-    out_mztab_MTD.loc[
-        1, "peptide_search_engine_score[1]"
-    ] = "[, , DIA-NN Q.Value (minimum of the respective precursor q-values), ]"
+    out_mztab_MTD.loc[1, "peptide_search_engine_score[1]"] = (
+        "[, , DIA-NN Q.Value (minimum of the respective precursor q-values), ]"
+    )
     out_mztab_MTD.loc[1, "psm_search_engine_score[1]"] = "[MS, MS:MS:1001869, protein-level q-value, ]"
     out_mztab_MTD.loc[1, "software[1]"] = "[MS, MS:1003253, DIA-NN, Release (v1.8.1)]"
     out_mztab_MTD.loc[1, "software[1]-setting[1]"] = fasta
@@ -486,19 +521,25 @@ def mztab_MTD(index_ref, dia_params, fasta, charge, missed_cleavages):
         out_mztab_MTD.loc[1, "ms_run[" + str(i) + "]-location"] = (
             "file://" + index_ref[index_ref["ms_run"] == i]["Spectra_Filepath"].values[0]
         )
-        out_mztab_MTD.loc[
-            1, "ms_run[" + str(i) + "]-id_format"
-        ] = "[MS, MS:1000777, spectrum identifier nativeID format, ]"
+        out_mztab_MTD.loc[1, "ms_run[" + str(i) + "]-id_format"] = (
+            "[MS, MS:1000777, spectrum identifier nativeID format, ]"
+        )
         out_mztab_MTD.loc[1, "assay[" + str(i) + "]-quantification_reagent"] = "[MS, MS:1002038, unlabeled sample, ]"
         out_mztab_MTD.loc[1, "assay[" + str(i) + "]-ms_run_ref"] = "ms_run[" + str(i) + "]"
 
-    for i in range(1, max(index_ref["study_variable"]) + 1):
-        study_variable = []
-        for j in list(index_ref[index_ref["study_variable"] == i]["ms_run"].values):
-            study_variable.append("assay[" + str(j) + "]")
-        out_mztab_MTD.loc[1, "study_variable[" + str(i) + "]-assay_refs"] = ",".join(study_variable)
-        out_mztab_MTD.loc[1, "study_variable[" + str(i) + "]-description"] = "no description given"
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        # This is used here in order to ignore performance warnings from pandas.
+        for i in range(1, max(index_ref["study_variable"]) + 1):
+            study_variable = []
+            for j in list(index_ref[index_ref["study_variable"] == i]["ms_run"].values):
+                study_variable.append("assay[" + str(j) + "]")
+            out_mztab_MTD.loc[1, "study_variable[" + str(i) + "]-assay_refs"] = ",".join(study_variable)
+            out_mztab_MTD.loc[1, "study_variable[" + str(i) + "]-description"] = "no description given"
 
+    # The former loop makes a very sharded frame, this
+    # makes the frame more compact in memory.
+    out_mztab_MTD = out_mztab_MTD.copy()
     out_mztab_MTD.loc[2, :] = "MTD"
 
     # Transpose out_mztab_MTD
@@ -552,8 +593,9 @@ def mztab_PRH(report, pg, index_ref, database, fasta_df):
     pg["opt_global_result_type"] = "single_protein"
     pg.loc[pg["Protein.Ids"].str.contains(";"), "opt_global_result_type"] = "indistinguishable_protein_group"
 
-    out_mztab_PRH = pd.DataFrame()
-    out_mztab_PRH = pg.drop(["Protein.Names"], axis=1)
+    out_mztab_PRH = pg
+    del pg
+    out_mztab_PRH = out_mztab_PRH.drop(["Protein.Names"], axis=1)
     out_mztab_PRH.rename(
         columns={"Protein.Group": "accession", "First.Protein.Description": "description"}, inplace=True
     )
@@ -580,9 +622,14 @@ def mztab_PRH(report, pg, index_ref, database, fasta_df):
     protein_details_df = (
         protein_details_df.drop("accession", axis=1).join(prh_series).reset_index().drop(columns="index")
     )
-    protein_details_df.loc[:, "col"] = "protein_details"
-    # protein_details_df = protein_details_df[-protein_details_df["accession"].str.contains("-")]
-    out_mztab_PRH = pd.concat([out_mztab_PRH, protein_details_df]).reset_index(drop=True)
+    if len(protein_details_df) > 0:
+        logger.info(f"Found {len(protein_details_df)} indistinguishable protein groups")
+        # The Following line fails if there are no indistinguishable protein groups
+        protein_details_df.loc[:, "col"] = "protein_details"
+        # protein_details_df = protein_details_df[-protein_details_df["accession"].str.contains("-")]
+        out_mztab_PRH = pd.concat([out_mztab_PRH, protein_details_df]).reset_index(drop=True)
+    else:
+        logger.info("No indistinguishable protein groups found")
 
     logger.debug("Calculating protein coverage (bottleneck)...")
     # This is a bottleneck
@@ -825,7 +872,7 @@ def mztab_PSH(report, folder, database):
     def __find_info(directory, n):
         # This line matches n="220101_myfile", folder="." to
         # "myfolder/220101_myfile_ms_info.tsv"
-        files = list(Path(directory).glob(f"*{n}*_info.tsv"))
+        files = list(Path(directory).rglob(f"{n}_ms_info.tsv"))
         # Check that it matches one and only one file
         if not files:
             raise ValueError(f"Could not find {n} info file in {directory}")
@@ -1161,10 +1208,9 @@ def per_peptide_study_report(report: pd.DataFrame) -> pd.DataFrame:
     This implementation differs in several aspects in the output values:
     1. in the fact that it actually gets values for the m/z
     2. always returns a float, whilst the apply version returns an 'object' dtype.
-    3. The original implementation, missing values had the string 'null', here
-       they have the value np.nan.
+    3. The original implementation, missing values had the string 'null', here they have the value np.nan.
     4. The order of the final output is different; the original orders columns by
-       study variables > calculated value, this one is calculated value > study variables.
+    study variables > calculated value, this one is calculated value > study variables.
 
     Calculates the mean, standard deviation and std error of the precursor
     abundances, as well as the mean retention time and m/z.
