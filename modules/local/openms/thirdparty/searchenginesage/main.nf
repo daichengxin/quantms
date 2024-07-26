@@ -26,6 +26,14 @@ process SEARCHENGINESAGE {
 
     il_equiv = params.IL_equivalent ? "-PeptideIndexing:IL_equivalent" : ""
 
+    if (params.open_search) {
+        precursor_tol_left = ${-params.precursor_tol_left}
+        precursor_tol_right = ${-params.precursor_tol_right}
+    } else{
+        precursor_tol_left = ${-meta.precursormasstolerance}
+        precursor_tol_right = ${-meta.precursormasstolerance}
+    }
+
     """
     export SAGE_LOG=trace
     SageAdapter \\
@@ -42,8 +50,8 @@ process SEARCHENGINESAGE {
         -missed_cleavages $params.allowed_missed_cleavages \\
         -report_psms $params.num_hits \\
         -enzyme "${enzyme}" \\
-        -precursor_tol_left ${-meta.precursormasstolerance} \\
-        -precursor_tol_right ${meta.precursormasstolerance} \\
+        -precursor_tol_left ${precursor_tol_left} \\
+        -precursor_tol_right ${precursor_tol_right} \\
         -precursor_tol_unit $meta.precursormasstoleranceunit \\
         -fragment_tol_left ${-meta.fragmentmasstolerance} \\
         -fragment_tol_right ${meta.fragmentmasstolerance} \\
