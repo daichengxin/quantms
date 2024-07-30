@@ -17,10 +17,11 @@ include { PHOSPHOSCORING        } from '../subworkflows/local/phosphoscoring'
 include { PROTEININFERENCE } from '../subworkflows/local/proteininference'
 
 
-workflow ID {
+workflow OMS {
     take:
     ch_file_preparation_results
     ch_database_wdecoy
+    ch_spectrum_data
     ch_expdesign
 
     main:
