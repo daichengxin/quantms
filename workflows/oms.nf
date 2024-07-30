@@ -76,7 +76,7 @@ workflow OMS {
     // MODULE: FILEMERGE
     //
     IDMERGER(PSMFDRCONTROL.out.id_filtered.collect())
-    ch_software_versions = ch_software_versions.mix(FILEMERGE.out.version.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(IDMERGER.out.version.ifEmpty(null))
 
     //
     // SUBWORKFLOW: PROTEININFERENCE
