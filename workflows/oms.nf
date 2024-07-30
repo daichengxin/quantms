@@ -6,6 +6,8 @@ include { CONSENSUSID   } from '../modules/local/openms/consensusid/main'
 include { EXPORTPSMTSV  } from '../modules/local/openms/exportpsmtsv/main'
 include { IDFILECONVERTER } from '../modules/local/openms/idfileconverter/main'
 include { IDMERGER           } from '../modules/local/openms/idmerger/main'
+include { PTMPROPHET           } from '../modules/local/ptmprophet/main'
+
 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
