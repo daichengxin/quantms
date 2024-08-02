@@ -14,6 +14,7 @@ include { MS2RESCORE                     } from '../../modules/local/ms2rescore/
 include { IDSCORESWITCHER                } from '../../modules/local/openms/idscoreswitcher/main'
 include { GETSAMPLE                      } from '../../modules/local/extract_sample/main'
 include { SAGEFEATURE                    } from '../../modules/local/add_sage_feat/main'
+include { IONMATCHED                     } from '../../modules/local/ionmatched/main'
 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
@@ -191,12 +192,13 @@ workflow DDA_ID {
 
         // Extract PSMs and export parquet format
         PSMCONVERSION(PSMFDRCONTROL.out.id_filtered.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
-
+        IONMATCHED(PSMCONVERSION.out.psm_info)
         ch_rescoring_results
             .map { it -> it[1] }
             .set { ch_pmultiqc_ids }
     } else {
         PSMCONVERSION(ch_id_files.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
+        IONMATCHED(PSMCONVERSION.out.psm_info)
     }
 
 

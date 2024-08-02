@@ -8,7 +8,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pyopenms as oms
-import spectrum_utils as sus
 
 _parquet_field = [
     "sequence",
@@ -23,7 +22,7 @@ _parquet_field = [
     "collision_energy",
     "reference_file_name",
     "scan_number",
-    "ions_matched",
+    "USI",
     "peptidoform",
     "posterior_error_probability",
     "global_qvalue",
@@ -130,20 +129,7 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
 
             spectrum_name = os.path.basename(idxml).replace("_consensus_fdr_filter.idXML", "")
             usi = "mzspec:{0}:{1}:scan:".format(PXD, spectrum_name) + str(scan_number)
-            usi_spectrum = sus.MsmsSpectrum(identifier=usi, precursor_mz=exp_mass_to_charge,
-                                            precursor_charge=charge,
-                                            mz=mz_array, intensity=intensity_array,
-                                            retention_time=retention_time / 60)
-            peptide = peptidoform.replace("(", "[").replace(")", "]").replace("UniMod", "UNIMOD")
-            usi_spectrum.annotate_proforma(
-                peptide,
-                fragment_tol_mass=20,
-                fragment_tol_mode="ppm",
-                ion_types="by",
-                neutral_losses={"NH3": -17.026549, "H2O": -18.010565},
-            )
-            annotation = usi_spectrum.annotation
-            ions_matched = [str(n) for n in annotation if str(n) != "?"]
+
             sequence = hit.getSequence().toUnmodifiedString()
             protein_accessions = [
                 ev.getProteinAccession() for ev in hit.getPeptideEvidences()
@@ -171,7 +157,7 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
                     collision_energy,
                     reference_file_name,
                     scan_number,
-                    ions_matched,
+                    usi,
                     peptidoform,
                     posterior_error_probability,
                     global_qvalue,
