@@ -97,6 +97,7 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
                 ]
                 mz_array = peaks_tuple[0]
                 intensity_array = peaks_tuple[1]
+                collision_energy = spectrum.re.findall(r"@[a-zA-Z]+(\d+\.\d+)\s", spectrum.getMetaValue("filter string"))[0]
             else:
                 info_list = [
                     id_,
@@ -117,13 +118,14 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
                         MSLevel,
                         mz_array,
                         intensity_array,
+                        collision_energy
                     ]
                 )
             info.append(info_list)
 
         if id_only and len(psm_part_info) > 0:
             pd.DataFrame(
-                psm_part_info, columns=["scan", "ms_level", "mz", "intensity"]
+                psm_part_info, columns=["scan", "ms_level", "mz", "intensity", "collision energy"]
             ).to_parquet(f"{Path(ms_path).stem}_spectrum_df.parquet", index=False)
 
         return pd.DataFrame(info, columns=file_columns)

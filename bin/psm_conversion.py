@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pyopenms as oms
+import spectrum_utils as sus
 
 _parquet_field = [
     "sequence",
@@ -18,8 +19,11 @@ _parquet_field = [
     "retention_time",
     "charge",
     "exp_mass_to_charge",
+    "cal_mass_to_charge",
+    "collision_energy",
     "reference_file_name",
     "scan_number",
+    "ions_matched",
     "peptidoform",
     "posterior_error_probability",
     "global_qvalue",
@@ -54,7 +58,7 @@ def mods_position(peptide):
     return original_mods
 
 
-def convert_psm(idxml, spectra_file, export_decoy_psm):
+def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
     prot_ids = []
     pep_ids = []
     parquet_data = []
@@ -64,6 +68,8 @@ def convert_psm(idxml, spectra_file, export_decoy_psm):
     num_peaks = np.nan
     id_scores = []
     search_engines = []
+    sdrf = pd.read_csv(exp_design, sep="\t", header=None)
+    PXD = "PXD000561"  # sdrf["comment[proteomexchange accession number]"]
 
     oms.IdXMLFile().load(idxml, prot_ids, pep_ids)
     if "ConsensusID" in prot_ids[0].getSearchEngine():
@@ -95,6 +101,7 @@ def convert_psm(idxml, spectra_file, export_decoy_psm):
             mz_array = spectra["mz"].values
             intensity_array = spectra["intensity"].values
             num_peaks = len(mz_array)
+            collision_energy = spectra["collision_energy"].values
 
         for hit in peptide_id.getHits():
             # if remove decoy when mapped to target+decoy?
@@ -118,7 +125,25 @@ def convert_psm(idxml, spectra_file, export_decoy_psm):
 
             charge = hit.getCharge()
             peptidoform = hit.getSequence().toString()
+            cal_mass_to_charge = hit.getSequence().getMZ(charge=charge)
             modifications = mods_position(peptidoform)
+
+            spectrum_name = os.path.basename(idxml).replace("_consensus_fdr_filter.idXML", "")
+            usi = "mzspec:{0}:{1}:scan:".format(PXD, spectrum_name) + str(scan_number)
+            usi_spectrum = sus.MsmsSpectrum(identifier=usi, precursor_mz=exp_mass_to_charge,
+                                            precursor_charge=charge,
+                                            mz=mz_array, intensity=intensity_array,
+                                            retention_time=retention_time / 60)
+            peptide = peptidoform.replace("(", "[").replace(")", "]").replace("UniMod", "UNIMOD")
+            usi_spectrum.annotate_proforma(
+                peptide,
+                fragment_tol_mass=20,
+                fragment_tol_mode="ppm",
+                ion_types="by",
+                neutral_losses={"NH3": -17.026549, "H2O": -18.010565},
+            )
+            annotation = usi_spectrum.annotation
+            ions_matched = [str(n) for n in annotation if str(n) != "?"]
             sequence = hit.getSequence().toUnmodifiedString()
             protein_accessions = [
                 ev.getProteinAccession() for ev in hit.getPeptideEvidences()
@@ -142,8 +167,11 @@ def convert_psm(idxml, spectra_file, export_decoy_psm):
                     retention_time,
                     charge,
                     exp_mass_to_charge,
+                    cal_mass_to_charge,
+                    collision_energy,
                     reference_file_name,
                     scan_number,
+                    ions_matched,
                     peptidoform,
                     posterior_error_probability,
                     global_qvalue,
@@ -166,8 +194,9 @@ def convert_psm(idxml, spectra_file, export_decoy_psm):
 def main():
     idxml_path = sys.argv[1]
     spectra_file = sys.argv[2]
-    export_decoy_psm = sys.argv[3]
-    convert_psm(idxml_path, spectra_file, export_decoy_psm)
+    exp_design = sys.argv[3]
+    export_decoy_psm = sys.argv[4]
+    convert_psm(idxml_path, spectra_file, exp_design, export_decoy_psm)
 
 
 if __name__ == "__main__":

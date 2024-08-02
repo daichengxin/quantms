@@ -190,13 +190,13 @@ workflow DDA_ID {
         ch_software_versions = ch_software_versions.mix(PSMFDRCONTROL.out.version.ifEmpty(null))
 
         // Extract PSMs and export parquet format
-        PSMCONVERSION(PSMFDRCONTROL.out.id_filtered.combine(ch_spectrum_data, by: 0))
+        PSMCONVERSION(PSMFDRCONTROL.out.id_filtered.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
 
         ch_rescoring_results
             .map { it -> it[1] }
             .set { ch_pmultiqc_ids }
     } else {
-        PSMCONVERSION(ch_id_files.combine(ch_spectrum_data, by: 0))
+        PSMCONVERSION(ch_id_files.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
     }
 
 

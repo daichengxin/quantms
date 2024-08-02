@@ -9,7 +9,7 @@ process PSMCONVERSION {
 
 
     input:
-    tuple val(meta), path(idxml_file), path(spectrum_df)
+    tuple val(meta), path(idxml_file), path(spectrum_df), path(exp_design)
 
     output:
     path "*_psm.csv", emit: psm_info
@@ -24,6 +24,7 @@ process PSMCONVERSION {
     """
     psm_conversion.py "${idxml_file}" \\
         ${spectrum_df} \\
+        ${exp_design} \\
         $params.export_decoy_psm \\
         2>&1 | tee extract_idxml.log
 
