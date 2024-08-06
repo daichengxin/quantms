@@ -67,7 +67,7 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
     num_peaks = np.nan
     id_scores = []
     search_engines = []
-    sdrf = pd.read_csv(exp_design, sep="\t", header=None)
+    # sdrf = pd.read_csv(exp_design, sep="\t", header=None)
     PXD = "PXD000561"  # sdrf["comment[proteomexchange accession number]"]
 
     oms.IdXMLFile().load(idxml, prot_ids, pep_ids)
@@ -89,18 +89,16 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
     for peptide_id in pep_ids:
         retention_time = peptide_id.getRT()
         exp_mass_to_charge = peptide_id.getMZ()
-        scan_number = int(
-            re.findall(
-                r"(spectrum|scan)=(\d+)", peptide_id.getMetaValue("spectrum_reference")
-            )[0][1]
-        )
+        scan_number = re.findall(
+            r"(spectrum|scan)=(\d+)", peptide_id.getMetaValue("spectrum_reference")
+        )[0][1]
 
         if isinstance(spectra_df, pd.DataFrame):
             spectra = spectra_df[spectra_df["scan"] == scan_number]
-            mz_array = spectra["mz"].values
-            intensity_array = spectra["intensity"].values
+            mz_array = spectra["mz"].values[0].tolist()
+            intensity_array = spectra["intensity"].values[0].tolist()
             num_peaks = len(mz_array)
-            collision_energy = spectra["collision_energy"].values
+            collision_energy = spectra["collision energy"].values[0]
 
         for hit in peptide_id.getHits():
             # if remove decoy when mapped to target+decoy?
@@ -124,13 +122,13 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
 
             charge = hit.getCharge()
             peptidoform = hit.getSequence().toString()
-            cal_mass_to_charge = hit.getSequence().getMZ(charge=charge)
+            cal_mass_to_charge = hit.getSequence().getMZ(charge)
             modifications = mods_position(peptidoform)
 
             spectrum_name = os.path.basename(idxml).replace("_consensus_fdr_filter.idXML", "")
-            usi = "mzspec:{0}:{1}:scan:".format(PXD, spectrum_name) + str(scan_number)
-
             sequence = hit.getSequence().toUnmodifiedString()
+            usi = "mzspec:{0}:{1}:scan:{2}/{3}".format(PXD, spectrum_name, str(scan_number), peptidoform, str(charge))
+
             protein_accessions = [
                 ev.getProteinAccession() for ev in hit.getPeptideEvidences()
             ]
@@ -173,7 +171,7 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
             )
 
     pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
-        f"{Path(idxml).stem}_psm.csv", mode="w", index=False, header=True
+        f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
     )
 
 

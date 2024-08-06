@@ -97,7 +97,8 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
                 ]
                 mz_array = peaks_tuple[0]
                 intensity_array = peaks_tuple[1]
-                collision_energy = spectrum.re.findall(r"@[a-zA-Z]+(\d+\.\d+)\s", spectrum.getMetaValue("filter string"))[0]
+                collision_energy = re.findall(r"@[a-zA-Z]+(\d+\.\d+)\s", spectrum.getMetaValue("filter string"))[0]
+                print(collision_energy)
             else:
                 info_list = [
                     id_,
@@ -114,7 +115,7 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
             if id_only and MSLevel == 2:
                 psm_part_info.append(
                     [
-                        re.findall(r"[scan|spectrum]=(\d+)", id_)[0],
+                        re.findall(r"(spectrum|scan)=(\d+)", id_)[0][1],
                         MSLevel,
                         mz_array,
                         intensity_array,

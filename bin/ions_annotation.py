@@ -6,18 +6,24 @@ import os
 import sys
 from pathlib import Path
 import pandas as pd
-import spectrum_utils as sus
+import spectrum_utils.spectrum as sus
 
 
 def ions_annotation(csv_file):
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file, sep="\t")
 
     def ion_annotation(row):
-        usi_spectrum = sus.MsmsSpectrum(identifier=row["usi"], precursor_mz=row["exp_mass_to_charge"],
+        t1 = eval(row["mz_array"])
+        mz_array = [i for i in t1 if i != ""]
+        t2 = eval(row["intensity_array"])
+        intensity_array = [i for i in t2 if i != ""]
+        usi_spectrum = sus.MsmsSpectrum(identifier=row["USI"], precursor_mz=row["exp_mass_to_charge"],
                                         precursor_charge=row["charge"],
-                                        mz=row["mz_array"], intensity=row["intensity_array"],
+                                        mz=mz_array,
+                                        intensity=intensity_array,
                                         retention_time=row["retention_time"] / 60)
-        peptide = row["peptidoform"].replace("(", "[").replace(")", "]").replace("UniMod", "UNIMOD")
+        peptide = row["peptidoform"].replace("(", "[").replace(")", "]").replace("UniMod", "UNIMOD").replace(".[Acetyl]", "[Acetyl]-")
+
         usi_spectrum.annotate_proforma(
             peptide,
             fragment_tol_mass=20,
@@ -25,11 +31,15 @@ def ions_annotation(csv_file):
             ion_types="by",
             neutral_losses={"NH3": -17.026549, "H2O": -18.010565},
         )
-        annotation = usi_spectrum.annotation
-        ions_matched = [str(n) for n in annotation if str(n) != "?"]
-        return ions_matched
+        peak_annotate = []
+        for idx in range(len(usi_spectrum.mz)):
+            if usi_spectrum.annotation[idx] != "?":
+                peak_annotate.append(f"PEAK{idx}: m/z: {usi_spectrum.mz[idx]:.4f}, Intensity: {usi_spectrum.intensity[idx]:.2f}, Ion: {usi_spectrum.annotation[idx]}")
+        annotations = "; ".join(peak_annotate)
 
-    df["ions_matched"] = df.apply(lambda row, col: ion_annotation(row), axis=1)
+        return annotations
+
+    df["ions_matched"] = df.apply(lambda row: ion_annotation(row), axis=1)
     df.to_csv(f"{Path(csv_file).stem}_ion_psm.csv", index=False)
 
 
