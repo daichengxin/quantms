@@ -33,12 +33,14 @@ def ions_annotation(csv_file):
         )
         peak_annotate = []
         for idx in range(len(usi_spectrum.mz)):
-            if usi_spectrum.annotation[idx] != "?":
-                peak_annotate.append(f"PEAK{idx}: m/z: {usi_spectrum.mz[idx]:.4f}, Intensity: {usi_spectrum.intensity[idx]:.2f}, Ion: {usi_spectrum.annotation[idx]}")
-        annotations = "; ".join(peak_annotate)
-
+            if str(usi_spectrum.annotation[idx]) != "?":
+                peak_annotate.append(f"({usi_spectrum.mz[idx]:.4f},{usi_spectrum.intensity[idx]:.2f},{str(usi_spectrum.annotation[idx])})")
+        annotations = ";".join(peak_annotate)
+        annotations = peak_annotate
         return annotations
 
+    df.drop(columns=["protein_accessions", "protein_start_positions", "protein_end_positions",
+                     "is_decoy", "id_scores", "hit_rank"], inplace=True)
     df["ions_matched"] = df.apply(lambda row: ion_annotation(row), axis=1)
     df.to_csv(f"{Path(csv_file).stem}_ion_psm.csv", index=False)
 

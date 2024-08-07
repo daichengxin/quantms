@@ -127,7 +127,7 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
 
             spectrum_name = os.path.basename(idxml).replace("_consensus_fdr_filter.idXML", "")
             sequence = hit.getSequence().toUnmodifiedString()
-            usi = "mzspec:{0}:{1}:scan:{2}/{3}".format(PXD, spectrum_name, str(scan_number), peptidoform, str(charge))
+            usi = "mzspec:{0}:{1}:scan:{2}:{3}/{4}".format(PXD, spectrum_name, str(scan_number), peptidoform, str(charge))
 
             protein_accessions = [
                 ev.getProteinAccession() for ev in hit.getPeptideEvidences()
