@@ -15,6 +15,7 @@ _parquet_field = [
     "protein_start_positions",
     "protein_end_positions",
     "modifications",
+    "mass_offset_proforma",
     "retention_time",
     "charge",
     "exp_mass_to_charge",
@@ -37,24 +38,38 @@ _parquet_field = [
 ]
 
 
-def mods_position(peptide):
+def mods_position(sequence, peptide, mass_offset_dict):
+    mass_offset_proforma = ""
+    sub_peptide = peptide
     if peptide.startswith("."):
-        peptide = peptide[1:]
+        sub_peptide = peptide[1:]
     pattern = re.compile(r"\((.*?)\)")
-    original_mods = pattern.findall(peptide)
-    peptide = re.sub(r"\(.*?\)", ".", peptide)
-    position = [i.start() for i in re.finditer(r"\.", peptide)]
+    original_mods = pattern.findall(sub_peptide)
+    sub_peptide = re.sub(r"\(.*?\)", ".", sub_peptide)
+    position = [i.start() for i in re.finditer(r"\.", sub_peptide)]
     for j in range(1, len(position)):
         position[j] -= j
 
     for k in range(0, len(original_mods)):
-        original_mods[k] = str(position[k]) + "-" + original_mods[k]
+        if position[k] == 0:
+            original_mods[k] = str(position[k]) + "-" + mass_offset_dict[original_mods[k]][1]
+        else:
+            original_mods[k] = str(position[k]) + "-" + original_mods[k] + " (" + sequence[position[k] - 1] + ")"
 
     original_mods = (
         [str(i) for i in original_mods] if len(original_mods) > 0 else np.nan
     )
 
-    return original_mods
+    for name, offset in mass_offset_dict.items():
+        mass_offset_proforma = peptide.replace(name, "+" + offset[0])
+        peptide = mass_offset_proforma
+    mass_offset_proforma = mass_offset_proforma.replace("(", "[").replace(")", "]")
+    if peptide.startswith("."):
+        mass_offset_proforma = (mass_offset_proforma[:mass_offset_proforma.index(sequence[0])] + "-" +
+                                mass_offset_proforma[mass_offset_proforma.index(sequence[0]):])
+        mass_offset_proforma = mass_offset_proforma[1:]
+
+    return original_mods, mass_offset_proforma
 
 
 def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
@@ -85,6 +100,13 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
         prot_ids[0].getMetaValue("spectra_data")[0].decode("UTF-8")
     )[0]
     spectra_df = pd.read_parquet(spectra_file) if spectra_file else None
+    fixed_mods = prot_ids[0].getSearchParameters().fixed_modifications
+    var_mods = prot_ids[0].getSearchParameters().variable_modifications
+    mdb = oms.ModificationsDB()
+    mass_offset_dict = {}
+    for m in fixed_mods + var_mods:
+        r = mdb.getModification(m)
+        mass_offset_dict[m.decode('utf-8').split(" ")[0]] = ['%.4f' % r.getDiffMonoMass(), m.decode('utf-8')]
 
     for peptide_id in pep_ids:
         retention_time = peptide_id.getRT()
@@ -123,10 +145,9 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
             charge = hit.getCharge()
             peptidoform = hit.getSequence().toString()
             cal_mass_to_charge = hit.getSequence().getMZ(charge)
-            modifications = mods_position(peptidoform)
-
             spectrum_name = os.path.basename(idxml).replace("_consensus_fdr_filter.idXML", "")
             sequence = hit.getSequence().toUnmodifiedString()
+            modifications, mass_offset_proforma = mods_position(sequence, peptidoform, mass_offset_dict)
             usi = "mzspec:{0}:{1}:scan:{2}:{3}/{4}".format(PXD, spectrum_name, str(scan_number), peptidoform, str(charge))
 
             protein_accessions = [
@@ -148,6 +169,7 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
                     protein_start_positions,
                     protein_end_positions,
                     modifications,
+                    mass_offset_proforma,
                     retention_time,
                     charge,
                     exp_mass_to_charge,

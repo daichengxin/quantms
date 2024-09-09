@@ -3,16 +3,16 @@ process IONMATCHED {
     label 'process_medium'
 
     conda "bioconda::spectrum_utils=0.4.2"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/spectrum_utils:0.4.2--pyhdfd78af_0' :
-        'biocontainers/spectrum_utils:0.4.2--pyhdfd78af_0' }"
+    container "docker.io/daicx1/spectrum_annotations:v1.0"
+    containerOptions = "--user root"
+
 
 
     input:
-    path(csv_file)
+    tuple val(meta), path(csv_file)
 
     output:
-    path "*_psm.csv", emit: psm_info
+    path "*_psm.parquet", emit: psm_info
     path "versions.yml", emit: version
     path "*.log", emit: log
 
@@ -22,6 +22,8 @@ process IONMATCHED {
 
     """
     ions_annotation.py "${csv_file}" \\
+        $meta.fragmentmasstolerance \\
+        $meta.fragmentmasstoleranceunit \\
         2>&1 | tee ions_annotation.log
 
     cat <<-END_VERSIONS > versions.yml
