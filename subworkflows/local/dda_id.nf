@@ -21,6 +21,7 @@ include { IONMATCHED                     } from '../../modules/local/ionmatched/
 //
 include { DATABASESEARCHENGINES } from './databasesearchengines'
 include { PSMFDRCONTROL         } from './psmfdrcontrol'
+include { PHOSPHOSCORING        } from './phosphoscoring'
 
 workflow DDA_ID {
     take:
@@ -190,8 +191,16 @@ workflow DDA_ID {
         PSMFDRCONTROL(ch_psmfdrcontrol)
         ch_software_versions = ch_software_versions.mix(PSMFDRCONTROL.out.version.ifEmpty(null))
 
+        if (params.enable_mod_localization) {
+            PHOSPHOSCORING(ch_file_preparation_results, PSMFDRCONTROL.out.id_filtered)
+            ch_software_versions = ch_software_versions.mix(PHOSPHOSCORING.out.version.ifEmpty(null))
+            ch_id_results = PHOSPHOSCORING.out.id_luciphor
+        } else {
+            ch_id_results = PSMFDRCONTROL.out.id_filtered
+        }
+
         // Extract PSMs and export parquet format
-        PSMCONVERSION(PSMFDRCONTROL.out.id_filtered.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
+        PSMCONVERSION(ch_id_results.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
         IONMATCHED(PSMCONVERSION.out.psm_info)
         ch_rescoring_results
             .map { it -> it[1] }

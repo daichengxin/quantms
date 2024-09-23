@@ -25,6 +25,7 @@ process PSMCONVERSION {
     psm_conversion.py "${idxml_file}" \\
         ${spectrum_df} \\
         ${exp_design} \\
+        $params.enable_mod_localization \\
         $params.export_decoy_psm \\
         2>&1 | tee extract_idxml.log
 

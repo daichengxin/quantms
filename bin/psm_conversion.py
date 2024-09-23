@@ -72,7 +72,7 @@ def mods_position(sequence, peptide, mass_offset_dict):
     return original_mods, mass_offset_proforma
 
 
-def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
+def convert_psm(idxml, spectra_file, exp_design, export_flr, export_decoy_psm):
     prot_ids = []
     pep_ids = []
     parquet_data = []
@@ -131,6 +131,8 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
             if len(search_engines) > 1:
                 if "q-value" in peptide_id.getScoreType():
                     global_qvalue = hit.getScore()
+                elif hit.metaValueExists("q-value"):
+                    global_qvalue = hit.getScore()
                 consensus_support = hit.getMetaValue("consensus_support")
             elif search_engines == "Comet":
                 id_scores = ["Comet:Expectation value: " + str(hit.getScore())]
@@ -148,7 +150,8 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
             spectrum_name = os.path.basename(idxml).replace("_consensus_fdr_filter.idXML", "")
             sequence = hit.getSequence().toUnmodifiedString()
             modifications, mass_offset_proforma = mods_position(sequence, peptidoform, mass_offset_dict)
-            usi = "mzspec:{0}:{1}:scan:{2}:{3}/{4}".format(PXD, spectrum_name, str(scan_number), peptidoform, str(charge))
+            usi = "mzspec:{0}:{1}:scan:{2}:{3}/{4}".format(PXD, spectrum_name, str(scan_number), peptidoform,
+                                                           str(charge))
 
             protein_accessions = [
                 ev.getProteinAccession() for ev in hit.getPeptideEvidences()
@@ -162,47 +165,88 @@ def convert_psm(idxml, spectra_file, exp_design, export_decoy_psm):
             protein_end_positions = [ev.getEnd() for ev in hit.getPeptideEvidences()]
             hit_rank = hit.getRank()
 
-            parquet_data.append(
-                [
-                    sequence,
-                    protein_accessions,
-                    protein_start_positions,
-                    protein_end_positions,
-                    modifications,
-                    mass_offset_proforma,
-                    retention_time,
-                    charge,
-                    exp_mass_to_charge,
-                    cal_mass_to_charge,
-                    collision_energy,
-                    reference_file_name,
-                    scan_number,
-                    usi,
-                    peptidoform,
-                    posterior_error_probability,
-                    global_qvalue,
-                    is_decoy,
-                    consensus_support,
-                    mz_array,
-                    intensity_array,
-                    num_peaks,
-                    search_engines,
-                    id_scores,
-                    hit_rank,
-                ]
-            )
-
-    pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
-        f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
-    )
+            if export_flr == "true":
+                Luciphor_global_flr = hit.getMetaValue("Luciphor_global_flr")
+                Luciphor_local_flr = hit.getMetaValue("Luciphor_local_flr")
+                parquet_data.append(
+                    [
+                        sequence,
+                        protein_accessions,
+                        protein_start_positions,
+                        protein_end_positions,
+                        modifications,
+                        mass_offset_proforma,
+                        retention_time,
+                        charge,
+                        exp_mass_to_charge,
+                        cal_mass_to_charge,
+                        collision_energy,
+                        reference_file_name,
+                        scan_number,
+                        usi,
+                        peptidoform,
+                        posterior_error_probability,
+                        global_qvalue,
+                        is_decoy,
+                        consensus_support,
+                        mz_array,
+                        intensity_array,
+                        num_peaks,
+                        search_engines,
+                        id_scores,
+                        hit_rank,
+                        Luciphor_global_flr,
+                        Luciphor_local_flr
+                    ]
+                )
+            else:
+                parquet_data.append(
+                    [
+                        sequence,
+                        protein_accessions,
+                        protein_start_positions,
+                        protein_end_positions,
+                        modifications,
+                        mass_offset_proforma,
+                        retention_time,
+                        charge,
+                        exp_mass_to_charge,
+                        cal_mass_to_charge,
+                        collision_energy,
+                        reference_file_name,
+                        scan_number,
+                        usi,
+                        peptidoform,
+                        posterior_error_probability,
+                        global_qvalue,
+                        is_decoy,
+                        consensus_support,
+                        mz_array,
+                        intensity_array,
+                        num_peaks,
+                        search_engines,
+                        id_scores,
+                        hit_rank,
+                    ]
+                )
+    if export_flr == "true":
+        _parquet_field.extend(["Luciphor_global_flr", "Luciphor_local_flr"])
+        pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
+            f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
+        )
+    else:
+        pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
+            f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
+        )
 
 
 def main():
     idxml_path = sys.argv[1]
     spectra_file = sys.argv[2]
     exp_design = sys.argv[3]
-    export_decoy_psm = sys.argv[4]
-    convert_psm(idxml_path, spectra_file, exp_design, export_decoy_psm)
+    export_flr = sys.argv[4]
+    export_decoy_psm = sys.argv[5]
+    convert_psm(idxml_path, spectra_file, exp_design, export_flr, export_decoy_psm)
 
 
 if __name__ == "__main__":

@@ -41,7 +41,7 @@ def ions_annotation(csv_file, fragment_tol_mass, fragment_tol_mode):
         return annotations
 
     df.drop(columns=["protein_accessions", "protein_start_positions", "protein_end_positions",
-                     "is_decoy", "id_scores", "hit_rank", "reference_file_name", "scan_number",
+                     "id_scores", "hit_rank", "reference_file_name", "scan_number",
                      "num_peaks", "search_engines", "collision_energy"], inplace=True)
 
     df["ions_matched"] = df.parallel_apply(lambda row: ion_annotation(row), axis=1)
