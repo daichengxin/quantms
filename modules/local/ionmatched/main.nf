@@ -6,8 +6,6 @@ process IONMATCHED {
     container "docker.io/daicx1/spectrum_annotations:v1.0"
     containerOptions = "--user root"
 
-
-
     input:
     tuple val(meta), path(csv_file)
 

@@ -12,7 +12,7 @@ process PSMCONVERSION {
     tuple val(meta), path(idxml_file), path(spectrum_df), path(exp_design)
 
     output:
-    path "*_psm.csv", emit: psm_info
+    tuple val(meta), path("*_psm.csv"), emit: psm_info
     path "versions.yml", emit: version
     path "*.log", emit: log
 

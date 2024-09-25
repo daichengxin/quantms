@@ -43,8 +43,10 @@ def ions_annotation(csv_file, fragment_tol_mass, fragment_tol_mode):
     df.drop(columns=["protein_accessions", "protein_start_positions", "protein_end_positions",
                      "id_scores", "hit_rank", "reference_file_name", "scan_number",
                      "num_peaks", "search_engines", "collision_energy"], inplace=True)
-
-    df["ions_matched"] = df.parallel_apply(lambda row: ion_annotation(row), axis=1)
+    if df.shape[0] > 0:
+        df["ions_matched"] = df.parallel_apply(lambda row: ion_annotation(row), axis=1)
+    else:
+        df["ions_matched"] = [""]
     df.drop(columns=["mass_offset_proforma"], inplace=True)
     df.to_parquet(f"{Path(csv_file).stem}_ion_psm.parquet", index=False, compression="gzip")
 

@@ -98,7 +98,6 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
                 mz_array = peaks_tuple[0]
                 intensity_array = peaks_tuple[1]
                 collision_energy = re.findall(r"@[a-zA-Z]+(\d+\.\d+)\s", spectrum.getMetaValue("filter string"))[0]
-                print(collision_energy)
             else:
                 info_list = [
                     id_,
