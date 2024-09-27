@@ -4,7 +4,7 @@ process TDF2MZML {
     label 'process_single'
     label 'error_retry'
 
-    container 'docker.io/mfreitas/tdf2mzml:latest' // I don't know which stable tag to use...
+    container 'docker.io/daicx1/tdf2mzml:v1.0' // I don't know which stable tag to use...
 
     input:
     tuple val(meta), path(rawfile)

@@ -84,6 +84,7 @@ def convert_psm(idxml, spectra_file, exp_design, export_flr, export_decoy_psm):
     search_engines = []
     # sdrf = pd.read_csv(exp_design, sep="\t", header=None)
     PXD = "PXD000561"  # sdrf["comment[proteomexchange accession number]"]
+    enable_timstof = False
 
     oms.IdXMLFile().load(idxml, prot_ids, pep_ids)
     if "ConsensusID" in prot_ids[0].getSearchEngine():
@@ -121,6 +122,9 @@ def convert_psm(idxml, spectra_file, exp_design, export_flr, export_decoy_psm):
             intensity_array = spectra["intensity"].values[0].tolist()
             num_peaks = len(mz_array)
             collision_energy = spectra["collision energy"].values[0]
+            if "ccs" in spectra:
+                ccs = spectra["collision energy"].values[0]
+                enable_timstof = True
 
         for hit in peptide_id.getHits():
             # if remove decoy when mapped to target+decoy?
@@ -200,44 +204,82 @@ def convert_psm(idxml, spectra_file, exp_design, export_flr, export_decoy_psm):
                     ]
                 )
             else:
-                parquet_data.append(
-                    [
-                        sequence,
-                        protein_accessions,
-                        protein_start_positions,
-                        protein_end_positions,
-                        modifications,
-                        mass_offset_proforma,
-                        retention_time,
-                        charge,
-                        exp_mass_to_charge,
-                        cal_mass_to_charge,
-                        collision_energy,
-                        reference_file_name,
-                        scan_number,
-                        usi,
-                        peptidoform,
-                        posterior_error_probability,
-                        global_qvalue,
-                        is_decoy,
-                        consensus_support,
-                        mz_array,
-                        intensity_array,
-                        num_peaks,
-                        search_engines,
-                        id_scores,
-                        hit_rank,
-                    ]
-                )
+                if enable_timstof:
+                    parquet_data.append(
+                        [
+                            sequence,
+                            protein_accessions,
+                            protein_start_positions,
+                            protein_end_positions,
+                            modifications,
+                            mass_offset_proforma,
+                            retention_time,
+                            charge,
+                            exp_mass_to_charge,
+                            cal_mass_to_charge,
+                            collision_energy,
+                            ccs,
+                            reference_file_name,
+                            scan_number,
+                            usi,
+                            peptidoform,
+                            posterior_error_probability,
+                            global_qvalue,
+                            is_decoy,
+                            consensus_support,
+                            mz_array,
+                            intensity_array,
+                            num_peaks,
+                            search_engines,
+                            id_scores,
+                            hit_rank,
+                        ]
+                    )
+                else:
+                    parquet_data.append(
+                        [
+                            sequence,
+                            protein_accessions,
+                            protein_start_positions,
+                            protein_end_positions,
+                            modifications,
+                            mass_offset_proforma,
+                            retention_time,
+                            charge,
+                            exp_mass_to_charge,
+                            cal_mass_to_charge,
+                            collision_energy,
+                            reference_file_name,
+                            scan_number,
+                            usi,
+                            peptidoform,
+                            posterior_error_probability,
+                            global_qvalue,
+                            is_decoy,
+                            consensus_support,
+                            mz_array,
+                            intensity_array,
+                            num_peaks,
+                            search_engines,
+                            id_scores,
+                            hit_rank,
+                        ]
+                    )
     if export_flr == "true":
         _parquet_field.extend(["Luciphor_global_flr", "Luciphor_local_flr"])
         pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
             f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
         )
     else:
-        pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
-            f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
-        )
+        if enable_timstof:
+            _parquet_field.extend(["ccs"])
+            pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
+                f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
+            )
+        else:
+            pd.DataFrame(parquet_data, columns=_parquet_field).to_csv(
+                f"{Path(idxml).stem}_psm.csv", index=False, sep="\t"
+            )
 
 
 def main():

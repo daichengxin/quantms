@@ -12,6 +12,7 @@ from pathlib import Path
 import pandas as pd
 import pyarrow
 from pyopenms import MSExperiment, MzMLFile
+from pyteomics import mzml
 
 
 def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
@@ -47,6 +48,9 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
         exp = MSExperiment()
         acquisition_datetime = exp.getDateTime().get()
         MzMLFile().load(file_name, exp)
+        ExperimentalSettings = exp.getExperimentalSettings()
+        SourceFile = ExperimentalSettings.getSourceFiles()[0].getNameOfFile()
+        mt = mzml.MzML(file_name)
         for spectrum in exp:
             id_ = spectrum.getNativeID()
             MSLevel = spectrum.getMSLevel()
@@ -79,6 +83,11 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
                 ]
             elif MSLevel == 2:
                 charge_state = spectrum.getPrecursors()[0].getCharge()
+                if ".tdf" in SourceFile:
+                    s = mt.get_by_id(id_)
+                    ccs = s["precursorList"]["precursor"][0]["selectedIonList"]["selectedIon"][0][
+                        "collisional cross sectional area"]
+
                 emz = (
                     spectrum.getPrecursors()[0].getMZ()
                     if spectrum.getPrecursors()[0].getMZ()
@@ -112,21 +121,38 @@ def ms_dataframe(ms_path: str, id_only: bool = False) -> None:
                 ]
 
             if id_only and MSLevel == 2:
-                psm_part_info.append(
-                    [
-                        re.findall(r"(spectrum|scan)=(\d+)", id_)[0][1],
-                        MSLevel,
-                        mz_array,
-                        intensity_array,
-                        collision_energy
-                    ]
-                )
+                if ".tdf" in SourceFile:
+                    psm_part_info.append(
+                        [
+                            re.findall(r"(spectrum|scan)=(\d+)", id_)[0][1],
+                            MSLevel,
+                            mz_array,
+                            intensity_array,
+                            ccs,
+                            collision_energy
+                        ]
+                    )
+                else:
+                    psm_part_info.append(
+                        [
+                            re.findall(r"(spectrum|scan)=(\d+)", id_)[0][1],
+                            MSLevel,
+                            mz_array,
+                            intensity_array,
+                            collision_energy
+                        ]
+                    )
             info.append(info_list)
 
         if id_only and len(psm_part_info) > 0:
-            pd.DataFrame(
-                psm_part_info, columns=["scan", "ms_level", "mz", "intensity", "collision energy"]
-            ).to_parquet(f"{Path(ms_path).stem}_spectrum_df.parquet", index=False)
+            if ".tdf" in SourceFile:
+                pd.DataFrame(
+                    psm_part_info, columns=["scan", "ms_level", "mz", "intensity", "ccs", "collision energy"]
+                ).to_parquet(f"{Path(ms_path).stem}_spectrum_df.parquet", index=False)
+            else:
+                pd.DataFrame(
+                    psm_part_info, columns=["scan", "ms_level", "mz", "intensity", "collision energy"]
+                ).to_parquet(f"{Path(ms_path).stem}_spectrum_df.parquet", index=False)
 
         return pd.DataFrame(info, columns=file_columns)
 
