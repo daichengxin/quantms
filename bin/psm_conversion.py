@@ -40,7 +40,12 @@ _parquet_field = [
 
 def mods_position(sequence, peptide, mass_offset_dict):
     mass_offset_proforma = ""
+    if ".(Glu->pyro-Glu)" in peptide:
+        peptide = peptide.replace(".(Glu->pyro-Glu)", "")[0] + "(Glu->pyro-Glu)" + peptide.replace(".(Glu->pyro-Glu)", "")[1:]
+    if ".(Gln->pyro-Glu)" in peptide:
+        peptide = peptide.replace(".(Gln->pyro-Glu)", "")[0] + "(Gln->pyro-Glu)" + peptide.replace(".(Gln->pyro-Glu)", "")[1:]
     sub_peptide = peptide
+
     if peptide.startswith("."):
         sub_peptide = peptide[1:]
     pattern = re.compile(r"\((.*?)\)")
@@ -61,7 +66,10 @@ def mods_position(sequence, peptide, mass_offset_dict):
     )
 
     for name, offset in mass_offset_dict.items():
-        mass_offset_proforma = peptide.replace(name, "+" + offset[0])
+        if "-" in offset[0]:
+            mass_offset_proforma = peptide.replace(name, offset[0])
+        else:
+            mass_offset_proforma = peptide.replace(name, "+" + offset[0])
         peptide = mass_offset_proforma
     mass_offset_proforma = mass_offset_proforma.replace("(", "[").replace(")", "]")
     if peptide.startswith("."):
@@ -82,8 +90,8 @@ def convert_psm(idxml, spectra_file, exp_design, export_flr, export_decoy_psm):
     num_peaks = np.nan
     id_scores = []
     search_engines = []
-    # sdrf = pd.read_csv(exp_design, sep="\t", header=None)
-    PXD = "PXD000561"  # sdrf["comment[proteomexchange accession number]"]
+    sdrf = pd.read_csv(exp_design, sep="\t")
+    PXD = sdrf["source name"].tolist()[0].split("-")[0]
     enable_timstof = False
 
     oms.IdXMLFile().load(idxml, prot_ids, pep_ids)
@@ -154,7 +162,16 @@ def convert_psm(idxml, spectra_file, exp_design, export_flr, export_decoy_psm):
             spectrum_name = os.path.basename(idxml).replace("_consensus_fdr_filter.idXML", "")
             sequence = hit.getSequence().toUnmodifiedString()
             modifications, mass_offset_proforma = mods_position(sequence, peptidoform, mass_offset_dict)
-            usi = "mzspec:{0}:{1}:scan:{2}:{3}/{4}".format(PXD, spectrum_name, str(scan_number), peptidoform,
+            if ".(Glu->pyro-Glu)" in peptidoform or ".(Gln->pyro-Glu)" in peptidoform:
+                if ".(Glu->pyro-Glu)" in peptidoform:
+                    peptidoform = peptidoform.replace(".(Glu->pyro-Glu)", "")[0] + "(Glu->pyro-Glu)" + peptidoform.replace(
+                        ".(Glu->pyro-Glu)", "")[1:]
+                if ".(Gln->pyro-Glu)" in peptidoform:
+                    peptidoform = peptidoform.replace(".(Gln->pyro-Glu)", "")[0] + "(Gln->pyro-Glu)" + peptidoform.replace(".(Gln->pyro-Glu)", "")[1:]
+                usi_peptide = peptidoform.replace("(", "[").replace(")", "]")
+            else:
+                usi_peptide = peptidoform.replace("(", "[").replace(")", "]")
+            usi = "mzspec:{0}:{1}:scan:{2}:{3}/{4}".format(PXD, spectrum_name, str(scan_number), usi_peptide,
                                                            str(charge))
 
             protein_accessions = [

@@ -200,13 +200,13 @@ workflow DDA_ID {
         }
 
         // Extract PSMs and export parquet format
-        PSMCONVERSION(ch_id_results.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
+        PSMCONVERSION(ch_id_results.combine(ch_spectrum_data, by: 0).combine(Channel.from(file(params.input, checkIfExists: true))))
         IONMATCHED(PSMCONVERSION.out.psm_info)
         ch_rescoring_results
             .map { it -> it[1] }
             .set { ch_pmultiqc_ids }
     } else {
-        PSMCONVERSION(ch_id_files.combine(ch_spectrum_data, by: 0).combine(ch_expdesign))
+        PSMCONVERSION(ch_id_files.combine(ch_spectrum_data, by: 0).combine(Channel.from(file(params.input, checkIfExists: true))))
         IONMATCHED(PSMCONVERSION.out.psm_info)
     }
 
