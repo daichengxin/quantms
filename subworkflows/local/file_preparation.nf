@@ -87,7 +87,6 @@ workflow FILE_PREPARATION {
 
     MZMLSTATISTICS(ch_results)
     ch_statistics = ch_statistics.mix(MZMLSTATISTICS.out.ms_statistics.collect())
-    ch_spectrum_df = ch_spectrum_df.mix(MZMLSTATISTICS.out.spectrum_df)
     ch_ms2_statistics = ch_statistics.mix(MZMLSTATISTICS.out.ms2_statistics.collect())
     ch_feature_statistics = ch_statistics.mix(MZMLSTATISTICS.out.feature_statistics.collect())
     ch_versions = ch_versions.mix(MZMLSTATISTICS.out.versions)
