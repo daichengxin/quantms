@@ -145,6 +145,7 @@ workflow PIPELINE_COMPLETION {
     multiqc_report  //  string: Path to MultiQC report
 
     main:
+    ch_software_versions = Channel.empty()
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
     def multiqc_reports = multiqc_report.toList()
     //
@@ -172,6 +173,14 @@ workflow PIPELINE_COMPLETION {
     workflow.onError {
         log.error "Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting"
     }
+
+    ch_software_versions = ch_software_versions.mix(paramsSummaryMap.out.versions)
+    ch_software_versions = ch_software_versions.mix(completionEmail.out.versions)
+    ch_software_versions = ch_software_versions.mix(imNotification.out.versions)
+    ch_software_versions = ch_software_versions.mix(completionSummary.out.versions)
+
+    emit:
+    versions                = ch_software_versions
 }
 
 /*
