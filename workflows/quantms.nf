@@ -194,19 +194,17 @@ workflow QUANTMS {
     ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml', sort: false))
     ch_multiqc_quantms_logo = file("${projectDir}/assets/nf-core-quantms_logo_light.png")
 
+    // create cross product of all inputs
+    multiqc_inputs = CREATE_INPUT_CHANNEL.out.ch_expdesign
+        .mix(ch_pipeline_results.ifEmpty([]))
+        .mix(ch_multiqc_files.collect())
+        .mix(ch_ids_pmultiqc.collect().ifEmpty([]))
+        .mix(ch_consensus_pmultiqc.collect().ifEmpty([]))
+        .mix(ch_msstats_in.ifEmpty([]))
+        .collect()
+    
     SUMMARY_PIPELINE(
-        // create cross product of all inputs
-        CREATE_INPUT_CHANNEL.out.ch_expdesign.combine(
-            ch_pipeline_results.ifEmpty([]).combine(
-                ch_multiqc_files.collect()
-            ).combine(
-                ch_ids_pmultiqc.collect().ifEmpty([])
-            ).combine(
-                ch_consensus_pmultiqc.collect().ifEmpty([])
-            )
-        ).combine(
-            ch_msstats_in.ifEmpty([])
-        ),
+        multiqc_inputs,
         ch_multiqc_quantms_logo,
     )
 
