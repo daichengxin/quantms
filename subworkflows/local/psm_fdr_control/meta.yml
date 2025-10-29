@@ -8,8 +8,8 @@ keywords:
   - rate
   - proteomics
 components:
-  - false_discovery_rate
-  - id_filter
+  - false/discovery/rate
+  - id/filter
 input:
   - ch_input:
       type: file
