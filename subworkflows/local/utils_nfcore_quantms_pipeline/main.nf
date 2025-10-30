@@ -9,7 +9,6 @@
 */
 
 include { paramsSummaryMap          } from 'plugin/nf-schema'
-aramsHelp                } from 'plugin/nf-schema'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
 include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
