@@ -56,7 +56,7 @@ workflow {
         false
     )
 
-
+    // could take UTILS_NEXTFLOW_PIPELINE.out.samplesheet channel as parsed input
     BIGBIO_QUANTMS ()
 
     //
