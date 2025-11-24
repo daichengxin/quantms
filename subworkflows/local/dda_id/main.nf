@@ -35,7 +35,7 @@ workflow DDA_ID {
         ch_file_preparation_results,
         ch_database_wdecoy
     )
-    ch_software_versions = ch_software_versions.mix(PEPTIDE_DATABASE_SEARCH.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(PEPTIDE_DATABASE_SEARCH.out.versions)
     ch_id_files = PEPTIDE_DATABASE_SEARCH.out.ch_id_files_idx
 
     ch_pmultiqc_consensus = Channel.empty()
@@ -153,7 +153,7 @@ workflow DDA_ID {
         // see comments in id.nf
         if (params.search_engines.tokenize(",").unique().size() > 1) {
             CONSENSUSID(ch_consensus_input.groupTuple(size: params.search_engines.tokenize(",").unique().size()))
-            ch_software_versions = ch_software_versions.mix(CONSENSUSID.out.versions.ifEmpty(null))
+            ch_software_versions = ch_software_versions.mix(CONSENSUSID.out.versions)
             ch_psmfdrcontrol = CONSENSUSID.out.consensusids
             ch_psmfdrcontrol
                 .map { it -> it[1] }
@@ -163,11 +163,11 @@ workflow DDA_ID {
         }
 
         PSM_FDR_CONTROL(ch_psmfdrcontrol)
-        ch_software_versions = ch_software_versions.mix(PSM_FDR_CONTROL.out.versions.ifEmpty(null))
+        ch_software_versions = ch_software_versions.mix(PSM_FDR_CONTROL.out.versions)
 
         if (params.enable_mod_localization) {
             PHOSPHO_SCORING(ch_file_preparation_results, PSM_FDR_CONTROL.out.id_filtered)
-            ch_software_versions = ch_software_versions.mix(PHOSPHO_SCORING.out.versions.ifEmpty(null))
+            ch_software_versions = ch_software_versions.mix(PHOSPHO_SCORING.out.versions)
             ch_id_results = PHOSPHO_SCORING.out.id_luciphor
         } else {
             ch_id_results = PSM_FDR_CONTROL.out.id_filtered

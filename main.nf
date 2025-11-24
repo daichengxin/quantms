@@ -16,7 +16,6 @@
 */
 
 include { QUANTMS  } from './workflows/quantms'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_quantms_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_quantms_pipeline'
 include { UTILS_NEXTFLOW_PIPELINE   } from './subworkflows/nf-core/utils_nextflow_pipeline'
 
@@ -57,7 +56,7 @@ workflow {
         false
     )
 
-
+    // could take UTILS_NEXTFLOW_PIPELINE.out.samplesheet channel as parsed input
     BIGBIO_QUANTMS ()
 
     //
