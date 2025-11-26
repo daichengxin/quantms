@@ -19,7 +19,7 @@ process CONVERT_RESULTS {
     output:
     path "*msstats_in.csv", emit: out_msstats
     path "*triqler_in.tsv", emit: out_triqler
-    path "*.mzTab", emit: out_mztab
+    path "*.mzTab", optional: true, emit: out_mztab
     path "*.log", emit: log
     path "versions.yml", emit: versions
 
