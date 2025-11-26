@@ -33,7 +33,7 @@ process PREPROCESS_EXPDESIGN {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        sdrf-pipelines: \$(parse_sdrf --version 2>&1 | awk -F ' ' '{print \$2}')
+        sdrf-pipelines: \$(parse_sdrf --version 2>/dev/null | awk -F ' ' '{print \$2}')
     END_VERSIONS
     """
 }
