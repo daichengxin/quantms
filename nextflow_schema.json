@@ -1161,7 +1161,7 @@
                 "enable_diann_mztab": {
                     "type": "boolean",
                     "description": "Export the DIA-NN and DIA results to mzTab",
-                    "default": true,
+                    "default": false,
                     "fa_icon": "far fa-check-square"
                 }
             },
