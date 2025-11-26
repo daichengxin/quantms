@@ -3,8 +3,8 @@ process SDRF_PARSING {
     label 'process_tiny'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/quantms-utils:0.0.23--pyh7e72e81_0' :
-        'biocontainers/quantms-utils:0.0.23--pyh7e72e81_0' }"
+        'https://depot.galaxyproject.org/singularity/sdrf-pipelines:0.0.33--pyhdfd78af_0' :
+        'biocontainers/sdrf-pipelines:0.0.33--pyhdfd78af_0' }"
 
     input:
     path sdrf
