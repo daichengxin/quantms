@@ -1,10 +1,25 @@
 # bigbio/quantms: Documentation
 
-The bigbio/quantms documentation is split into the following pages:
+This directory contains the ReadTheDocs configuration for the quantms project.
 
-- [Usage](usage.md)
-  - An overview of how the pipeline works, how to run it and a description of all of the different command-line flags.
-- [Output](output.md)
-  - An overview of the different results produced by the pipeline and how to interpret them.
+## About
 
-You can find a lot more documentation about installing, configuring and running nf-core pipelines on the website: [https://nf-co.re](https://nf-co.re) and [bigbio/quantms documentation](https://docs.quantms.org/en/latest/usage.html)
+The quantms documentation has moved to a new location. This ReadTheDocs configuration redirects visitors to the main documentation site.
+
+- **Main Documentation**: [https://docs.quantms.org](https://docs.quantms.org/en/latest/)
+- **nf-core Documentation**: [https://nf-co.re/quantms](https://nf-co.re/quantms)
+
+## Structure
+
+- `source/conf.py` - Sphinx configuration with redirect settings
+- `source/index.rst` - Landing page with redirect notice
+- `requirements.txt` - Python dependencies for building docs
+
+## Building
+
+To build locally:
+
+```bash
+pip install -r requirements.txt
+sphinx-build -b html source _build/html
+```

@@ -1,17 +1,20 @@
-.nextflow*
-work/
-data/
-results/
-.DS_Store
-testing/
-testing*
+# Build directories
+docs/_build/
+_build/
+
+# Python
 *.pyc
-null/
+__pycache__/
+*.egg-info/
+
+# System files
+.DS_Store
+
+# IDE
 .idea/
-/lint_log.txt
-/lint_results.md
+.vscode/
+.cursor/
 
-
-#Ignore cursor AI rules
-.cursor/rules/codacy.mdc
-.codacy/
+# Temporary files
+*.tmp
+*.bak
