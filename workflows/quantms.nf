@@ -202,7 +202,7 @@ workflow QUANTMS {
         .mix(ch_consensus_pmultiqc.collect().ifEmpty([]))
         .mix(ch_msstats_in.ifEmpty([]))
         .collect()
-    
+
     SUMMARY_PIPELINE(
         multiqc_inputs,
         ch_multiqc_quantms_logo,
