@@ -31,7 +31,7 @@ process MSRESCORE_FEATURES {
     def ms2_model_dir = ""
     if (params.ms2features_model_dir != null && params.ms2features_model_dir != true) {
         def model_dir_str = params.ms2features_model_dir.toString().trim()
-        if (model_dir_str && model_dir_str.toLowerCase() != "true") {
+        if (model_dir_str) {
             ms2_model_dir = "--ms2_model_dir ${model_dir_str}"
         }
     }
