@@ -28,13 +28,7 @@ process MSRESCORE_FEATURES {
     // Only add ms2_model_dir if it's actually set and not empty
     // Handle cases where parameter might be empty string, null, boolean true, or whitespace
     // When --ms2features_model_dir is passed with no value, Nextflow may set it to boolean true
-    def ms2_model_dir = ""
-    if (params.ms2features_model_dir != null && params.ms2features_model_dir != true) {
-        def model_dir_str = params.ms2features_model_dir.toString().trim()
-        if (model_dir_str) {
-            ms2_model_dir = "--ms2_model_dir ${model_dir_str}"
-        }
-    }
+    def ms2_model_dir = (params.ms2features_model_dir && params.ms2features_model_dir != true) ? "--ms2_model_dir ${params.ms2features_model_dir}" : ""
 
     // Determine if using ms2pip or alphapeptdeep based on ms2features_generators
     def using_ms2pip = params.ms2features_generators.toLowerCase().contains('ms2pip')
