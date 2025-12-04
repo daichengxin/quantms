@@ -6,9 +6,6 @@ process MSRESCORE_FEATURES {
         'oras://ghcr.io/bigbio/quantms-rescoring-sif:0.0.12' :
         'ghcr.io/bigbio/quantms-rescoring:0.0.12' }"
 
-    // userEmulation settings when docker is specified
-    containerOptions = (workflow.containerEngine == 'docker') ? '-u $(id -u) -e "HOME=${HOME}" -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/group:/etc/group:ro -v $HOME:$HOME' : ''
-
     input:
     tuple val(meta), path(idxml), path(mzml)
 
