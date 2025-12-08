@@ -88,6 +88,7 @@ The pipeline supports the following mass spectrometry data file formats:
 - **`.dia`** - DIA-NN native format (passed through without conversion)
 
 Compressed variants of these formats are also supported:
+
 - `.gz` (gzip compressed)
 - `.tar` (tar archive)
 - `.tar.gz` or `.tgz` (tar gzip compressed)
