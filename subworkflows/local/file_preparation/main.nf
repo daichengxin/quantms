@@ -85,6 +85,7 @@ workflow FILE_PREPARATION {
     }
 
     // Pass through .dia files without conversion (DIA-NN handles them natively)
+    // Note: .dia files bypass peak picking (when enabled) as they are only used with DIA-NN
     ch_results = ch_results.mix(ch_branched_input.dia)
 
 

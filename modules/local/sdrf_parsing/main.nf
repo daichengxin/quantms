@@ -22,7 +22,8 @@ process SDRF_PARSING {
     } else {
         extensionconversions = ",.gz:,.tar.gz:,.tar:,.zip:"
     }
-    // .dia files are passed through without conversion (DIA-NN handles them natively)
+    // .dia files are always passed through without conversion (DIA-NN handles them natively)
+    // Compressed .dia files are decompressed but keep the .dia extension
     extensionconversions = "${extensionconversions},.dia.gz:.dia,.dia.tar.gz:.dia,.dia.tar:.dia,.dia.zip:.dia"
 
     """
