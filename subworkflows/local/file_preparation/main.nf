@@ -48,11 +48,20 @@ workflow FILE_PREPARATION {
     }.set { ch_branched_input }
 
     // Warn about unsupported file formats
-    ch_branched_input.unsupported.subscribe { meta, file ->
-        log.warn "Unsupported file format detected and will be skipped: ${file}\n" +
-                 "Supported formats: .raw, .mzML, .d (Bruker), .dia\n" +
-                 "Compressed variants (.gz, .tar, .tar.gz, .zip) are also supported."
-    }
+    ch_branched_input.unsupported
+        .collect()
+        .subscribe { files ->
+            if (files.size() > 0) {
+                log.warn "=" * 80
+                log.warn "WARNING: ${files.size()} file(s) with unsupported format(s) detected and will be SKIPPED from processing:"
+                files.each { meta, file ->
+                    log.warn "  - ${file}"
+                }
+                log.warn "\nSupported formats: .raw, .mzML, .d (Bruker), .dia"
+                log.warn "Compressed variants (.gz, .tar, .tar.gz, .zip) are also supported."
+                log.warn "=" * 80
+            }
+        }
 
     // Note: we used to always index mzMLs if not already indexed but due to
     //  either a bug or limitation in nextflow
