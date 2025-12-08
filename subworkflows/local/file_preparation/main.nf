@@ -43,6 +43,7 @@ workflow FILE_PREPARATION {
         raw: hasExtension(it[1], '.raw')
         mzML: hasExtension(it[1], '.mzML')
         dotd: hasExtension(it[1], '.d')
+        dia: hasExtension(it[1], '.dia')
     }.set { ch_branched_input }
 
     // Note: we used to always index mzMLs if not already indexed but due to
@@ -82,6 +83,9 @@ workflow FILE_PREPARATION {
     } else {
         ch_results = indexed_mzml_bundle.mix(ch_branched_input.dotd)
     }
+
+    // Pass through .dia files without conversion (DIA-NN handles them natively)
+    ch_results = ch_results.mix(ch_branched_input.dia)
 
 
     MZML_STATISTICS(ch_results)
