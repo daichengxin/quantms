@@ -44,7 +44,15 @@ workflow FILE_PREPARATION {
         mzML: hasExtension(it[1], '.mzML')
         dotd: hasExtension(it[1], '.d')
         dia: hasExtension(it[1], '.dia')
+        unsupported: true
     }.set { ch_branched_input }
+
+    // Warn about unsupported file formats
+    ch_branched_input.unsupported.subscribe { meta, file ->
+        log.warn "Unsupported file format detected and will be skipped: ${file}\n" +
+                 "Supported formats: .raw, .mzML, .d (Bruker), .dia\n" +
+                 "Compressed variants (.gz, .tar, .tar.gz, .zip) are also supported."
+    }
 
     // Note: we used to always index mzMLs if not already indexed but due to
     //  either a bug or limitation in nextflow
