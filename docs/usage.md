@@ -26,9 +26,9 @@ The pipeline supports the following mass spectrometry data file formats:
 - **`.raw`** - Thermo RAW files (automatically converted to mzML)
 - **`.mzML`** - Open standard mzML files
 - **`.d`** - Bruker timsTOF files (optionally converted to mzML when `--convert_dotd` is set)
-- **`.dia`** - DIA-NN native format (passed through without conversion)
+- **`.dia`** - DIA-NN native binary format (passed through without conversion)
 
-Compressed variants of these formats are also supported:
+Compressed variants are supported for `.raw`, `.mzML`, and `.d` formats:
 
 - `.gz` (gzip compressed)
 - `.tar` (tar archive)
