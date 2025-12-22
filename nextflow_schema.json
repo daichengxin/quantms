@@ -503,6 +503,13 @@
                     "fa_icon": "fas fa-microchip",
                     "hidden": true
                 },
+                "onsite_min_psms": {
+                    "type": "integer",
+                    "description": "Minimum number of high-scoring PSMs required for model training in LucXor",
+                    "default": 40,
+                    "fa_icon": "fas fa-chart-line",
+                    "hidden": true
+                },
                 "onsite_debug": {
                     "type": "integer",
                     "fa_icon": "fas fa-bug",
