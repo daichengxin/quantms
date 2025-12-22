@@ -34,7 +34,7 @@ process ONSITE {
     def neutral_losses = params.onsite_neutral_losses ? "--neutral-losses ${params.onsite_neutral_losses}" : ""
     def decoy_mass = params.onsite_decoy_mass ? "--decoy-mass ${params.onsite_decoy_mass}" : ""
     def decoy_losses = params.onsite_decoy_neutral_losses ? "--decoy-neutral-losses ${params.onsite_decoy_neutral_losses}" : ""
-    def min_psms_param = "--min-psms ${min_psms}"
+    def min_psms_param = "--min-num-psms-model ${min_psms}"
 
     // Debug options - onsite only accepts --debug flag without value
     def debug = params.onsite_debug ? "--debug" : ""
