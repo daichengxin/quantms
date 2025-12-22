@@ -18,46 +18,47 @@ process ONSITE {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.mzml_id}"
-    
+
     // Select algorithm (ascore, phosphors, or lucxor)
     def algorithm = params.onsite_algorithm ?: 'lucxor'
-    
+
     // Basic parameters
     def fragment_tolerance = params.onsite_fragment_tolerance ?: 0.5
     def fragment_units = params.onsite_fragment_error_units ?: 'Da'
     def threads = params.onsite_threads ?: task.cpus
     def add_decoys = params.onsite_add_decoys ?: false
-    
+
     // Algorithm-specific parameters
     def fragment_method = params.onsite_fragment_method ?: meta.dissociationmethod
     def neutral_losses = params.onsite_neutral_losses ? "--neutral-losses ${params.onsite_neutral_losses}" : ""
     def decoy_mass = params.onsite_decoy_mass ? "--decoy-mass ${params.onsite_decoy_mass}" : ""
     def decoy_losses = params.onsite_decoy_neutral_losses ? "--decoy-neutral-losses ${params.onsite_decoy_neutral_losses}" : ""
-    
-    // Debug options
+
+    // Debug options - onsite only accepts --debug flag without value
     def debug = params.onsite_debug ? "--debug" : ""
-    
+
     // Build algorithm-specific parameter strings
     def tolerance_param = ""
     def method_param = ""
     def algorithm_specific_params = ""
     def decoy_param = ""
-    
+
     if (algorithm == 'lucxor') {
         // LucXor uses --fragment-error-units and --fragment-method
         tolerance_param = "--fragment-error-units ${fragment_units}"
         method_param = fragment_method ? "--fragment-method ${fragment_method}" : ""
         algorithm_specific_params = "${neutral_losses} ${decoy_mass} ${decoy_losses}"
-        
+
+        // LucXor uses --target-modifications
         // Build target modifications list from params.mod_localization
         if (params.mod_localization) {
             def target_mods = params.mod_localization.tokenize(',').collect { it.trim() }
-            
+
             // Add decoy modification if enabled
             if (add_decoys) {
                 target_mods.add('PhosphoDecoy(A)')
             }
-            
+
             // Format as command line arguments
             decoy_param = "--target-modifications ${target_mods.collect { "'${it}'" }.join(' ')}"
         } else if (add_decoys) {
@@ -69,7 +70,7 @@ process ONSITE {
         tolerance_param = "--fragment-mass-unit ${fragment_units}"
         method_param = ""
         algorithm_specific_params = ""
-        
+
         // AScore and PhosphoRS use --add-decoys flag
         if (add_decoys) {
             decoy_param = "--add-decoys"
