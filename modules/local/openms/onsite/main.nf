@@ -49,7 +49,6 @@ process ONSITE {
         method_param = fragment_method ? "--fragment-method ${fragment_method}" : ""
         algorithm_specific_params = "${neutral_losses} ${decoy_mass} ${decoy_losses}"
         
-        // LucXor uses --target-modifications
         // Build target modifications list from params.mod_localization
         if (params.mod_localization) {
             def target_mods = params.mod_localization.tokenize(',').collect { it.trim() }
