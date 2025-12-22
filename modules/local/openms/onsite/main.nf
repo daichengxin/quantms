@@ -34,9 +34,6 @@ process ONSITE {
     def decoy_mass = params.onsite_decoy_mass ? "--decoy-mass ${params.onsite_decoy_mass}" : ""
     def decoy_losses = params.onsite_decoy_neutral_losses ? "--decoy-neutral-losses ${params.onsite_decoy_neutral_losses}" : ""
 
-    // Debug options - onsite only accepts --debug flag without value
-    def debug = params.onsite_debug ? "--debug" : ""
-
     // Build algorithm-specific parameter strings
     def tolerance_param = ""
     def method_param = ""
@@ -88,7 +85,6 @@ process ONSITE {
         ${method_param} \\
         ${decoy_param} \\
         ${algorithm_specific_params} \\
-        ${debug} \\
         $args \\
         2>&1 | tee ${id_file.baseName}_onsite_${algorithm}.log
 
