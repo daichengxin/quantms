@@ -27,12 +27,14 @@ process ONSITE {
     def fragment_units = params.onsite_fragment_error_units ?: 'Da'
     def threads = params.onsite_threads ?: task.cpus
     def add_decoys = params.onsite_add_decoys ?: false
+    def min_psms = params.onsite_min_psms ?: 40
 
     // Algorithm-specific parameters
     def fragment_method = params.onsite_fragment_method ?: meta.dissociationmethod
     def neutral_losses = params.onsite_neutral_losses ? "--neutral-losses ${params.onsite_neutral_losses}" : ""
     def decoy_mass = params.onsite_decoy_mass ? "--decoy-mass ${params.onsite_decoy_mass}" : ""
     def decoy_losses = params.onsite_decoy_neutral_losses ? "--decoy-neutral-losses ${params.onsite_decoy_neutral_losses}" : ""
+    def min_psms_param = "--min-psms ${min_psms}"
 
     // Debug options - onsite only accepts --debug flag without value
     def debug = params.onsite_debug ? "--debug" : ""
@@ -47,7 +49,7 @@ process ONSITE {
         // LucXor uses --fragment-error-units and --fragment-method
         tolerance_param = "--fragment-error-units ${fragment_units}"
         method_param = fragment_method ? "--fragment-method ${fragment_method}" : ""
-        algorithm_specific_params = "${neutral_losses} ${decoy_mass} ${decoy_losses}"
+        algorithm_specific_params = "${neutral_losses} ${decoy_mass} ${decoy_losses} ${min_psms_param}"
 
         // LucXor uses --target-modifications
         // Build target modifications list from params.mod_localization
