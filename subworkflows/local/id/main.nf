@@ -64,7 +64,7 @@ workflow ID {
     if (params.enable_mod_localization) {
         PHOSPHO_SCORING(ch_file_preparation_results, PSM_FDR_CONTROL.out.id_filtered)
         ch_software_versions = ch_software_versions.mix(PHOSPHO_SCORING.out.versions.ifEmpty(null))
-        ch_id_results = PHOSPHO_SCORING.out.id_luciphor
+        ch_id_results = PHOSPHO_SCORING.out.id_onsite
     } else {
         ch_id_results = PSM_FDR_CONTROL.out.id_filtered
     }
