@@ -35,7 +35,7 @@ process ONSITE {
     def decoy_losses = params.onsite_decoy_neutral_losses ? "--decoy-neutral-losses ${params.onsite_decoy_neutral_losses}" : ""
     
     // Debug options
-    def debug = params.onsite_debug > 0 ? "--debug" : ""
+    def debug = params.onsite_debug ? "--debug" : ""
     
     // Build algorithm-specific parameter strings
     def tolerance_param = ""
