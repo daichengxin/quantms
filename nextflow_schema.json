@@ -506,7 +506,7 @@
                 "onsite_min_psms": {
                     "type": "integer",
                     "description": "Minimum number of high-scoring PSMs required for model training in LucXor",
-                    "default": 40,
+                    "default": 5,
                     "fa_icon": "fas fa-chart-line",
                     "hidden": true
                 },

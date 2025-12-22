@@ -27,7 +27,7 @@ process ONSITE {
     def fragment_units = params.onsite_fragment_error_units ?: 'Da'
     def threads = params.onsite_threads ?: task.cpus
     def add_decoys = params.onsite_add_decoys ?: false
-    def min_psms = params.onsite_min_psms ?: 40
+    def min_psms = params.onsite_min_psms ?: 5
 
     // Algorithm-specific parameters
     def fragment_method = params.onsite_fragment_method ?: meta.dissociationmethod
