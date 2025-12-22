@@ -28,13 +28,13 @@ workflow ID {
         ch_file_preparation_results,
         ch_database_wdecoy
     )
-    ch_software_versions = ch_software_versions.mix(PEPTIDE_DATABASE_SEARCH.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(PEPTIDE_DATABASE_SEARCH.out.versions)
 
     //
     // SUBWORKFLOW: PSMReScoring
     //
     PSM_RESCORING (ch_file_preparation_results, PEPTIDE_DATABASE_SEARCH.out.ch_id_files_idx, ch_expdesign)
-    ch_software_versions = ch_software_versions.mix(PSM_RESCORING.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(PSM_RESCORING.out.versions)
 
     //
     // SUBWORKFLOW: PSM_FDR_CONTROL
@@ -48,7 +48,7 @@ workflow ID {
         // if the 'size' is not matched, an empty channel will be returned and
         // nothing will be run for the 'CONSENSUSID' process
         CONSENSUSID(PSM_RESCORING.out.results.groupTuple(size: n_unique_search_engines))
-        ch_software_versions = ch_software_versions.mix(CONSENSUSID.out.versions.ifEmpty(null))
+        ch_software_versions = ch_software_versions.mix(CONSENSUSID.out.versions)
         ch_psmfdrcontrol = CONSENSUSID.out.consensusids
         ch_consensus_results = CONSENSUSID.out.consensusids
     } else {
@@ -56,7 +56,7 @@ workflow ID {
     }
 
     PSM_FDR_CONTROL(ch_psmfdrcontrol)
-    ch_software_versions = ch_software_versions.mix(PSM_FDR_CONTROL.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(PSM_FDR_CONTROL.out.versions)
 
     //
     // SUBWORKFLOW：PHOSPHOSCORING

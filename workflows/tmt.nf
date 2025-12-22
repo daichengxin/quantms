@@ -38,31 +38,31 @@ workflow TMT {
     // SUBWORKFLOWS: ID
     //
     ID(ch_file_preparation_results, ch_database_wdecoy, ch_expdesign)
-    ch_software_versions = ch_software_versions.mix(ID.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(ID.out.versions)
 
     //
     // SUBWORKFLOW: FEATUREMAPPER
     //
     FEATURE_MAPPER(ch_file_preparation_results, ID.out.id_results)
-    ch_software_versions = ch_software_versions.mix(FEATURE_MAPPER.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(FEATURE_MAPPER.out.versions)
 
     //
     // MODULE: FILEMERGE
     //
     FILE_MERGE(FEATURE_MAPPER.out.id_map.collect())
-    ch_software_versions = ch_software_versions.mix(FILE_MERGE.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(FILE_MERGE.out.versions)
 
     //
     // SUBWORKFLOW: PROTEININFERENCE
     //
     PROTEIN_INFERENCE(FILE_MERGE.out.id_merge)
-    ch_software_versions = ch_software_versions.mix(PROTEIN_INFERENCE.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(PROTEIN_INFERENCE.out.versions)
 
     //
     // SUBWORKFLOW: PROTEINQUANT
     //
     PROTEIN_QUANT(PROTEIN_INFERENCE.out.epi_idfilter, ch_expdesign)
-    ch_software_versions = ch_software_versions.mix(PROTEIN_QUANT.out.versions.ifEmpty(null))
+    ch_software_versions = ch_software_versions.mix(PROTEIN_QUANT.out.versions)
 
     //
     // MODULE: MSSTATSTMT
@@ -71,7 +71,7 @@ workflow TMT {
     if(!params.skip_post_msstats){
         MSSTATS_TMT(PROTEIN_QUANT.out.msstats_csv)
         ch_msstats_out = MSSTATS_TMT.out.msstats_csv
-        ch_software_versions = ch_software_versions.mix(MSSTATS_TMT.out.versions.ifEmpty(null))
+        ch_software_versions = ch_software_versions.mix(MSSTATS_TMT.out.versions)
     }
 
     ID.out.psmrescoring_results
