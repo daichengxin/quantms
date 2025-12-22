@@ -60,10 +60,10 @@ process ONSITE {
             }
 
             // Format as command line arguments
-            decoy_param = "--target-modifications ${target_mods.collect { "'${it}'" }.join(' ')}"
+            decoy_param = "--target-modifications '${target_mods.join(',')}'"
         } else if (add_decoys) {
             // If no mod_localization specified but decoys enabled, use default with decoy
-            decoy_param = "--target-modifications 'Phospho(S)' 'Phospho(T)' 'Phospho(Y)' 'PhosphoDecoy(A)'"
+            decoy_param = "--target-modifications 'Phospho(S),Phospho(T),Phospho(Y),PhosphoDecoy(A)'"
         }
     } else {
         // AScore and PhosphoRS use --fragment-mass-unit
