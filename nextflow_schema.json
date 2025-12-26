@@ -437,30 +437,97 @@
                     "default": "Phospho (S),Phospho (T),Phospho (Y)",
                     "fa_icon": "fas fa-tasks"
                 },
-                "luciphor_neutral_losses": {
+                "onsite_algorithm": {
+                    "type": "string",
+                    "description": "Algorithm to use for PTM localization (ascore, phosphors, or lucxor)",
+                    "default": "lucxor",
+                    "enum": ["ascore", "phosphors", "lucxor"],
+                    "fa_icon": "fas fa-cogs",
+                    "hidden": true
+                },
+                "onsite_fragment_method": {
+                    "type": "string",
+                    "description": "Fragmentation method (CID or HCD)",
+                    "default": "CID",
+                    "enum": ["CID", "HCD"],
+                    "fa_icon": "fas fa-atom",
+                    "hidden": true
+                },
+                "onsite_fragment_tolerance": {
+                    "type": "number",
+                    "description": "Fragment mass tolerance",
+                    "default": 0.5,
+                    "fa_icon": "fas fa-ruler",
+                    "hidden": true
+                },
+                "onsite_fragment_error_units": {
+                    "type": "string",
+                    "description": "Fragment error units (Da or ppm)",
+                    "default": "Da",
+                    "enum": ["Da", "ppm"],
+                    "fa_icon": "fas fa-balance-scale",
+                    "hidden": true
+                },
+                "onsite_add_decoys": {
+                    "type": "boolean",
+                    "description": "Add decoy modifications for validation",
+                    "default": false,
+                    "fa_icon": "fas fa-shield-alt",
+                    "help_text": "When enabled, adds decoy modifications for validation. For AScore/PhosphoRS, adds --add-decoys flag. For LucXor, adds PhosphoDecoy(A) to target modifications.",
+                    "hidden": true
+                },
+                "onsite_neutral_losses": {
                     "type": "string",
                     "description": "List of neutral losses to consider for mod. localization.",
                     "fa_icon": "fas fa-font",
                     "help_text": "List the types of neutral losses that you want to consider. The residue field is case sensitive. For example: lower case 'sty' implies that the neutral loss can only occur if the specified modification is present.\nSyntax: 'NL = <RESDIUES> -<NEUTRAL_LOSS_MOLECULAR_FORMULA> <MASS_LOST>'\n(default: '[sty -H3PO4 -97.97690]')",
                     "hidden": true
                 },
-                "luciphor_decoy_mass": {
+                "onsite_decoy_mass": {
                     "type": "number",
                     "description": "How much to add to an amino acid to make it a decoy for mod. localization.",
                     "fa_icon": "fas fa-font",
                     "hidden": true
                 },
-                "luciphor_decoy_neutral_losses": {
+                "onsite_decoy_neutral_losses": {
                     "type": "string",
                     "description": "List of neutral losses to consider for mod. localization from an internally generated decoy sequence.",
                     "fa_icon": "fas fa-font",
                     "help_text": "For handling the neutral loss from a decoy sequence. The syntax for this is identical to that of the normal neutral losses given above except that the residue is always 'X'. Syntax: DECOY_NL = X -<NEUTRAL_LOSS_MOLECULAR_FORMULA> <MASS_LOST> (default: '[X -H3PO4 -97.97690]')",
                     "hidden": true
                 },
-                "luciphor_debug": {
+                "onsite_threads": {
+                    "type": "integer",
+                    "description": "Number of threads for onsite processing",
+                    "default": 1,
+                    "fa_icon": "fas fa-microchip",
+                    "hidden": true
+                },
+                "onsite_min_psms": {
+                    "type": "integer",
+                    "description": "Minimum number of high-scoring PSMs required for model training in LucXor",
+                    "default": 5,
+                    "fa_icon": "fas fa-chart-line",
+                    "hidden": true
+                },
+                "onsite_disable_split_by_charge": {
+                    "type": "boolean",
+                    "description": "Disable splitting PSMs by charge state for lucxor",
+                    "default": false,
+                    "fa_icon": "fas fa-ban",
+                    "hidden": true
+                },
+                "onsite_compute_all_scores": {
+                    "type": "boolean",
+                    "description": "Compute all scores for all candidate sites",
+                    "default": false,
+                    "fa_icon": "fas fa-calculator",
+                    "hidden": true
+                },
+                "onsite_debug": {
                     "type": "integer",
                     "fa_icon": "fas fa-bug",
-                    "description": "Debug level for Luciphor step. Increase for verbose logging and keeping temp files.",
+                    "description": "Debug level for onsite step. Increase for verbose logging and keeping temp files.",
                     "hidden": true
                 }
             },

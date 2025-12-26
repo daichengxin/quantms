@@ -37,7 +37,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 3. (Optional) Add extra PSM features using [`ms2rescore`](https://github.com/compomics/ms2rescore)
 4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
 5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
-6. Modification localization [`luciphor`](https://github.com/dfermin/lucXor)
+6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
 7. Quantification: Feature detection [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteomicsLFQ.html)
 8. Protein inference and quantification [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteomicsLFQ.html)
 9. QC report generation [`pmultiqc`](https://github.com/bigbio/pmultiqc)
@@ -50,7 +50,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 3. (Optional) Add extra PSM features using [`ms2rescore`](https://github.com/compomics/ms2rescore)
 4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
 5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
-6. Modification localization [`luciphor`](https://github.com/dfermin/lucXor)
+6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
 7. Extracts and normalizes isobaric labeling [`IsobaricAnalyzer`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_IsobaricAnalyzer.html)
 8. Protein inference [`ProteinInference`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinInference.html) or [`Epifany`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_Epifany.html) for bayesian inference.
 9. Protein Quantification [`ProteinQuantifier`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinQuantifier.html)
