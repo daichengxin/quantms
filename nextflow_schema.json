@@ -520,7 +520,7 @@
                 "onsite_compute_all_scores": {
                     "type": "boolean",
                     "description": "Compute all scores for all candidate sites",
-                    "default": true,
+                    "default": false,
                     "fa_icon": "fas fa-calculator",
                     "hidden": true
                 },
