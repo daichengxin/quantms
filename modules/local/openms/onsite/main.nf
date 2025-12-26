@@ -52,7 +52,7 @@ process ONSITE {
         tolerance_param = "--fragment-error-units ${fragment_units}"
         method_param = fragment_method ? "--fragment-method ${fragment_method}" : ""
         algorithm_specific_params = "${neutral_losses} ${decoy_mass} ${decoy_losses} ${min_psms_param}"
-        
+
         // Add LucXor-specific parameters
         // Note: disable_split_by_charge is only supported by LucXor
         if (disable_split_by_charge) {
@@ -83,7 +83,7 @@ process ONSITE {
         tolerance_param = "--fragment-mass-unit ${fragment_units}"
         method_param = ""
         algorithm_specific_params = ""
-        
+
         // Add compute_all_scores parameter for AScore and PhosphoRS
         // Note: disable_split_by_charge is LucXor-specific and not used here
         if (compute_all_scores) {
