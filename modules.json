@@ -36,6 +36,17 @@
                     }
                 }
             }
+        },
+        "https://github.com/bigbio/nf-modules.git": {
+            "modules": {
+                "bigbio": {
+                    "thermorawfileparser": {
+                        "branch": "main",
+                        "git_sha": "f85bcb529b16e03e8f46374d0fde5bfaf604b676",
+                        "installed_by": ["modules"]
+                    }
+                }
+            }
         }
     }
 }
