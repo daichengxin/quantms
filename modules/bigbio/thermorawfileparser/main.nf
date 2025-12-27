@@ -65,4 +65,3 @@ process THERMORAWFILEPARSER {
     END_VERSIONS
     """
 }
-
