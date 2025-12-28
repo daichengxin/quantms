@@ -1,4 +1,4 @@
-process MSRESCORE_FEATURES {
+process MSRESCORE_FINE_TUNING {
     tag "$meta.mzml_id"
     label 'process_high'
 
@@ -7,13 +7,12 @@ process MSRESCORE_FEATURES {
         'm.daocloud.io/ghcr.io/daichengxin/quantms-rescoring:0.0.13' }"
 
     input:
-    tuple val(meta), path(idxml), path(mzml), path(model_weight)
+    tuple val(meta), path(idxml), path(mzml), path(ms2_model_dir)
 
     output:
-    tuple val(meta), path("*ms2rescore.idXML") , emit: idxml
-    tuple val(meta), path("*.html" )           , optional:true, emit: html
-    path "versions.yml"                        , emit: versions
-    path "*.log"                               , emit: log
+    path "retained_ms2.pth" , emit: model_weight
+    path "versions.yml"     , emit: versions
+    path "*.log"            , emit: log
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,15 +20,6 @@ process MSRESCORE_FEATURES {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.mzml_id}_ms2rescore"
-
-    // Only add ms2_model_dir if it's actually set and not empty
-    // Handle cases where parameter might be empty string, null, boolean true, or whitespace
-    // When --ms2features_model_dir is passed with no value, Nextflow may set it to boolean true
-    if (params.ms2features_fine_tuning) {
-        ms2_model_dir = '--ms2_model_dir ./'
-    } else {
-        ms2_model_dir = "--ms2_model_dir ${model_weight}"
-    }
 
     // Determine if using ms2pip or alphapeptdeep based on ms2features_generators
     def using_ms2pip = params.ms2features_generators.toLowerCase().contains('ms2pip')
@@ -43,17 +33,7 @@ process MSRESCORE_FEATURES {
     ms2_tolerance = meta['fragmentmasstolerance']
     ms2_tolerance_unit = meta['fragmentmasstoleranceunit']
     if (using_ms2pip) {
-        // ms2pip only supports Da unit
-        ms2_tolerance_unit = 'Da'
-        ms2_tolerance = params.ms2features_tolerance
-        if (meta['fragmentmasstoleranceunit'].toLowerCase().endsWith('da')) {
-            ms2_tolerance = meta['fragmentmasstolerance']
-        } else if (params.ms2features_tolerance_unit == 'ppm') {
-            log.info "Warning: MS2pip only supports Da unit. Using default from config!"
-            ms2_tolerance = 0.05
-        } else {
-            log.info "Warning: MS2pip only supports Da unit. Using default from config!"
-        }
+        log.info "Warning: Fine tuning only supports AlphaPeptdeep. Using default from config!"
     }
 
     if (params.decoy_string_position == "prefix") {
@@ -87,15 +67,14 @@ process MSRESCORE_FEATURES {
     }
 
     """
-    rescoring msrescore2feature \\
-        --idxml $idxml \\
-        --mzml $mzml \\
+    rescoring transfer_learning \\
+        --idxml ./ \\
+        --mzml ./ \\
+        --save_model_dir ./ \\
         --ms2_tolerance $ms2_tolerance \\
         --ms2_tolerance_unit $ms2_tolerance_unit \\
-        --output ${idxml.baseName}_ms2rescore.idXML \\
-        ${ms2_model_dir} \\
         --processes $task.cpus \\
-        ${find_best_model} \\
+        --ms2_model_dir ${ms2_model_dir} \\
         ${force_model} \\
         ${consider_modloss} \\
         ${debug_log_level} \\
