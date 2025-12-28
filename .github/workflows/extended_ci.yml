@@ -37,6 +37,7 @@ jobs:
             "test_localize",
             "test_tmt",
             "test_dda_id_alphapeptdeep",
+            "test_dda_id_fine_tuning",
             "test_dda_id_ms2pip",
             "test_tmt_corr",
           ]

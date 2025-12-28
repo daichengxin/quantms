@@ -9,6 +9,7 @@ include { ID_MERGER               } from '../../../modules/local/openms/id_merge
 include { ID_RIPPER               } from '../../../modules/local/openms/id_ripper/main'
 include { SPECTRUM_FEATURES       } from '../../../modules/local/utils/spectrum_features/main'
 include { PSM_CLEAN               } from '../../../modules/local/utils/psm_clean/main'
+include { MSRESCORE_FINE_TUNING   } from '../../../modules/local/utils/msrescore_fine_tuning/main'
 
 workflow PSM_RESCORING {
     take:
@@ -22,9 +23,28 @@ workflow PSM_RESCORING {
     ch_fdridpep = Channel.empty()
 
     if (params.ms2features_enable == true) {
-        MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0))
-        ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
-        ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+
+        // Only add ms2_model_dir if it's actually set and not empty
+        // Handle cases where parameter might be empty string, null, boolean true, or whitespace
+        // When --ms2features_model_dir is passed with no value, Nextflow may set it to boolean true
+        if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
+            ms2_model_dir = Channel.from(file(params.ms2features_model_dir, checkIfExists: true))
+        } else {
+            ms2_model_dir = Channel.from(file("./"))
+        }
+
+        if (params.ms2features_fine_tuning == true) {
+            train_datasets = ch_id_files.combine(ch_file_preparation_results, by: 0).randomSample(params.fine_tuning_sample_run, 2025)
+            MSRESCORE_FINE_TUNING(train_datasets.collect().combine(ms2_model_dir))
+            MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(MSRESCORE_FINE_TUNING.out.model_weight))
+            ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
+            ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+        } else{
+            MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(ms2_model_dir))
+            ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
+            ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+        }
+
     } else if (params.psm_clean == true) {
         PSM_CLEAN(ch_id_files.combine(ch_file_preparation_results, by: 0))
         ch_id_files_feats = PSM_CLEAN.out.idxml
