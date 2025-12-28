@@ -667,7 +667,7 @@
                     "type": "boolean",
                     "description": "Automatically find and use the best available MS2 model for your data",
                     "help_text": "When enabled, automatically selects the best performing model from available options and validates its performance. This is the recommended approach for optimal results. Disable only if you want to use a specific model (see ms2features_force).",
-                    "default": true,
+                    "default": false,
                     "fa_icon": "far fa-check-square"
                 },
                 "ms2features_debug": {
