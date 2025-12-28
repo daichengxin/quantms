@@ -4,8 +4,8 @@ process ONSITE {
     label 'openms'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pyonsite:0.0.1--pyhdfd78af_0' :
-        'quay.io/biocontainers/pyonsite:0.0.1--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/pyonsite:0.0.2--pyhdfd78af_0' :
+        'quay.io/biocontainers/pyonsite:0.0.2--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(mzml_file), path(id_file)
@@ -28,6 +28,8 @@ process ONSITE {
     def threads = params.onsite_threads ?: task.cpus
     def add_decoys = params.onsite_add_decoys ?: false
     def min_psms = params.onsite_min_psms ?: 5
+    def disable_split_by_charge = params.onsite_disable_split_by_charge ?: false
+    def compute_all_scores = params.onsite_compute_all_scores != null ? params.onsite_compute_all_scores : true
 
     // Algorithm-specific parameters
     def fragment_method = params.onsite_fragment_method ?: meta.dissociationmethod
@@ -51,6 +53,15 @@ process ONSITE {
         method_param = fragment_method ? "--fragment-method ${fragment_method}" : ""
         algorithm_specific_params = "${neutral_losses} ${decoy_mass} ${decoy_losses} ${min_psms_param}"
 
+        // Add LucXor-specific parameters
+        // Note: disable_split_by_charge is only supported by LucXor
+        if (disable_split_by_charge) {
+            algorithm_specific_params += " --disable-split-by-charge"
+        }
+        if (compute_all_scores) {
+            algorithm_specific_params += " --compute-all-scores"
+        }
+
         // LucXor uses --target-modifications
         // Build target modifications list from params.mod_localization
         if (params.mod_localization) {
@@ -72,6 +83,12 @@ process ONSITE {
         tolerance_param = "--fragment-mass-unit ${fragment_units}"
         method_param = ""
         algorithm_specific_params = ""
+
+        // Add compute_all_scores parameter for AScore and PhosphoRS
+        // Note: disable_split_by_charge is LucXor-specific and not used here
+        if (compute_all_scores) {
+            algorithm_specific_params += " --compute-all-scores"
+        }
 
         // AScore and PhosphoRS use --add-decoys flag
         if (add_decoys) {

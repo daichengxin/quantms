@@ -510,6 +510,20 @@
                     "fa_icon": "fas fa-chart-line",
                     "hidden": true
                 },
+                "onsite_disable_split_by_charge": {
+                    "type": "boolean",
+                    "description": "Disable splitting PSMs by charge state for lucxor",
+                    "default": false,
+                    "fa_icon": "fas fa-ban",
+                    "hidden": true
+                },
+                "onsite_compute_all_scores": {
+                    "type": "boolean",
+                    "description": "Compute all scores for all candidate sites",
+                    "default": false,
+                    "fa_icon": "fas fa-calculator",
+                    "hidden": true
+                },
                 "onsite_debug": {
                     "type": "integer",
                     "fa_icon": "fas fa-bug",
