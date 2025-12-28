@@ -42,14 +42,8 @@ process MSRESCORE_FINE_TUNING {
         decoy_pattern = "${params.decoy_string}\$"
     }
 
-    if (params.ms2features_best) {
-        find_best_model = "--find_best_model"
-    } else {
-        find_best_model = ""
-    }
-
-    if (params.ms2features_force) {
-        force_model = "--force_model"
+    if (params.force_transfer_learning) {
+        force_model = "--force_transfer_learning"
     } else {
         force_model = ""
     }
@@ -75,11 +69,14 @@ process MSRESCORE_FINE_TUNING {
         --ms2_tolerance_unit $ms2_tolerance_unit \\
         --processes $task.cpus \\
         --ms2_model_dir ${ms2_model_dir} \\
-        ${force_model} \\
+        --calibration_set_size ${params.ms2features_calibration} \\
+        --epoch_to_train_ms2 ${params.epoch_to_train_ms2} \\
+        --transfer_learning_test_ratio ${params.transfer_learning_test_ratio} \\
+        ${force_transfer_learning} \\
         ${consider_modloss} \\
         ${debug_log_level} \\
         $args \\
-        2>&1 | tee ${idxml.baseName}_ms2rescore.log
+        2>&1 | tee ${idxml.baseName}_fine_tuning.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

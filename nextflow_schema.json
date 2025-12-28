@@ -667,8 +667,27 @@
                     "type": "boolean",
                     "description": "Automatically find and use the best available MS2 model for your data",
                     "help_text": "When enabled, automatically selects the best performing model from available options and validates its performance. This is the recommended approach for optimal results. Disable only if you want to use a specific model (see ms2features_force).",
+                    "default": true,
+                    "fa_icon": "far fa-check-square"
+                },
+                "force_transfer_learning": {
+                    "type": "boolean",
+                    "description": "Force save fine-tuning model",
+                    "help_text": "When enabled, Force save fine-tuning model even if retrained model is not better than pretrained model",
                     "default": false,
                     "fa_icon": "far fa-check-square"
+                },
+                "epoch_to_train_ms2": {
+                    "type": "integer",
+                    "description": "The number of fine-tuning epoch",
+                    "fa_icon": "fas fa-sliders-h",
+                    "default": 20
+                },
+                "transfer_learning_test_ratio": {
+                    "type": "number",
+                    "description": "The proportion of test data used for comparing fine-tuned models with pre-trained models",
+                    "default": 0.3,
+                    "fa_icon": "fas fa-sliders-h"
                 },
                 "ms2features_debug": {
                     "type": "boolean",
