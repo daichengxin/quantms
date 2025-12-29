@@ -890,7 +890,7 @@
                     "type": "string",
                     "description": "The reference channel, e.g. for calculating ratios.",
                     "fa_icon": "fas fa-list-ol",
-                    "default": 126
+                    "default": "126"
                 },
                 "iso_debug": {
                     "type": "integer",
@@ -1115,7 +1115,7 @@
                 },
                 "lfq_intensity_threshold": {
                     "type": "number",
-                    "description": "The minimum intensity for a feature to be considered for quantification. (default: '10000')",
+                    "description": "The minimum intensity for a feature to be considered for quantification. (default: '1000')",
                     "default": 1000.0,
                     "fa_icon": "fas fa-filter",
                     "help_text": "The minimum intensity for a feature to be considered for quantification. (default: '10000')"
@@ -1184,7 +1184,7 @@
                     "description": "Controls the protein inference mode",
                     "fa_icon": "fas fa-list-ol",
                     "enum": [0, 1, 2],
-                    "default": 2.0
+                    "default": 2
                 },
                 "species_genes": {
                     "type": "boolean",

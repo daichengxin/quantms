@@ -35,7 +35,7 @@ output:
       description: |
         Converted files in mzML or MGF format depending on the format parameter (-f).
         Format options: 0 for MGF, 1 for mzML, 2 for indexed mzML (default), 3 for Parquet, 4 for None.
-      pattern: "*.{mzML,mgf}"
+      pattern: "*.{mzML,mgf,parquet}"
   - log:
       type: file
       description: log file

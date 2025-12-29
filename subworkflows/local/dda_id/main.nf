@@ -11,6 +11,7 @@ include { GET_SAMPLE           } from '../../../modules/local/utils/extract_samp
 include { SPECTRUM_FEATURES    } from '../../../modules/local/utils/spectrum_features/main'
 include { PSM_CLEAN            } from '../../../modules/local/utils/psm_clean/main'
 include { MSRESCORE_FINE_TUNING} from '../../../modules/local/utils/msrescore_fine_tuning/main'
+include { PHOSPHO_SCORING      } from '../phospho_scoring/main'
 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
@@ -59,11 +60,15 @@ workflow DDA_ID {
             }
 
             if (params.ms2features_fine_tuning == true) {
-                train_datasets = ch_id_files.combine(ch_file_preparation_results, by: 0).randomSample(params.fine_tuning_sample_run, 2025)
-                MSRESCORE_FINE_TUNING(train_datasets.collect().combine(ms2_model_dir))
-                MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(MSRESCORE_FINE_TUNING.out.model_weight))
-                ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
-                ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+                if (params.ms2features_generators.toLowerCase().contains('ms2pip')) {
+                    exit(1, 'Error: Fine tuning only supports AlphaPeptdeep!')
+                } else {
+                    train_datasets = ch_id_files.combine(ch_file_preparation_results, by: 0).randomSample(params.fine_tuning_sample_run, 2025)
+                    MSRESCORE_FINE_TUNING(train_datasets.collect().combine(ms2_model_dir))
+                    MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(MSRESCORE_FINE_TUNING.out.model_weight))
+                    ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
+                    ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+                }
             } else{
                 MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(ms2_model_dir))
                 ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
@@ -130,7 +135,7 @@ workflow DDA_ID {
                     .set{ ch_consensus_input }
             ch_software_versions = ch_software_versions.mix(ID_RIPPER.out.versions)
 
-        } else if (params.rescore_range == "by_project"){
+        } else if (params.ms2features_range == "by_project"){
             ch_id_files_feats.map {[it[0].experiment_id, it[0], it[1]]}.set { ch_id_files_feats}
 
             // Split ch_id_files_feats by search_engines
