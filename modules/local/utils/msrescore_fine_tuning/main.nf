@@ -29,12 +29,6 @@ process MSRESCORE_FINE_TUNING {
     ms2_tolerance = meta['fragmentmasstolerance']
     ms2_tolerance_unit = meta['fragmentmasstoleranceunit']
 
-    if (params.decoy_string_position == "prefix") {
-        decoy_pattern = "^${params.decoy_string}"
-    } else {
-        decoy_pattern = "${params.decoy_string}\$"
-    }
-
     if (params.force_transfer_learning) {
         force_transfer_learning = "--force_transfer_learning"
     } else {
