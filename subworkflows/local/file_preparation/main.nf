@@ -101,16 +101,15 @@ workflow FILE_PREPARATION {
         ch_results = indexed_mzml_bundle.mix(ch_branched_input.dotd)
     }
 
-    // Pass through .dia files without conversion (DIA-NN handles them natively)
-    // Note: .dia files bypass peak picking (when enabled) as they are only used with DIA-NN
-    ch_results = ch_results.mix(ch_branched_input.dia)
-
-
     MZML_STATISTICS(ch_results)
     ch_statistics = ch_statistics.mix(MZML_STATISTICS.out.ms_statistics.collect())
     ch_ms2_statistics = ch_statistics.mix(MZML_STATISTICS.out.ms2_statistics)
     ch_feature_statistics = ch_statistics.mix(MZML_STATISTICS.out.feature_statistics.collect())
     ch_versions = ch_versions.mix(MZML_STATISTICS.out.versions)
+
+    // Pass through .dia files without conversion (DIA-NN handles them natively)
+    // Note: .dia files bypass peak picking and mzML statistics (when enabled) as they are only used with DIA-NN
+    ch_results = ch_results.mix(ch_branched_input.dia)
 
     if (params.openms_peakpicking) {
         // If the peak picker is enabled, it will over-write not bypass the .d files

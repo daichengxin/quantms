@@ -43,9 +43,9 @@ process MSRESCORE_FINE_TUNING {
     }
 
     if (params.force_transfer_learning) {
-        force_model = "--force_transfer_learning"
+        force_transfer_learning = "--force_transfer_learning"
     } else {
-        force_model = ""
+        force_transfer_learning = ""
     }
 
     if (params.ms2features_modloss) {
