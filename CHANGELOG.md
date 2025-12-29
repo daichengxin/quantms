@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [627](https://github.com/bigbio/quantms/pull/627) Move thermorawfileparser from local to bigbio nf-core
 - [629](https://github.com/bigbio/quantms/pull/629) Update quantms-rescoring to 0.0.13 to support transfer learning
-- [615](https://github.com/bigbio/quantms/pull/615) Update quantms-utils 0.0.24 and  pmultiqc 0.0.39
+- [615](https://github.com/bigbio/quantms/pull/615) Update quantms-utils 0.0.24 and pmultiqc 0.0.39
 
 ### `Fixed`
 
