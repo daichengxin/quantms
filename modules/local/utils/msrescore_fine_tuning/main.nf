@@ -47,12 +47,6 @@ process MSRESCORE_FINE_TUNING {
         consider_modloss = ""
     }
 
-    if (params.ms2features_debug) {
-        debug_log_level = "--log_level DEBUG"
-    } else {
-        debug_log_level = ""
-    }
-
     """
     rescoring transfer_learning \\
         --idxml ./ \\
@@ -67,7 +61,6 @@ process MSRESCORE_FINE_TUNING {
         --transfer_learning_test_ratio ${params.transfer_learning_test_ratio} \\
         ${force_transfer_learning} \\
         ${consider_modloss} \\
-        ${debug_log_level} \\
         $args \\
         2>&1 | tee ${idxml.baseName}_fine_tuning.log
 
