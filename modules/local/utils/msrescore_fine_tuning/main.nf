@@ -21,10 +21,6 @@ process MSRESCORE_FINE_TUNING {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.mzml_id}_ms2rescore"
 
-    // Determine if using ms2pip or alphapeptdeep based on ms2features_generators
-    def using_ms2pip = params.ms2features_generators.toLowerCase().contains('ms2pip')
-    def using_alphapeptdeep = params.ms2features_generators.toLowerCase().contains('alphapeptdeep')
-
     // Initialize tolerance variables
     def ms2_tolerance = null
     def ms2_tolerance_unit = null
@@ -32,9 +28,6 @@ process MSRESCORE_FINE_TUNING {
     // ms2pip only supports Da unit, but alphapeptdeep supports both Da and ppm
     ms2_tolerance = meta['fragmentmasstolerance']
     ms2_tolerance_unit = meta['fragmentmasstoleranceunit']
-    if (using_ms2pip) {
-        log.info "Warning: Fine tuning only supports AlphaPeptdeep. Using default from config!"
-    }
 
     if (params.decoy_string_position == "prefix") {
         decoy_pattern = "^${params.decoy_string}"

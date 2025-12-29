@@ -60,11 +60,15 @@ workflow DDA_ID {
             }
 
             if (params.ms2features_fine_tuning == true) {
-                train_datasets = ch_id_files.combine(ch_file_preparation_results, by: 0).randomSample(params.fine_tuning_sample_run, 2025)
-                MSRESCORE_FINE_TUNING(train_datasets.collect().combine(ms2_model_dir))
-                MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(MSRESCORE_FINE_TUNING.out.model_weight))
-                ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
-                ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+                if (params.ms2features_generators.toLowerCase().contains('ms2pip')) {
+                    exit(1, 'Error: Fine tuning only supports AlphaPeptdeep!')
+                } else {
+                    train_datasets = ch_id_files.combine(ch_file_preparation_results, by: 0).randomSample(params.fine_tuning_sample_run, 2025)
+                    MSRESCORE_FINE_TUNING(train_datasets.collect().combine(ms2_model_dir))
+                    MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(MSRESCORE_FINE_TUNING.out.model_weight))
+                    ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
+                    ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+                }
             } else{
                 MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(ms2_model_dir))
                 ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)

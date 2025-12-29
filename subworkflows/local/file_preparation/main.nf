@@ -81,7 +81,7 @@ workflow FILE_PREPARATION {
 
     THERMORAWFILEPARSER( ch_branched_input.raw )
     // Output is
-    // {'mzmls_converted': Tuple[val(meta), path(mzml)],
+    // {'convert_files': Tuple[val(meta), path(mzml)],
     //  'version': Path(versions.yml),
     //  'log': Path(*.txt)}
 
