@@ -74,7 +74,7 @@ process ONSITE {
         def max_num_perm = params.onsite_max_num_perm ?: '16384'
         def modeling_threshold = params.onsite_modeling_score_threshold ?: '0.95'
         def scoring_threshold = params.onsite_scoring_threshold ?: '0.0'
-        def min_num_psms = params.onsite_min_num_psms_model ?: '50'
+        def min_num_psms = params.onsite_min_num_psms_model ?: '5'
         def rt_tolerance = params.onsite_rt_tolerance ?: '0.01'
 
         // Optional target modifications - default for LucXor includes decoy
@@ -103,8 +103,7 @@ process ONSITE {
             --scoring-threshold ${scoring_threshold} \\
             --min-num-psms-model ${min_num_psms} \\
             --rt-tolerance ${rt_tolerance} \\
-            ${debug} \\
-            ${args}
+            ${debug} 
         """
     } else {
         error "Unknown onsite algorithm: ${algorithm}. Supported algorithms: ascore, phosphors, lucxor"
