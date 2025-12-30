@@ -47,8 +47,7 @@ process ONSITE {
             --fragment-mass-tolerance ${fragment_tolerance} \\
             --fragment-mass-unit ${fragment_unit} \\
             ${add_decoys} \\
-            ${debug} \\
-            ${args}
+            ${debug}
         """
     } else if (algorithm == 'phosphors') {
         // PhosphoRS: uses -in, -id, -out, --fragment-mass-unit
@@ -61,8 +60,7 @@ process ONSITE {
             --fragment-mass-tolerance ${fragment_tolerance} \\
             --fragment-mass-unit ${fragment_unit} \\
             ${add_decoys} \\
-            ${debug} \\
-            ${args}
+            ${debug}
         """
     } else if (algorithm == 'lucxor') {
         // LucXor: uses -in, -id, -out, --fragment-error-units (note: error-units not mass-unit)
@@ -103,7 +101,7 @@ process ONSITE {
             --scoring-threshold ${scoring_threshold} \\
             --min-num-psms-model ${min_num_psms} \\
             --rt-tolerance ${rt_tolerance} \\
-            ${debug} 
+            ${debug}
         """
     } else {
         error "Unknown onsite algorithm: ${algorithm}. Supported algorithms: ascore, phosphors, lucxor"
