@@ -3,7 +3,7 @@ process MSRESCORE_FINE_TUNING {
     label 'process_high'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'oras://ghcr.io/bigbio/quantms-rescoring-sif:0.0.13' :
+        'oras://ghcr.io/daichengxin/quantms-rescoring-sif:0.0.14' :
         'ghcr.io/daichengxin/quantms-rescoring:0.0.14' }"
 
     input:
