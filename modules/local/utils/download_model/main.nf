@@ -5,6 +5,9 @@ process DOWNLOAD_MODEL {
         'oras://ghcr.io/daichengxin/quantms-rescoring-sif:0.0.14' :
         'ghcr.io/daichengxin/quantms-rescoring:0.0.14' }"
 
+    input:
+    val(model_list)
+
     output:
     path "rescore_model" , emit: model_weights
     path "versions.yml"     , emit: versions
@@ -18,7 +21,7 @@ process DOWNLOAD_MODEL {
 
     """
     rescoring download_models \\
-        --models ./ \\
+        --models ${model_list} \\
         --model_dir ./rescore_model \\
         $args \\
         2>&1 | tee download_models.log

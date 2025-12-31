@@ -56,8 +56,18 @@ workflow DDA_ID {
             if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
                 ms2_model_dir = Channel.from(file(params.ms2features_model_dir, checkIfExists: true))
             } else {
-                DOWNLOAD_MODEL()
-                ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
+                if (params.ms2features_best){
+                    DOWNLOAD_MODEL(Channel.value('ms2pip,alphapeptdeep'))
+                    ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
+                } else if (params.ms2features_generators.toLowerCase().contains('ms2pip')) {
+                    DOWNLOAD_MODEL(Channel.value('ms2pip'))
+                    ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
+                } else if (params.ms2features_generators.toLowerCase().contains('alphapeptdeep')) {
+                    DOWNLOAD_MODEL(Channel.value('alphapeptdeep'))
+                    ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
+                } else {
+                    ms2_model_dir = Channel.from(file("./"))
+                }
             }
 
             if (params.ms2features_fine_tuning == true) {
