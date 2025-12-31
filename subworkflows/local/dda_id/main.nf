@@ -11,6 +11,7 @@ include { GET_SAMPLE           } from '../../../modules/local/utils/extract_samp
 include { SPECTRUM_FEATURES    } from '../../../modules/local/utils/spectrum_features/main'
 include { PSM_CLEAN            } from '../../../modules/local/utils/psm_clean/main'
 include { MSRESCORE_FINE_TUNING} from '../../../modules/local/utils/msrescore_fine_tuning/main'
+include { DOWNLOAD_MODEL       } from '../../../modules/local/utils/download_model/main'
 include { PHOSPHO_SCORING      } from '../phospho_scoring/main'
 
 //
@@ -49,14 +50,14 @@ workflow DDA_ID {
     if (params.skip_rescoring == false) {
 
         if (params.ms2features_enable == true) {
-
             // Only add ms2_model_dir if it's actually set and not empty
             // Handle cases where parameter might be empty string, null, boolean true, or whitespace
             // When --ms2features_model_dir is passed with no value, Nextflow may set it to boolean true
             if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
                 ms2_model_dir = Channel.from(file(params.ms2features_model_dir, checkIfExists: true))
             } else {
-                ms2_model_dir = Channel.from(file("./"))
+                DOWNLOAD_MODEL()
+                ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
             }
 
             if (params.ms2features_fine_tuning == true) {
