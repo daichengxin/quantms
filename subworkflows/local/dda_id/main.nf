@@ -11,7 +11,6 @@ include { GET_SAMPLE           } from '../../../modules/local/utils/extract_samp
 include { SPECTRUM_FEATURES    } from '../../../modules/local/utils/spectrum_features/main'
 include { PSM_CLEAN            } from '../../../modules/local/utils/psm_clean/main'
 include { MSRESCORE_FINE_TUNING} from '../../../modules/local/utils/msrescore_fine_tuning/main'
-include { DOWNLOAD_MODEL       } from '../../../modules/local/utils/download_model/main'
 include { PHOSPHO_SCORING      } from '../phospho_scoring/main'
 
 //
@@ -56,18 +55,7 @@ workflow DDA_ID {
             if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
                 ms2_model_dir = Channel.from(file(params.ms2features_model_dir, checkIfExists: true))
             } else {
-                if (params.ms2features_best){
-                    DOWNLOAD_MODEL(Channel.value('ms2pip,alphapeptdeep'))
-                    ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
-                } else if (params.ms2features_generators.toLowerCase().contains('ms2pip')) {
-                    DOWNLOAD_MODEL(Channel.value('ms2pip'))
-                    ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
-                } else if (params.ms2features_generators.toLowerCase().contains('alphapeptdeep')) {
-                    DOWNLOAD_MODEL(Channel.value('alphapeptdeep'))
-                    ms2_model_dir = DOWNLOAD_MODEL.out.model_weights
-                } else {
-                    ms2_model_dir = Channel.from(file("./"))
-                }
+                ms2_model_dir = Channel.from(file("./"))
             }
 
             if (params.ms2features_fine_tuning == true) {
