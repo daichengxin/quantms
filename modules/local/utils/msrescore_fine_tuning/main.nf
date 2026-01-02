@@ -7,27 +7,33 @@ process MSRESCORE_FINE_TUNING {
         'ghcr.io/bigbio/quantms-rescoring:0.0.14' }"
 
     input:
-    tuple val(meta), path(idxml), path(mzml), path(ms2_model_dir)
+    tuple val(meta), path(idxml), path(mzml), val(groupkey), path(ms2_model_dir)
 
     output:
-    path "retained_ms2.pth" , emit: model_weight
-    path "versions.yml"     , emit: versions
-    path "*.log"            , emit: log
+    tuple val(groupkey), path("retained_ms2.pth") , emit: model_weight
+    path "versions.yml"                           , emit: versions
+    path "*.log"                                  , emit: log
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.mzml_id}_ms2rescore"
+    def prefix = task.ext.prefix ?: "${groupkey}_fine_tuning"
 
     // Initialize tolerance variables
     def ms2_tolerance = null
     def ms2_tolerance_unit = null
 
     // ms2pip only supports Da unit, but alphapeptdeep supports both Da and ppm
-    ms2_tolerance = meta['fragmentmasstolerance']
-    ms2_tolerance_unit = meta['fragmentmasstoleranceunit']
+    ms2_tolerance = meta[0]['fragmentmasstolerance']
+    ms2_tolerance_unit = meta[0]['fragmentmasstoleranceunit']
+
+    if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
+        ms2_model_dir = ms2_model_dir
+    } else {
+        ms2_model_dir = "./"
+    }
 
     if (params.force_transfer_learning) {
         force_transfer_learning = "--force_transfer_learning"
@@ -56,7 +62,7 @@ process MSRESCORE_FINE_TUNING {
         ${force_transfer_learning} \\
         ${consider_modloss} \\
         $args \\
-        2>&1 | tee ${idxml.baseName}_fine_tuning.log
+        2>&1 | tee ${groupkey}_fine_tuning.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -55,16 +55,51 @@ workflow DDA_ID {
             if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
                 ms2_model_dir = Channel.from(file(params.ms2features_model_dir, checkIfExists: true))
             } else {
-                ms2_model_dir = Channel.from(file("./"))
+                ms2_model_dir = Channel.from(file("pretrained_models"))
             }
 
             if (params.ms2features_fine_tuning == true) {
                 if (params.ms2features_generators.toLowerCase().contains('ms2pip')) {
                     exit(1, 'Error: Fine tuning only supports AlphaPeptdeep!')
                 } else {
-                    train_datasets = ch_id_files.combine(ch_file_preparation_results, by: 0).randomSample(params.fine_tuning_sample_run, 2025)
-                    MSRESCORE_FINE_TUNING(train_datasets.collect().combine(ms2_model_dir))
-                    MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(MSRESCORE_FINE_TUNING.out.model_weight))
+                    // Split ch_id_files by search_engines
+                    ch_id_files.combine(ch_file_preparation_results, by: 0).branch{ meta, filename, mzml_name ->
+                        sage: filename.name.contains('sage')
+                            return [meta, filename, mzml_name]
+                        msgf: filename.name.contains('msgf')
+                            return [meta, filename, mzml_name]
+                        comet: filename.name.contains('comet')
+                            return [meta, filename, mzml_name]
+                    }.set{ch_id_files_branched}
+
+                    // Preparing train datasets and fine tuning MS2 model
+                    sage_train_datasets = ch_id_files_branched.sage.randomSample(params.fine_tuning_sample_run, 2025).combine(
+                        Channel.value("sage")
+                    ).groupTuple(by: 3)
+                    msgf_train_datasets = ch_id_files_branched.msgf.randomSample(params.fine_tuning_sample_run, 2025).combine(
+                        Channel.value("msgf")
+                    ).groupTuple(by: 3)
+                    comet_train_datasets = ch_id_files_branched.comet.randomSample(params.fine_tuning_sample_run, 2025).combine(
+                        Channel.value("comet")
+                    ).groupTuple(by: 3)
+                    sage_train_datasets.mix(msgf_train_datasets)
+                        .mix(comet_train_datasets)
+                        .combine(ms2_model_dir)
+                        .set { train_datasets }
+                    MSRESCORE_FINE_TUNING(train_datasets)
+                    ch_software_versions = ch_software_versions.mix(MSRESCORE_FINE_TUNING.out.versions)
+
+                    sage_features_input = Channel.value("sage").combine(ch_id_files_branched.sage)
+                        .combine(MSRESCORE_FINE_TUNING.out.model_weight, by:0)
+                    msgf_features_input = Channel.value("msgf").combine(ch_id_files_branched.msgf)
+                        .combine(MSRESCORE_FINE_TUNING.out.model_weight, by:0)
+                    comet_features_input = Channel.value("comet").combine(ch_id_files_branched.comet)
+                        .combine(MSRESCORE_FINE_TUNING.out.model_weight, by:0)
+                    sage_features_input.mix(msgf_features_input).mix(comet_features_input)
+                        .map { [it[1], it[2], it[3], it[4]] }
+                        .set { ch_features_input }
+
+                    MSRESCORE_FEATURES(ch_features_input)
                     ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
                     ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
                 }

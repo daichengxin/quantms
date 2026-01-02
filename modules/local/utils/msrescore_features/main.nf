@@ -27,8 +27,10 @@ process MSRESCORE_FEATURES {
     // When --ms2features_model_dir is passed with no value, Nextflow may set it to boolean true
     if (params.ms2features_fine_tuning) {
         ms2_model_dir = '--ms2_model_dir ./'
-    } else {
+    } else if (params.ms2features_model_dir && params.ms2features_model_dir != true){
         ms2_model_dir = "--ms2_model_dir ${model_weight}"
+    } else {
+        ms2_model_dir = "--ms2_model_dir ./"
     }
 
     // Determine if using ms2pip or alphapeptdeep based on ms2features_generators
