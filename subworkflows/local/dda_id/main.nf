@@ -3,14 +3,8 @@
 //
 include { CONSENSUSID          } from '../../../modules/local/openms/consensusid/main'
 include { PERCOLATOR           } from '../../../modules/local/openms/percolator/main'
-include { ID_MERGER            } from '../../../modules/local/openms/id_merger/main'
 include { ID_RIPPER            } from '../../../modules/local/openms/id_ripper/main'
 include { PSM_CONVERSION       } from '../../../modules/local/utils/psm_conversion/main'
-include { MSRESCORE_FEATURES   } from '../../../modules/local/utils/msrescore_features/main'
-include { GET_SAMPLE           } from '../../../modules/local/utils/extract_sample/main'
-include { SPECTRUM_FEATURES    } from '../../../modules/local/utils/spectrum_features/main'
-include { PSM_CLEAN            } from '../../../modules/local/utils/psm_clean/main'
-include { MSRESCORE_FINE_TUNING} from '../../../modules/local/utils/msrescore_fine_tuning/main'
 include { PHOSPHO_SCORING      } from '../phospho_scoring/main'
 
 //
@@ -47,52 +41,14 @@ workflow DDA_ID {
     // SUBWORKFLOW: Rescoring
     //
     if (params.skip_rescoring == false) {
-
-        // Add SNR features to percolator
-        if (params.ms2features_snr) {
-            SPECTRUM_FEATURES(ch_id_files_feats.combine(ch_file_preparation_results, by: 0))
-            ch_id_files_feats = SPECTRUM_FEATURES.out.id_files_snr
-            ch_software_versions = ch_software_versions.mix(SPECTRUM_FEATURES.out.versions)
-        }
-
         // Rescoring for independent run, Sample or whole experiments
         if (params.ms2features_range == "independent_run") {
             PERCOLATOR(ch_id_files_feats)
             ch_software_versions = ch_software_versions.mix(PERCOLATOR.out.versions)
             ch_consensus_input = PERCOLATOR.out.id_files_perc
-        } else if (params.ms2features_range == "by_sample") {
-            // Sample map
-            GET_SAMPLE(ch_expdesign)
-            ch_software_versions = ch_software_versions.mix(GET_SAMPLE.out.versions)
-
-            ch_expdesign_sample = GET_SAMPLE.out.ch_expdesign_sample
-            ch_expdesign_sample.splitCsv(header: true, sep: '\t')
-                .map { get_sample_map(it) }.set{ sample_map_idv }
-
-            ch_id_files_feats.map {[it[0].mzml_id, it[0], it[1]]}
-                .combine(sample_map_idv, by: 0)
-                .map {[it[1], it[2], it[3]]}
-                .set{ch_id_files_feats_sample}
-
-            // Group by search_engines and sample
-            ch_id_files_feats_sample.branch{ meta, filename, sample  ->
-                sage: filename.name.contains('sage')
-                    return [meta, filename, sample]
-                msgf: filename.name.contains('msgf')
-                    return [meta, filename, sample]
-                comet: filename.name.contains('comet')
-                    return [meta, filename, sample]
-            }.set{ch_id_files_feat_branched}
-
-            // IDMERGER for samples group
-            ID_MERGER(ch_id_files_feat_branched.comet.groupTuple(by: 2)
-                .mix(ch_id_files_feat_branched.msgf.groupTuple(by: 2))
-                .mix(ch_id_files_feat_branched.sage.groupTuple(by: 2)))
-            ch_software_versions = ch_software_versions.mix(ID_MERGER.out.versions)
-
-            PERCOLATOR(ID_MERGER.out.id_merged)
+        } else {
+            PERCOLATOR(ch_id_files_feats)
             ch_software_versions = ch_software_versions.mix(PERCOLATOR.out.versions)
-
             // Currently only ID runs on exactly one mzML file are supported in CONSENSUSID. Split idXML by runs
             ID_RIPPER(PERCOLATOR.out.id_files_perc)
             ch_file_preparation_results.map{[it[0].mzml_id, it[0]]}.set{meta}
@@ -101,38 +57,6 @@ workflow DDA_ID {
                     .map{ [it[1], it[2]]}
                     .set{ ch_consensus_input }
             ch_software_versions = ch_software_versions.mix(ID_RIPPER.out.versions)
-
-        } else if (params.ms2features_range == "by_project"){
-            ch_id_files_feats.map {[it[0].experiment_id, it[0], it[1]]}.set { ch_id_files_feats}
-
-            // Split ch_id_files_feats by search_engines
-            ch_id_files_feats.branch{ experiment_id, meta, filename ->
-                sage: filename.name.contains('sage')
-                    return [meta, filename, experiment_id]
-                msgf: filename.name.contains('msgf')
-                    return [meta, filename, experiment_id]
-                comet: filename.name.contains('comet')
-                    return [meta, filename, experiment_id]
-            }.set{ch_id_files_feat_branched}
-
-            // IDMERGER for whole experiments
-            ID_MERGER(ch_id_files_feat_branched.comet.groupTuple(by: 2)
-                .mix(ch_id_files_feat_branched.msgf.groupTuple(by: 2))
-                .mix(ch_id_files_feat_branched.sage.groupTuple(by: 2)))
-            ch_software_versions = ch_software_versions.mix(ID_MERGER.out.versions)
-
-            PERCOLATOR(ID_MERGER.out.id_merged)
-            ch_software_versions = ch_software_versions.mix(PERCOLATOR.out.versions)
-
-            // Currently only ID runs on exactly one mzML file are supported in CONSENSUSID. Split idXML by runs
-            ID_RIPPER(PERCOLATOR.out.id_files_perc)
-            ch_file_preparation_results.map{[it[0].mzml_id, it[0]]}.set{meta}
-            ID_RIPPER.out.id_rippers.flatten().map { add_file_prefix (it)}.set{id_rippers}
-            meta.combine(id_rippers, by: 0)
-                    .map{ [it[1], it[2]]}
-                    .set{ ch_consensus_input }
-            ch_software_versions = ch_software_versions.mix(ID_RIPPER.out.versions)
-
         }
 
         ch_rescoring_results = ch_consensus_input
