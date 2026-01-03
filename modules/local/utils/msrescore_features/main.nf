@@ -7,13 +7,13 @@ process MSRESCORE_FEATURES {
         'ghcr.io/bigbio/quantms-rescoring:0.0.14' }"
 
     input:
-    tuple val(meta), path(idxml), path(mzml), path(model_weight)
+    tuple val(meta), path(idxml), path(mzml), path(model_weight), val(search_engine)
 
     output:
-    tuple val(meta), path("*ms2rescore.idXML") , emit: idxml
-    tuple val(meta), path("*.html" )           , optional:true, emit: html
-    path "versions.yml"                        , emit: versions
-    path "*.log"                               , emit: log
+    tuple val(meta), path("*ms2rescore.idXML"), val(search_engine) , emit: idxml
+    tuple val(meta), path("*.html" )                               , optional:true, emit: html
+    path "versions.yml"                                            , emit: versions
+    path "*.log"                                                   , emit: log
 
     when:
     task.ext.when == null || task.ext.when
