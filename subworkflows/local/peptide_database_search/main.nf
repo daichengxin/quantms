@@ -173,19 +173,19 @@ workflow PEPTIDE_DATABASE_SEARCH {
         // Add SNR features to percolator
         if (params.ms2features_snr) {
             if (params.search_engines.contains("msgf")) {
-                SPECTRUM_FEATURES(ch_id_files_msgf_feats.combine(ch_file_preparation_results, by: 0))
+                SPECTRUM_FEATURES(ch_id_files_msgf_feats.combine(ch_mzmls_search, by: 0))
                 ch_id_files_msgf_feats = SPECTRUM_FEATURES.out.id_files_snr
                 ch_versions = ch_versions.mix(SPECTRUM_FEATURES.out.versions)
             }
 
             if (params.search_engines.contains("comet")) {
-                SPECTRUM_FEATURES(ch_id_files_comet_feats.combine(ch_file_preparation_results, by: 0))
+                SPECTRUM_FEATURES(ch_id_files_comet_feats.combine(ch_mzmls_search, by: 0))
                 ch_id_files_comet_feats = SPECTRUM_FEATURES.out.id_files_snr
                 ch_versions = ch_versions.mix(SPECTRUM_FEATURES.out.versions)
             }
 
             if (params.search_engines.contains("sage")) {
-                SPECTRUM_FEATURES(ch_id_files_sage_feats.combine(ch_file_preparation_results, by: 0))
+                SPECTRUM_FEATURES(ch_id_files_sage_feats.combine(ch_mzmls_search, by: 0))
                 ch_id_files_sage_feats = SPECTRUM_FEATURES.out.id_files_snr
                 ch_versions = ch_versions.mix(SPECTRUM_FEATURES.out.versions)
             }
