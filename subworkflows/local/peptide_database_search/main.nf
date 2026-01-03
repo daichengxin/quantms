@@ -3,7 +3,9 @@ include { MSGF_DB_INDEXING } from '../../../modules/local/utils/msgf_db_indexing
 include { MSGF  } from '../../../modules/local/openms/msgf/main'
 include { COMET } from '../../../modules/local/openms/comet/main'
 include { SAGE  } from '../../../modules/local/openms/sage/main'
-
+include { PSM_CLEAN            } from '../../../modules/local/utils/psm_clean/main'
+include { MSRESCORE_FINE_TUNING} from '../../../modules/local/utils/msrescore_fine_tuning/main'
+include { MSRESCORE_FEATURES   } from '../../../modules/local/utils/msrescore_features/main'
 
 workflow PEPTIDE_DATABASE_SEARCH {
     take:
@@ -66,7 +68,75 @@ workflow PEPTIDE_DATABASE_SEARCH {
         ch_id_sage = ch_id_sage.mix(SAGE.out.id_files_sage.transpose())
     }
 
+    if (params.skip_rescoring != true && params.ms2features_enable == true) {
+        // Only add ms2_model_dir if it's actually set and not empty
+        // Handle cases where parameter might be empty string, null, boolean true, or whitespace
+        // When --ms2features_model_dir is passed with no value, Nextflow may set it to boolean true
+        if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
+            ms2_model_dir = Channel.from(file(params.ms2features_model_dir, checkIfExists: true))
+        } else {
+            ms2_model_dir = Channel.from(file("pretrained_models"))
+        }
+
+        if (params.ms2features_fine_tuning == true) {
+            if (params.ms2features_generators.toLowerCase().contains('ms2pip')) {
+                exit(1, 'Error: Fine tuning only supports AlphaPeptdeep!')
+            } else {
+
+                // Preparing train datasets and fine tuning MS2 model
+                sage_train_datasets = ch_id_sage
+                    .combine(ch_mzmls_search, by: 0)
+                    .randomSample(params.fine_tuning_sample_run, 2025)
+                    .combine(Channel.value("sage"))
+                    .groupTuple(by: 3)
+
+                msgf_train_datasets = ch_id_msgf
+                    .combine(ch_mzmls_search, by: 0)
+                    .randomSample(params.fine_tuning_sample_run, 2025)
+                    .combine(Channel.value("msgf"))
+                    .groupTuple(by: 3)
+
+                comet_train_datasets = ch_id_comet
+                    .combine(ch_mzmls_search, by: 0)
+                    .randomSample(params.fine_tuning_sample_run, 2025)
+                    .combine(Channel.value("comet"))
+                    .groupTuple(by: 3)
+
+                sage_train_datasets.mix(msgf_train_datasets)
+                    .mix(comet_train_datasets)
+                    .combine(ms2_model_dir)
+                    .set { train_datasets }
+                MSRESCORE_FINE_TUNING(train_datasets)
+                ch_software_versions = ch_software_versions.mix(MSRESCORE_FINE_TUNING.out.versions)
+
+                sage_features_input = Channel.value("sage").combine(ch_id_files_branched.sage)
+                    .combine(MSRESCORE_FINE_TUNING.out.model_weight, by:0)
+                msgf_features_input = Channel.value("msgf").combine(ch_id_files_branched.msgf)
+                    .combine(MSRESCORE_FINE_TUNING.out.model_weight, by:0)
+                comet_features_input = Channel.value("comet").combine(ch_id_files_branched.comet)
+                    .combine(MSRESCORE_FINE_TUNING.out.model_weight, by:0)
+                sage_features_input.mix(msgf_features_input).mix(comet_features_input)
+                    .map { [it[1], it[2], it[3], it[4]] }
+                    .set { ch_features_input }
+
+                MSRESCORE_FEATURES(ch_features_input)
+                ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
+                ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+            }
+        } else{
+            MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(ms2_model_dir))
+            ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
+            ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
+        }
+
+    } else if (params.psm_clean == true) {
+        ch_id_files = ch_id_msgf.mix(ch_id_comet).mix(ch_id_sage)
+        PSM_CLEAN(ch_id_files.combine(ch_file_preparation_results, by: 0))
+        ch_id_files_feats = PSM_CLEAN.out.idxml
+        ch_software_versions = ch_software_versions.mix(PSM_CLEAN.out.versions)
+    }
+
     emit:
-    ch_id_files_idx = ch_id_msgf.mix(ch_id_comet).mix(ch_id_sage)
+    ch_id_files_idx = ch_id_files_feats
     versions        = ch_versions
 }
