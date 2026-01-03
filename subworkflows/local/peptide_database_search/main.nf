@@ -124,6 +124,7 @@ workflow PEPTIDE_DATABASE_SEARCH {
                 ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
             }
         } else{
+            ch_id_files = ch_id_msgf.mix(ch_id_comet).mix(ch_id_sage)
             MSRESCORE_FEATURES(ch_id_files.combine(ch_file_preparation_results, by: 0).combine(ms2_model_dir))
             ch_software_versions = ch_software_versions.mix(MSRESCORE_FEATURES.out.versions)
             ch_id_files_feats = MSRESCORE_FEATURES.out.idxml
