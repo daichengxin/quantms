@@ -140,13 +140,13 @@ workflow PEPTIDE_DATABASE_SEARCH {
             } else{
                 ch_id_msgf.combine(ch_mzmls_search, by: 0)
                     .combine(ms2_model_dir)
-                    .combine(Channel.value("msgf")).set(ch_id_msgf)
+                    .combine(Channel.value("msgf")).set{ ch_id_msgf }
                 ch_id_comet.combine(ch_mzmls_search, by: 0)
                     .combine(ms2_model_dir)
-                    .combine(Channel.value("comet")).set(ch_id_comet)
+                    .combine(Channel.value("comet")).set{ ch_id_comet }
                 ch_id_sage.combine(ch_mzmls_search, by: 0)
                     .combine(ms2_model_dir)
-                    .combine(Channel.value("sage")).set(ch_id_sage)
+                    .combine(Channel.value("sage")).set{ ch_id_sage }
 
                 MSRESCORE_FEATURES(ch_id_msgf.mix(ch_id_comet).mix(ch_id_sage))
                 ch_versions = ch_versions.mix(MSRESCORE_FEATURES.out.versions)
