@@ -7,7 +7,7 @@ process SPECTRUM_FEATURES {
         'ghcr.io/bigbio/quantms-rescoring:0.0.13' }"
 
     input:
-    tuple val(meta), path(id_file), path(ms_file), val(search_engine)
+    tuple val(meta), path(id_file), val(search_engine), path(ms_file)
 
     output:
     tuple val(meta), path("${id_file.baseName}_snr.idXML"), val(search_engine), emit: id_files_snr

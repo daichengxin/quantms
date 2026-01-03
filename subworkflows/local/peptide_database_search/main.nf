@@ -169,9 +169,9 @@ workflow PEPTIDE_DATABASE_SEARCH {
                     sage: engine_name == "sage"
                 }
                 .set {ch_id_files_feats_branch}
-            ch_id_files_msgf_feats = ch_id_files_feats_branch.msgf.map {it -> [it[0], it[1]]}
-            ch_id_files_comet_feats = ch_id_files_feats_branch.comet.map {it -> [it[0], it[1]]}
-            ch_id_files_sage_feats = ch_id_files_feats_branch.sage.map {it -> [it[0], it[1]]}
+            ch_id_files_feats_branch.msgf.map {it -> [it[0], it[1]]}.set {ch_id_files_msgf_feats}
+            ch_id_files_feats_branch.comet.map {it -> [it[0], it[1]]}.set {ch_id_files_comet_feats}
+            ch_id_files_feats_branch.sage.map {it -> [it[0], it[1]]}.set {ch_id_files_sage_feats}
 
         } else {
             ch_id_files_msgf_feats = ch_id_msgf
