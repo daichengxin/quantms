@@ -71,6 +71,8 @@ workflow PEPTIDE_DATABASE_SEARCH {
         ch_id_sage = ch_id_sage.mix(SAGE.out.id_files_sage.transpose())
     }
 
+    (ch_id_files_msgf_feats, ch_id_files_comet_feats, ch_id_files_sage_feats) = [ Channel.empty(), Channel.empty(), Channel.empty() ]
+
     if (params.skip_rescoring != true) {
 
         if (params.ms2features_enable == true){
@@ -121,7 +123,7 @@ workflow PEPTIDE_DATABASE_SEARCH {
                             .set { msgf_features_input }
                         MSRESCORE_FEATURES(msgf_features_input)
                         ch_versions = ch_versions.mix(MSRESCORE_FEATURES.out.versions)
-                        ch_id_files_msgf_feats = MSRESCORE_FEATURES.out.idxml
+                        ch_id_files_msgf_feats = ch_id_files_msgf_feats.mix(MSRESCORE_FEATURES.out.idxml)
                     }
 
                     if (params.search_engines.contains("sage")) {
@@ -131,7 +133,7 @@ workflow PEPTIDE_DATABASE_SEARCH {
                             .set { sage_features_input }
                         MSRESCORE_FEATURES(sage_features_input)
                         ch_versions = ch_versions.mix(MSRESCORE_FEATURES.out.versions)
-                        ch_id_files_sage_feats = MSRESCORE_FEATURES.out.idxml
+                        ch_id_files_sage_feats = ch_id_files_sage_feats.mix(MSRESCORE_FEATURES.out.idxml)
                     }
 
                     if (params.search_engines.contains("comet")) {
@@ -141,26 +143,26 @@ workflow PEPTIDE_DATABASE_SEARCH {
                             .set { comet_features_input }
                         MSRESCORE_FEATURES(comet_features_input)
                         ch_versions = ch_versions.mix(MSRESCORE_FEATURES.out.versions)
-                        ch_id_files_comet_feats = MSRESCORE_FEATURES.out.idxml
+                        ch_id_files_comet_feats = ch_id_files_comet_feats.mix(MSRESCORE_FEATURES.out.idxml)
                     }
                 }
             } else{
                 if (params.search_engines.contains("msgf")) {
                     MSRESCORE_FEATURES(ch_id_msgf.combine(ch_mzmls_search, by: 0).combine(ms2_model_dir))
                     ch_versions = ch_versions.mix(MSRESCORE_FEATURES.out.versions)
-                    ch_id_files_msgf_feats = MSRESCORE_FEATURES.out.idxml
+                    ch_id_files_msgf_feats = ch_id_files_msgf_feats.mix(MSRESCORE_FEATURES.out.idxml)
                 }
 
                 if (params.search_engines.contains("comet")) {
                     MSRESCORE_FEATURES(ch_id_comet.combine(ch_mzmls_search, by: 0).combine(ms2_model_dir))
                     ch_versions = ch_versions.mix(MSRESCORE_FEATURES.out.versions)
-                    ch_id_files_comet_feats = MSRESCORE_FEATURES.out.idxml
+                    ch_id_files_comet_feats = ch_id_files_comet_feats.mix(MSRESCORE_FEATURES.out.idxml)
                 }
 
                 if (params.search_engines.contains("sage")) {
                     MSRESCORE_FEATURES(ch_id_sage.combine(ch_mzmls_search, by: 0).combine(ms2_model_dir))
                     ch_versions = ch_versions.mix(MSRESCORE_FEATURES.out.versions)
-                    ch_id_files_sage_feats = MSRESCORE_FEATURES.out.idxml
+                    ch_id_files_sage_feats = ch_id_files_sage_feats.mix(MSRESCORE_FEATURES.out.idxml)
                 }
             }
 
