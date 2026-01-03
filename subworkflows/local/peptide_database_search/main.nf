@@ -211,7 +211,7 @@ workflow PEPTIDE_DATABASE_SEARCH {
             // ID_MERGER for samples group
             ID_MERGER(ch_id_files_msgf_feats.groupTuple(by: 2)
                 .mix(ch_id_files_comet_feats.groupTuple(by: 2))
-                .mix(ch_id_files_sage_feats.groupTuple(by: 2)))
+                .mix(ch_id_files_sage_feats.groupTuple(by: 2))
             )
             ch_versions = ch_versions.mix(ID_MERGER.out.versions)
             ch_id_files_out = ID_MERGER.out.id_merged
