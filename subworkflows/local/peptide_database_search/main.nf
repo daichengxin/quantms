@@ -14,6 +14,7 @@ workflow PEPTIDE_DATABASE_SEARCH {
     take:
     ch_mzmls_search
     ch_searchengine_in_db
+    ch_expdesign
 
     main:
     (ch_id_msgf, ch_id_comet, ch_id_sage, ch_versions) = [ Channel.empty(), Channel.empty(), Channel.empty(), Channel.empty() ]
@@ -93,18 +94,24 @@ workflow PEPTIDE_DATABASE_SEARCH {
                     // Preparing train datasets and fine tuning MS2 model
                     sage_train_datasets = ch_id_sage
                         .combine(ch_mzmls_search, by: 0)
+                        .toSortedList()
+                        .flatMap()
                         .randomSample(params.fine_tuning_sample_run, 2025)
                         .combine(Channel.value("sage"))
                         .groupTuple(by: 3)
 
                     msgf_train_datasets = ch_id_msgf
                         .combine(ch_mzmls_search, by: 0)
+                        .toSortedList()
+                        .flatMap()
                         .randomSample(params.fine_tuning_sample_run, 2025)
                         .combine(Channel.value("msgf"))
                         .groupTuple(by: 3)
 
                     comet_train_datasets = ch_id_comet
                         .combine(ch_mzmls_search, by: 0)
+                        .toSortedList()
+                        .flatMap()
                         .randomSample(params.fine_tuning_sample_run, 2025)
                         .combine(Channel.value("comet"))
                         .groupTuple(by: 3)
