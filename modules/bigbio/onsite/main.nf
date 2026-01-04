@@ -1,6 +1,7 @@
 process ONSITE {
     tag "$meta.mzml_id"
     label 'process_medium'
+    label 'openms'
     label 'onsite'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
