@@ -88,7 +88,7 @@ workflow PEPTIDE_DATABASE_SEARCH {
 
             if (params.ms2features_fine_tuning == true) {
                 if (params.ms2features_generators.toLowerCase().contains('ms2pip')) {
-                    exit(1, 'Error: Fine tuning only supports AlphaPeptdeep!')
+                    error('Fine tuning only supports AlphaPeptdeep. Please set --ms2features_generators to include "alphapeptdeep" instead of "ms2pip".')
                 } else {
 
                     // Preparing train datasets and fine tuning MS2 model
