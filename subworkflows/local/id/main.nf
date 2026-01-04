@@ -26,7 +26,8 @@ workflow ID {
     //
     PEPTIDE_DATABASE_SEARCH (
         ch_file_preparation_results,
-        ch_database_wdecoy
+        ch_database_wdecoy,
+        ch_expdesign
     )
     ch_software_versions = ch_software_versions.mix(PEPTIDE_DATABASE_SEARCH.out.versions)
 
