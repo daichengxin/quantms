@@ -42,7 +42,7 @@
                 "bigbio": {
                     "onsite": {
                         "branch": "main",
-                        "git_sha": "e4f16df2acb2c084a5043840212d0fb52f69fbbc",
+                        "git_sha": "ffe3c99ee867c4d7d6400f95d0b5658eccf16212",
                         "installed_by": ["modules"]
                     },
                     "thermorawfileparser": {
