@@ -40,30 +40,26 @@ process ONSITE {
     if (algorithm == 'ascore') {
         // AScore: uses -in, -id, -out, --fragment-mass-unit
         fragment_unit = params.onsite_fragment_unit ?: 'Da'
+        def optional_flags = [add_decoys, compute_all_scores, debug].findAll { it }.join(' \\\n            ')
         algorithm_cmd = """
         onsite ascore \\
             -in ${mzml_file} \\
             -id ${id_file} \\
             -out ${id_file.baseName}_ascore.idXML \\
             --fragment-mass-tolerance ${fragment_tolerance} \\
-            --fragment-mass-unit ${fragment_unit} \\
-            ${add_decoys} \\
-            ${compute_all_scores} \\
-            ${debug}
+            --fragment-mass-unit ${fragment_unit}${optional_flags ? ' \\\n            ' + optional_flags : ''}
         """
     } else if (algorithm == 'phosphors') {
         // PhosphoRS: uses -in, -id, -out, --fragment-mass-unit
         fragment_unit = params.onsite_fragment_unit ?: 'Da'
+        def optional_flags = [add_decoys, compute_all_scores, debug].findAll { it }.join(' \\\n            ')
         algorithm_cmd = """
         onsite phosphors \\
             -in ${mzml_file} \\
             -id ${id_file} \\
             -out ${id_file.baseName}_phosphors.idXML \\
             --fragment-mass-tolerance ${fragment_tolerance} \\
-            --fragment-mass-unit ${fragment_unit} \\
-            ${add_decoys} \\
-            ${compute_all_scores} \\
-            ${debug}
+            --fragment-mass-unit ${fragment_unit}${optional_flags ? ' \\\n            ' + optional_flags : ''}
         """
     } else if (algorithm == 'lucxor') {
         // LucXor: uses -in, -id, -out, --fragment-error-units (note: error-units not mass-unit)
@@ -85,6 +81,7 @@ process ONSITE {
         def decoy_mass = params.onsite_decoy_mass ? "--decoy-mass ${params.onsite_decoy_mass}" : "--decoy-mass 79.966331"
         def decoy_losses = params.onsite_decoy_neutral_losses ? "--decoy-neutral-losses ${params.onsite_decoy_neutral_losses}" : "--decoy-neutral-losses 'X -H3PO4 -97.97690'"
 
+        def optional_flags = [disable_split_by_charge, compute_all_scores, debug].findAll { it }.join(' \\\n            ')
         algorithm_cmd = """
         onsite lucxor \\
             -in ${mzml_file} \\
@@ -104,18 +101,14 @@ process ONSITE {
             --modeling-score-threshold ${modeling_threshold} \\
             --scoring-threshold ${scoring_threshold} \\
             --min-num-psms-model ${min_num_psms} \\
-            --rt-tolerance ${rt_tolerance} \\
-            ${disable_split_by_charge} \\
-            ${compute_all_scores} \\
-            ${debug}
+            --rt-tolerance ${rt_tolerance}${optional_flags ? ' \\\n            ' + optional_flags : ''}
         """
     } else {
         error "Unknown onsite algorithm: ${algorithm}. Supported algorithms: ascore, phosphors, lucxor"
     }
 
     """
-    ${algorithm_cmd} \\
-        2>&1 | tee ${id_file.baseName}_${algorithm}.log
+    ${algorithm_cmd.trim()} 2>&1 | tee ${id_file.baseName}_${algorithm}.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
