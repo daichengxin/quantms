@@ -83,6 +83,7 @@ workflow PEPTIDE_DATABASE_SEARCH {
             if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
                 ms2_model_dir = Channel.from(file(params.ms2features_model_dir, checkIfExists: true))
             } else {
+                // create a fake channel when don't specify model dir
                 ms2_model_dir = Channel.from(file("pretrained_models"))
             }
 
@@ -232,6 +233,8 @@ workflow PEPTIDE_DATABASE_SEARCH {
         PSM_CLEAN(ch_id_files.combine(ch_mzmls_search, by: 0))
         ch_id_files_out = PSM_CLEAN.out.idxml
         ch_versions = ch_versions.mix(PSM_CLEAN.out.versions)
+    } else {
+        ch_id_files_out = ch_id_msgf.mix(ch_id_comet).mix(ch_id_sage)
     }
 
     emit:
@@ -241,7 +244,6 @@ workflow PEPTIDE_DATABASE_SEARCH {
 
 // Function to get sample map
 def get_sample_map(LinkedHashMap row) {
-    def sample_map = [:]
 
     filestr               = row.Spectra_Filepath
     file_name             = file(filestr).name.take(file(filestr).name.lastIndexOf('.'))
