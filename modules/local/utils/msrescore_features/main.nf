@@ -51,10 +51,10 @@ process MSRESCORE_FEATURES {
         if (meta['fragmentmasstoleranceunit'].toLowerCase().endsWith('da')) {
             ms2_tolerance = meta['fragmentmasstolerance']
         } else if (params.ms2features_tolerance_unit == 'ppm') {
-            log.info "Warning: MS2pip only supports Da unit. Using default from config!"
+            log.warn "Warning: MS2pip only supports Da unit. Using default from config!"
             ms2_tolerance = 0.05
         } else {
-            log.info "Warning: MS2pip only supports Da unit. Using default from config!"
+            log.warn "Warning: MS2pip only supports Da unit. Using default from config!"
         }
     }
 
