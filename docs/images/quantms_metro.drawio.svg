@@ -25,29 +25,28 @@
 	.st17{fill:none;stroke:#53A567;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 	.st18{fill:none;stroke:#DA291C;stroke-width:11;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 	.st19{fill:none;stroke:#56A8CB;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st20{enable-background:new    ;}
-	.st21{font-family:'ArialNarrow-Bold';}
-	.st22{letter-spacing:2.1;}
-	.st23{fill:#FFFFFF;stroke:#000000;stroke-dasharray:3,3;}
-	.st24{fill:none;stroke:#FFFFFF;stroke-width:12;stroke-miterlimit:10;}
-	.st25{font-size:12.1693px;}
-	.st26{letter-spacing:30.4;}
-	.st27{fill:none;stroke:#CDA2BE;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:3,3;}
-	.st28{font-size:10.7297px;}
-	.st29{clip-path:url(#SVGID_2_);}
-	.st30{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;stroke:#2F528F;stroke-width:1.3333;stroke-miterlimit:8;}
-	.st31{fill-rule:evenodd;clip-rule:evenodd;stroke:#2F528F;stroke-width:1.3333;stroke-miterlimit:8;}
-	.st32{font-size:8.5714px;}
-	.st33{clip-path:url(#SVGID_4_);}
-	.st34{clip-path:url(#SVGID_6_);}
-	.st35{clip-path:url(#SVGID_8_);}
-	.st36{font-size:6.1224px;}
-	.st37{clip-path:url(#SVGID_10_);}
-	.st38{font-size:6.4378px;}
-	.st39{clip-path:url(#SVGID_12_);}
-	.st40{font-size:6.5691px;}
-	.st41{letter-spacing:33.3;}
-	.st42{font-size:10.0751px;}
+	.st20{font-family:'ArialNarrow-Bold';}
+	.st21{letter-spacing:1.1;}
+	.st22{fill:#FFFFFF;stroke:#000000;stroke-dasharray:3,3;}
+	.st23{fill:none;stroke:#FFFFFF;stroke-width:12;stroke-miterlimit:10;}
+	.st24{font-size:12.1693px;}
+	.st25{letter-spacing:29.4;}
+	.st26{fill:none;stroke:#CDA2BE;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:3,3;}
+	.st27{font-size:10.7297px;}
+	.st28{clip-path:url(#SVGID_2_);}
+	.st29{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;stroke:#2F528F;stroke-width:1.3333;stroke-miterlimit:8;}
+	.st30{fill-rule:evenodd;clip-rule:evenodd;stroke:#2F528F;stroke-width:1.3333;stroke-miterlimit:8;}
+	.st31{font-size:8.5714px;}
+	.st32{clip-path:url(#SVGID_4_);}
+	.st33{clip-path:url(#SVGID_6_);}
+	.st34{clip-path:url(#SVGID_8_);}
+	.st35{font-size:6.1224px;}
+	.st36{clip-path:url(#SVGID_10_);}
+	.st37{font-size:6.4378px;}
+	.st38{clip-path:url(#SVGID_12_);}
+	.st39{font-size:6.5691px;}
+	.st40{letter-spacing:33.3;}
+	.st41{font-size:10.0751px;}
 </style>
 <g id="g107">
 	<path id="path24_1_" pointer-events="stroke" class="st0" d="M58.3,247.4l119-1.2c7.9-0.1,13.6-2.2,17.2-6.3l42.8-49.8
@@ -177,8 +176,8 @@
 	<path id="path27" pointer-events="all" class="st11" d="M165.4,188.3L165.4,188.3c-5.5,0-9.9-4.7-9.9-10.6v-23.8
 		c0-5.9,4.4-10.6,9.9-10.6l0,0c5.5,0,9.9,4.7,9.9,10.6v23.8C175.3,183.5,170.8,188.3,165.4,188.3z"/>
 	<g id="g28" transform="translate(-0.5 -0.5)">
-		<text id="text27" transform="matrix(0.932 0 0 1 99.202 123.5746)" class="st4 st5">ThermoRaw</text>
-		<text id="text28" transform="matrix(0.932 0 0 1 104.5018 139.0253)" class="st4 st5">FileParser</text>
+		<text id="text27" transform="matrix(0.932 0 0 1 99.2021 123.5747)" class="st4 st5">ThermoRaw</text>
+		<text id="text28" transform="matrix(0.932 0 0 1 104.502 139.0254)" class="st4 st5">FileParser</text>
 	</g>
 	<path id="path28" pointer-events="stroke" class="st8" d="M279.2,165.8l63.3,0.1c6.7,0,12.8,2,18.3,6.1l31.9,32.3
 		c5.5,4.1,11,17.1,20.7,18.3h45.8"/>
@@ -254,7 +253,7 @@
 	<path id="path57" pointer-events="all" class="st11" d="M762.1,118.9h-6.7c-4.5,0-8.2-7-8.2-15.7l0,0c0-8.6,3.6-15.7,8.2-15.7h6.7
 		c4.5,0,8.2,7,8.2,15.7l0,0C770.2,111.9,766.6,118.9,762.1,118.9z"/>
 	<g id="g58" transform="translate(-0.5 -0.5)">
-		<text id="text58" transform="matrix(0.932 0 0 1 646.7004 82.1001)" class="st4 st5">MS2Rescore + Percolator + FDR</text>
+		<text id="text58" transform="matrix(0.932 0 0 1 646.7002 82.1001)" class="st4 st5">quantms-rescoring + Percolator + FDR</text>
 	</g>
 	<path id="path58" pointer-events="stroke" class="st0" d="M279.2,182h43.3c6.7,0,10.5,3.5,11.6,10.6l20.8,135.5
 		c1.1,7.1,4.2,25.8,8.6,42.9l77.5-0.2"/>
@@ -312,7 +311,8 @@
 	<path id="path77" pointer-events="none" class="st6" d="M1004.5,106.8h29.1c6.7,0,10-3.5,10-10.7V65.9c0-7.2,3.3-10.7,10-10.7
 		h174.8"/>
 	<g id="g78" transform="translate(-0.5 -0.5)">
-		<text id="text77" transform="matrix(0.932 0 0 1 1.1963 439.2402)" class="st20"><tspan x="0" y="0" class="st21 st5">bigbio/quantms v1.3</tspan><tspan x="102.1" y="0" class="st21 st5 st22">	</tspan></text>
+		<text transform="matrix(0.932 0 0 1 1.1963 439.2402)" class="st20 st5">bigbio/quantms v1.3</text>
+		<text transform="matrix(0.932 0 0 1 96.3535 439.2402)" class="st20 st5 st21"> </text>
 		<text id="text78" transform="matrix(0.932 0 0 1 1.1963 478.0293)" class="st4 st5">Example analysis pathways</text>
 	</g>
 	<g id="g80" transform="translate(-0.5 -0.5)">
@@ -335,7 +335,7 @@
 		<text id="text84" transform="matrix(0.932 0 0 1 555.2842 397.5)" class="st4 st5">DIA-NN</text>
 		<text id="text85" transform="matrix(0.932 0 0 1 529.2842 409.9004)" class="st4 st5">empirical lib. gen.</text>
 	</g>
-	<path id="path85" pointer-events="none" class="st23" d="M165.4,320.5L165.4,320.5c-5.5,0-9.9-4.7-9.9-10.6v-10.1
+	<path id="path85" pointer-events="none" class="st22" d="M165.4,320.5L165.4,320.5c-5.5,0-9.9-4.7-9.9-10.6v-10.1
 		c0-5.9,4.4-10.6,9.9-10.6l0,0c5.5,0,9.9,4.7,9.9,10.6v10.1C175.3,315.8,170.8,320.5,165.4,320.5z"/>
 	<g id="g87" transform="translate(-0.5 -0.5)">
 		<text id="text86" transform="matrix(0.932 0 0 1 155.2241 270.4375)" class="st4 st5">Add</text>
@@ -345,7 +345,7 @@
 		l173.9,0.1"/>
 	<path id="path88" pointer-events="none" class="st7" d="M1068.7,269.9V172c0-7.2,3.3-10.7,10-10.7l149.6,0.1"/>
 	<path id="path89" pointer-events="none" class="st8" d="M1068.7,279.6V172c0-7.2,3.3-10.7,10-10.7l149.6,0.1"/>
-	<path id="path90" pointer-events="none" class="st24" d="M1008.4,356.2l104.1-14.9c6.7,0,10-3.5,10-10.7V83c0-7.2,3.3-10.7,10-10.7
+	<path id="path90" pointer-events="none" class="st23" d="M1008.4,356.2l104.1-14.9c6.7,0,10-3.5,10-10.7V83c0-7.2,3.3-10.7,10-10.7
 		h95.9"/>
 	<path id="path91" pointer-events="none" class="st10" d="M1027.5,116.5h-46c-5,0-9-4.3-9-9.7l0,0c0-5.4,4-9.7,9-9.7h46
 		c5,0,9,4.3,9,9.7l0,0C1036.5,112.2,1032.5,116.5,1027.5,116.5z"/>
@@ -411,13 +411,13 @@
 	<path id="path26_1_" pointer-events="all" class="st10" d="M49.8,254.7L49.8,254.7c-5.5,0-9.9-4.7-9.9-10.6v-23.8
 		c0-5.9,4.4-10.6,9.9-10.6l0,0c5.5,0,9.9,4.7,9.9,10.6v23.8C59.7,249.9,55.2,254.7,49.8,254.7z"/>
 	<g id="g28_1_" transform="translate(-0.5 -0.5)">
-		<text id="text27_1_" transform="matrix(0.932 0 0 1 126.4364 239.7498)" class="st4 st5">tdf2mzml</text>
+		<text id="text27_1_" transform="matrix(0.932 0 0 1 126.4365 239.75)" class="st4 st5">tdf2mzml</text>
 	</g>
 	<path id="path27_1_" pointer-events="all" class="st11" d="M187,258.3L187,258.3c-4.6,0-8.3-4-8.3-9v-20.2c0-5,3.7-9,8.3-9l0,0
 		c4.6,0,8.3,4,8.3,9v20.2C195.3,254.3,191.5,258.3,187,258.3z"/>
 	<g id="g78_1_" transform="translate(-0.5 -0.5)">
-		<text id="text77_1_" transform="matrix(0.9861 0 0 1 207.3999 31.6714)" class="st21 st25 st26">	</text>
-		<text id="text78_1_" transform="matrix(0.9861 0 0 1 224.4001 26.6561)" class="st16 st25">Identification subworkflow</text>
+		<text id="text77_1_" transform="matrix(0.9861 0 0 1 207.3999 31.6714)" class="st20 st24 st25"> </text>
+		<text id="text78_1_" transform="matrix(0.9861 0 0 1 224.3999 26.6563)" class="st16 st24">Identification subworkflow</text>
 	</g>
 </g>
 <sodipodi:namedview  bordercolor="#000000" borderopacity="0.25" id="namedview177" inkscape:current-layer="g78" inkscape:cx="214.09605" inkscape:cy="301.72186" inkscape:deskcolor="#d1d1d1" inkscape:pagecheckerboard="0" inkscape:pageopacity="0.0" inkscape:showpageshadow="2" inkscape:window-height="1027" inkscape:window-maximized="1" inkscape:window-width="1920" inkscape:window-x="0" inkscape:window-y="25" inkscape:zoom="1.1069798" pagecolor="#ffffff">
@@ -430,30 +430,32 @@
 <path id="path109" d="M0,16"/>
 <path id="path110" pointer-events="none" class="st11" d="M446.6,322.4h-20c-5,0-9-4.3-9-9.7l0,0c0-5.4,4-9.7,9-9.7h20
 	c5,0,9,4.3,9,9.7l0,0C455.6,318.1,451.6,322.4,446.6,322.4z"/>
-<polygon id="polygon110" class="st27" points="388.3,299.1 488.9,299.1 487.4,397 386.8,397 "/>
+<polygon id="polygon110" class="st26" points="388.3,299.1 488.9,299.1 487.4,397 386.8,397 "/>
 <rect id="rect110" x="392.7" y="353.8" class="st1" width="86.7" height="24.7"/>
-<text id="text110" transform="matrix(0.932 0 0 1 422.6504 356.2002)" class="st4 st28">Job n</text>
-<text id="text111" transform="matrix(0.932 0 0 1 415.3008 392.6001)" class="st4 st28">In Parallel</text>
+<text id="text110" transform="matrix(0.932 0 0 1 422.6504 356.2002)" class="st4 st27">Job n</text>
+<text id="text111" transform="matrix(0.932 0 0 1 415.3008 392.6001)" class="st4 st27">In Parallel</text>
 <polygon id="polygon111" class="st1" points="403.9,324.9 469.3,310.8 469.3,339.1 403.9,339.1 "/>
-<text id="text112" transform="matrix(0.932 0 0 1 422.9004 334.6377)" class="st4 st28">Job 1</text>
+<text id="text112" transform="matrix(0.932 0 0 1 422.9004 334.6377)" class="st4 st27">Job 1</text>
 <text id="text113" transform="matrix(0.932 0 0 1 426.5576 339.144)" class="st4 st5">......</text>
 <g id="g119">
 	<g id="g118">
 		<g id="g117">
 			<g id="g116">
 				<g>
-					<defs>
-						<rect id="SVGID_1_" x="-1185" y="-535.7" width="35" height="37.5"/>
-					</defs>
-					<clipPath id="SVGID_2_">
-						<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-					</clipPath>
-					<g id="g115" transform="translate(-395 -198)" class="st29">
-						<path id="path113" class="st30" d="M398,257.1h17.4l11.2,11.2v25.3H398V257.1z"/>
-						<path id="path114" class="st31" d="M395.5,275.4c0-1,0.8-1.8,1.8-1.8h30.2c1,0,1.8,0.8,1.8,1.8v7.4c0,1-0.8,1.8-1.8,1.8h-30.2
-							c-1,0-1.8-0.8-1.8-1.8V275.4z"/>
-						<text id="text114" transform="matrix(1 0 0 1 401.0742 281.5916)" class="st14 st4 st32">mzML</text>
-						<path id="path115" class="st31" d="M415.5,267.9v-10.7l11.1,10.7H415.5z"/>
+					<g>
+						<defs>
+							<rect id="SVGID_1_" x="-1580" y="-733.7" width="35" height="37.5"/>
+						</defs>
+						<clipPath id="SVGID_2_">
+							<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+						</clipPath>
+						<g id="g115" transform="translate(-395 -198)" class="st28">
+							<path id="path113" class="st29" d="M398,257.1h17.4l11.2,11.2v25.3H398V257.1z"/>
+							<path id="path114" class="st30" d="M395.5,275.4c0-1,0.8-1.8,1.8-1.8h30.2c1,0,1.8,0.8,1.8,1.8v7.4c0,1-0.8,1.8-1.8,1.8
+								h-30.2c-1,0-1.8-0.8-1.8-1.8V275.4z"/>
+							<text id="text114" transform="matrix(1 0 0 1 401.0742 281.5916)" class="st14 st4 st31">mzML</text>
+							<path id="path115" class="st30" d="M415.5,267.9v-10.7l11.1,10.7H415.5z"/>
+						</g>
 					</g>
 				</g>
 			</g>
@@ -465,18 +467,20 @@
 		<g id="g123">
 			<g id="g122">
 				<g>
-					<defs>
-						<rect id="SVGID_3_" x="-1185" y="-443.7" width="35" height="37.5"/>
-					</defs>
-					<clipPath id="SVGID_4_">
-						<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
-					</clipPath>
-					<g id="g121" transform="translate(-395 -198)" class="st33">
-						<path id="path119" class="st30" d="M398,349.2h17.4l11.2,11.2v25.3H398V349.2z"/>
-						<path id="path120" class="st31" d="M395.5,367.5c0-1,0.8-1.8,1.8-1.8h30.2c1,0,1.8,0.8,1.8,1.8v7.4c0,1-0.8,1.8-1.8,1.8h-30.2
-							c-1,0-1.8-0.8-1.8-1.8V367.5z"/>
-						<text id="text120" transform="matrix(1 0 0 1 405.7471 373.6404)" class="st14 st4 st32">raw</text>
-						<path id="path121" class="st31" d="M415.5,359.9v-10.7l11.1,10.7H415.5z"/>
+					<g>
+						<defs>
+							<rect id="SVGID_3_" x="-1580" y="-641.7" width="35" height="37.5"/>
+						</defs>
+						<clipPath id="SVGID_4_">
+							<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+						</clipPath>
+						<g id="g121" transform="translate(-395 -198)" class="st32">
+							<path id="path119" class="st29" d="M398,349.2h17.4l11.2,11.2v25.3H398V349.2z"/>
+							<path id="path120" class="st30" d="M395.5,367.5c0-1,0.8-1.8,1.8-1.8h30.2c1,0,1.8,0.8,1.8,1.8v7.4c0,1-0.8,1.8-1.8,1.8
+								h-30.2c-1,0-1.8-0.8-1.8-1.8V367.5z"/>
+							<text id="text120" transform="matrix(1 0 0 1 405.7471 373.6404)" class="st14 st4 st31">raw</text>
+							<path id="path121" class="st30" d="M415.5,359.9v-10.7l11.1,10.7H415.5z"/>
+						</g>
 					</g>
 				</g>
 			</g>
@@ -488,18 +492,20 @@
 		<g id="g129">
 			<g id="g128">
 				<g>
-					<defs>
-						<rect id="SVGID_5_" x="-1185" y="-306.8" width="35" height="37.5"/>
-					</defs>
-					<clipPath id="SVGID_6_">
-						<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
-					</clipPath>
-					<g id="g127" transform="translate(-395 -198)" class="st34">
-						<path id="path125" class="st30" d="M398,486.1h17.4l11.2,11.2v25.3H398V486.1z"/>
-						<path id="path126" class="st31" d="M395.5,504.4c0-1,0.8-1.8,1.8-1.8h30.2c1,0,1.8,0.8,1.8,1.8v7.4c0,1-0.8,1.8-1.8,1.8h-30.2
-							c-1,0-1.8-0.8-1.8-1.8V504.4z"/>
-						<text id="text126" transform="matrix(1 0 0 1 403.6936 510.5903)" class="st14 st4 st32">fasta</text>
-						<path id="path127" class="st31" d="M415.5,496.9v-10.7l11.1,10.7H415.5z"/>
+					<g>
+						<defs>
+							<rect id="SVGID_5_" x="-1580" y="-504.8" width="35" height="37.5"/>
+						</defs>
+						<clipPath id="SVGID_6_">
+							<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
+						</clipPath>
+						<g id="g127" transform="translate(-395 -198)" class="st33">
+							<path id="path125" class="st29" d="M398,486.1h17.4l11.2,11.2v25.3H398V486.1z"/>
+							<path id="path126" class="st30" d="M395.5,504.4c0-1,0.8-1.8,1.8-1.8h30.2c1,0,1.8,0.8,1.8,1.8v7.4c0,1-0.8,1.8-1.8,1.8
+								h-30.2c-1,0-1.8-0.8-1.8-1.8V504.4z"/>
+							<text id="text126" transform="matrix(1 0 0 1 403.6936 510.5903)" class="st14 st4 st31">fasta</text>
+							<path id="path127" class="st30" d="M415.5,496.9v-10.7l11.1,10.7H415.5z"/>
+						</g>
 					</g>
 				</g>
 			</g>
@@ -511,18 +517,20 @@
 		<g id="g135">
 			<g id="g134">
 				<g>
-					<defs>
-						<rect id="SVGID_7_" x="63.4" y="-531" width="25" height="26.8"/>
-					</defs>
-					<clipPath id="SVGID_8_">
-						<use xlink:href="#SVGID_7_"  style="overflow:visible;"/>
-					</clipPath>
-					<g id="g133" transform="translate(-395 -198)" class="st35">
-						<path id="path131" class="st30" d="M1645.6,261.6h12.4l8,8v18h-20.4V261.6z"/>
-						<path id="path132" class="st31" d="M1643.8,274.7c0-0.7,0.6-1.3,1.3-1.3h21.6c0.7,0,1.3,0.6,1.3,1.3v5.3
-							c0,0.7-0.6,1.3-1.3,1.3h-21.6c-0.7,0-1.3-0.6-1.3-1.3V274.7z"/>
-						<text id="text132" transform="matrix(1 0 0 1 1652.1426 279.1031)" class="st14 st4 st36">tsv</text>
-						<path id="path133" class="st31" d="M1658.1,269.3v-7.7l7.9,7.7H1658.1z"/>
+					<g>
+						<defs>
+							<rect id="SVGID_7_" x="-331.6" y="-729" width="25" height="26.8"/>
+						</defs>
+						<clipPath id="SVGID_8_">
+							<use xlink:href="#SVGID_7_"  style="overflow:visible;"/>
+						</clipPath>
+						<g id="g133" transform="translate(-395 -198)" class="st34">
+							<path id="path131" class="st29" d="M1645.6,261.6h12.4l8,8v18h-20.4V261.6z"/>
+							<path id="path132" class="st30" d="M1643.8,274.7c0-0.7,0.6-1.3,1.3-1.3h21.6c0.7,0,1.3,0.6,1.3,1.3v5.3
+								c0,0.7-0.6,1.3-1.3,1.3h-21.6c-0.7,0-1.3-0.6-1.3-1.3V274.7z"/>
+							<text id="text132" transform="matrix(1 0 0 1 1652.1426 279.1031)" class="st14 st4 st35">tsv</text>
+							<path id="path133" class="st30" d="M1658.1,269.3v-7.7l7.9,7.7H1658.1z"/>
+						</g>
 					</g>
 				</g>
 			</g>
@@ -534,18 +542,20 @@
 		<g id="g141">
 			<g id="g140">
 				<g>
-					<defs>
-						<rect id="SVGID_9_" x="66.4" y="-468.9" width="25" height="28.2"/>
-					</defs>
-					<clipPath id="SVGID_10_">
-						<use xlink:href="#SVGID_9_"  style="overflow:visible;"/>
-					</clipPath>
-					<g id="g139" transform="translate(-394 -198)" class="st37">
-						<path id="path137" class="st30" d="M1644.8,338.2h12.2l7.8,8.4v19h-20V338.2z"/>
-						<path id="path138" class="st31" d="M1643,351.9c0-0.8,0.6-1.4,1.3-1.4h21.2c0.7,0,1.3,0.6,1.3,1.4v5.6c0,0.8-0.6,1.4-1.3,1.4
-							h-21.2c-0.7,0-1.3-0.6-1.3-1.4V351.9z"/>
-						<text id="text138" transform="matrix(0.932 0 0 1 1646.1143 356.5903)" class="st14 st4 st38">mzTab</text>
-						<path id="path139" class="st31" d="M1657,352.5V345l7.8,7.5H1657z"/>
+					<g>
+						<defs>
+							<rect id="SVGID_9_" x="-327.6" y="-666.9" width="25" height="28.2"/>
+						</defs>
+						<clipPath id="SVGID_10_">
+							<use xlink:href="#SVGID_9_"  style="overflow:visible;"/>
+						</clipPath>
+						<g id="g139" transform="translate(-394 -198)" class="st36">
+							<path id="path137" class="st29" d="M1644.8,338.2h12.2l7.8,8.4v19h-20V338.2z"/>
+							<path id="path138" class="st30" d="M1643,351.9c0-0.8,0.6-1.4,1.3-1.4h21.2c0.7,0,1.3,0.6,1.3,1.4v5.6c0,0.8-0.6,1.4-1.3,1.4
+								h-21.2c-0.7,0-1.3-0.6-1.3-1.4V351.9z"/>
+							<text id="text138" transform="matrix(0.932 0 0 1 1646.1143 356.5903)" class="st14 st4 st37">mzTab</text>
+							<path id="path139" class="st30" d="M1657,352.5V345l7.8,7.5H1657z"/>
+						</g>
 					</g>
 				</g>
 			</g>
@@ -557,18 +567,20 @@
 		<g id="g147">
 			<g id="g146">
 				<g>
-					<defs>
-						<rect id="SVGID_11_" x="63.4" y="-370.2" width="25" height="28.8"/>
-					</defs>
-					<clipPath id="SVGID_12_">
-						<use xlink:href="#SVGID_11_"  style="overflow:visible;"/>
-					</clipPath>
-					<g id="g145" transform="translate(-395 -198)" class="st39">
-						<path id="path143" class="st30" d="M1645.6,436.9h12.4l8,8.6v19.3h-20.4V436.9z"/>
-						<path id="path144" class="st31" d="M1643.8,451c0-0.8,0.6-1.4,1.3-1.4h21.6c0.7,0,1.3,0.6,1.3,1.4v5.7c0,0.8-0.6,1.4-1.3,1.4
-							h-21.6c-0.7,0-1.3-0.6-1.3-1.4V451z"/>
-						<text id="text144" transform="matrix(0.932 0 0 1 1652.1426 455.7271)" class="st14 st4 st40">tsv</text>
-						<path id="path145" class="st31" d="M1658.1,444.7V437l7.9,7.7H1658.1z"/>
+					<g>
+						<defs>
+							<rect id="SVGID_11_" x="-331.6" y="-568.2" width="25" height="28.8"/>
+						</defs>
+						<clipPath id="SVGID_12_">
+							<use xlink:href="#SVGID_11_"  style="overflow:visible;"/>
+						</clipPath>
+						<g id="g145" transform="translate(-395 -198)" class="st38">
+							<path id="path143" class="st29" d="M1645.6,436.9h12.4l8,8.6v19.3h-20.4V436.9z"/>
+							<path id="path144" class="st30" d="M1643.8,451c0-0.8,0.6-1.4,1.3-1.4h21.6c0.7,0,1.3,0.6,1.3,1.4v5.7c0,0.8-0.6,1.4-1.3,1.4
+								h-21.6c-0.7,0-1.3-0.6-1.3-1.4V451z"/>
+							<text id="text144" transform="matrix(0.932 0 0 1 1652.1426 455.7271)" class="st14 st4 st39">tsv</text>
+							<path id="path145" class="st30" d="M1658.1,444.7V437l7.9,7.7H1658.1z"/>
+						</g>
 					</g>
 				</g>
 			</g>
@@ -577,13 +589,13 @@
 </g>
 <path id="path149" pointer-events="none" class="st11" d="M733.5,379.7h-41.8c-5,0-9-4.3-9-9.7l0,0c0-5.4,4-9.7,9-9.7h41.8
 	c5,0,9,4.3,9,9.7l0,0C742.5,375.4,738.5,379.7,733.5,379.7z"/>
-<rect id="rect149" x="646.2" y="294.6" class="st27" width="140.5" height="102.4"/>
+<rect id="rect149" x="646.2" y="294.6" class="st26" width="140.5" height="102.4"/>
 <path id="path150" pointer-events="none" class="st11" d="M731.2,320.5h-41.8c-5,0-9-4.3-9-9.7l0,0c0-5.4,4-9.7,9-9.7h41.8
 	c5,0,9,4.3,9,9.7l0,0C740.2,316.2,736.2,320.5,731.2,320.5z"/>
-<text id="text150" transform="matrix(0.932 0 0 1 700 331.6338)" class="st4 st28">Job 1</text>
+<text id="text150" transform="matrix(0.932 0 0 1 700 331.6338)" class="st4 st27">Job 1</text>
 <text id="text151" transform="matrix(0.932 0 0 1 700.7998 339.1445)" class="st4 st5">......</text>
-<text id="text152" transform="matrix(0.932 0 0 1 699.1504 356.2002)" class="st4 st28">Job n</text>
-<text id="text153" transform="matrix(0.932 0 0 1 665.4004 392.6006)" class="st4 st28">        In Parallel</text>
+<text id="text152" transform="matrix(0.932 0 0 1 699.1504 356.2002)" class="st4 st27">Job n</text>
+<text id="text153" transform="matrix(0.932 0 0 1 665.4004 392.6006)" class="st4 st27">        In Parallel</text>
 <path id="path153" pointer-events="none" class="st11" d="M223.5,568.9L223.5,568.9c-5,0-9-4.3-9-9.7l0,0c0-5.4,4-9.7,9-9.7l0,0
 	c5,0,9,4.3,9,9.7l0,0C232.5,564.6,228.5,568.9,223.5,568.9z"/>
 <path id="path154" pointer-events="stroke" class="st6" d="M452.8,128.3"/>
@@ -600,7 +612,7 @@
 <path id="path164" class="st2" d="M406.7,120.8c7.8-9.3,13.7-15.5,26.3-32.4"/>
 <path id="path165" pointer-events="stroke" class="st6" d="M353.9,149c6.7,0.1,36.9-13.1,58.1-17.9l34.1-0.3"/>
 <g id="g166" transform="translate(-0.5 -0.5)">
-	<text id="text165" transform="matrix(0.932 0 0 1 405.4688 119.2568)" class="st4 st5 st41"> </text>
+	<text id="text165" transform="matrix(0.932 0 0 1 405.4688 119.2568)" class="st4 st5 st40"> </text>
 	<text id="text166" transform="matrix(0.932 0 0 1 441.4434 119.2568)" class="st4 st5">Sage</text>
 </g>
 <path id="path166" pointer-events="stroke" class="st6" d="M550.1,151.6c-6.7,0.1-28.3-19.1-93.2-19.1"/>
@@ -619,7 +631,7 @@
 <text id="text176" transform="matrix(0.932 0 0 1 256.8667 342.0303)" class="st4 st5">speclib</text>
 <text id="text177" transform="matrix(0.932 0 0 1 262.8667 359.3335)" class="st4 st5">skip</text>
 <g id="g75512" transform="matrix(1,0,0,0.99644072,47.999999,-25.455682)">
-
+	
 		<g id="g7296" transform="matrix(0.830789,0,0,0.83257119,1086.8209,1004.1008)" inkscape:export-filename="g6237.png" inkscape:export-xdpi="89" inkscape:export-ydpi="89">
 		<g id="g11000-0" transform="matrix(0.8,0,0,0.8,14.51977,252.76794)">
 			<path id="path11002-7" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
@@ -627,12 +639,12 @@
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1671.1-1545.4-1672.4-1546.9-1673.9-1546.9L-1673.9-1546.9z M-1708.6-1565.6h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1708.6-1565.6L-1708.6-1565.6z M-1677-1512.1h-31.6v-11.1h31.6V-1512.1L-1677-1512.1z"/>
+				V-1565.6L-1708.6-1565.6z M-1677-1512.1h-31.6v-11.1h31.6V-1512.1L-1677-1512.1z"/>
 			<g id="flowRoot11004-8" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 			</g>
 			<path id="path11012-4" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="M-1708.6-1565.6
-				h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1708.6-1565.6L-1708.6-1565.6z M-1677-1512.1h-31.6v-11.1h31.6V-1512.1
-				L-1677-1512.1z"/>
+				h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1565.6L-1708.6-1565.6z M-1677-1512.1h-31.6v-11.1h31.6V-1512.1L-1677-1512.1z"
+				/>
 		</g>
 		<g id="g11014-3" transform="matrix(0.8,0,0,0.8,8.54653,246.7946)">
 			<g id="g11016-1">
@@ -641,11 +653,11 @@
 					c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 					c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 					C-1667.2-1533.7-1668.4-1535.2-1669.9-1535.2L-1669.9-1535.2z M-1704.6-1553.9h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-					L-1704.6-1553.9z M-1673-1500.4h-31.6v-11.1h31.6V-1500.4L-1673-1500.4z"/>
+					V-1553.9z M-1673-1500.4h-31.6v-11.1h31.6V-1500.4L-1673-1500.4z"/>
 				<g id="flowRoot11020-9" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 				</g>
 				<path id="path11028-8" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="M-1704.6-1553.9
-					h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1704.6-1553.9z M-1673-1500.4h-31.6v-11.1h31.6V-1500.4L-1673-1500.4z"/>
+					h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1553.9z M-1673-1500.4h-31.6v-11.1h31.6V-1500.4L-1673-1500.4z"/>
 			</g>
 		</g>
 		<g id="g10986-9" transform="matrix(0.8,0,0,0.8,2.57329,240.82126)">
@@ -654,155 +666,154 @@
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1663.2-1522.1-1664.5-1523.6-1665.9-1523.6L-1665.9-1523.6z M-1700.6-1542.2h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1700.6-1542.2L-1700.6-1542.2z M-1669-1488.7h-31.6v-11.1h31.6V-1488.7L-1669-1488.7z"/>
+				V-1542.2L-1700.6-1542.2z M-1669-1488.7h-31.6v-11.1h31.6V-1488.7L-1669-1488.7z"/>
 			<path id="path10998-5" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="M-1700.6-1542.2
-				h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1700.6-1542.2z M-1669-1488.7h-31.6v-11.1h31.6V-1488.7L-1669-1488.7z"/>
+				h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1542.2z M-1669-1488.7h-31.6v-11.1h31.6V-1488.7L-1669-1488.7z"/>
 		</g>
 	</g>
-	<text transform="matrix(0.8342 0 0 1.0036 -41.2588 201.1769)" class="st14 st16 st42">raw</text>
+	<text transform="matrix(0.8342 0 0 1.0036 -41.2588 201.1767)" class="st14 st16 st41">raw</text>
 </g>
 <g id="g75512_1_" transform="matrix(1,0,0,0.99644072,47.999999,-25.455682)">
-
+	
 		<g id="g7296_1_" transform="matrix(0.830789,0,0,0.83257119,1086.8209,1004.1008)" inkscape:export-filename="g6237.png" inkscape:export-xdpi="89" inkscape:export-ydpi="89">
 		<g id="g11000-0_1_" transform="matrix(0.8,0,0,0.8,14.51977,252.76794)">
-
+			
 				<path id="path11002-7_1_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 				M-1673.9-1699.5h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1671.1-1698-1672.4-1699.5-1673.9-1699.5L-1673.9-1699.5z M-1708.6-1718.2h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1708.6-1718.2L-1708.6-1718.2z M-1677-1664.7h-31.6v-11.1h31.6V-1664.7L-1677-1664.7z"/>
+				V-1718.2L-1708.6-1718.2z M-1677-1664.7h-31.6v-11.1h31.6V-1664.7L-1677-1664.7z"/>
 			<g id="flowRoot11004-8_1_" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 			</g>
 			<path id="path11012-4_1_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="
-				M-1708.6-1718.2h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1708.6-1718.2L-1708.6-1718.2z M-1677-1664.7h-31.6v-11.1h31.6
-				V-1664.7L-1677-1664.7z"/>
+				M-1708.6-1718.2h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1718.2L-1708.6-1718.2z M-1677-1664.7h-31.6v-11.1h31.6V-1664.7
+				L-1677-1664.7z"/>
 		</g>
 		<g id="g11014-3_1_" transform="matrix(0.8,0,0,0.8,8.54653,246.7946)">
 			<g id="g11016-1_1_">
-
+				
 					<path id="path11018-4_1_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 					M-1669.9-1687.9h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 					c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 					c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 					C-1667.2-1686.4-1668.4-1687.9-1669.9-1687.9L-1669.9-1687.9z M-1704.6-1706.5h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-					L-1704.6-1706.5z M-1673-1653h-31.6v-11.1h31.6V-1653L-1673-1653z"/>
+					V-1706.5z M-1673-1653h-31.6v-11.1h31.6V-1653L-1673-1653z"/>
 				<g id="flowRoot11020-9_1_" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 				</g>
 				<path id="path11028-8_1_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="
-					M-1704.6-1706.5h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1704.6-1706.5z M-1673-1653h-31.6v-11.1h31.6V-1653L-1673-1653
-					z"/>
+					M-1704.6-1706.5h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1706.5z M-1673-1653h-31.6v-11.1h31.6V-1653L-1673-1653z"/>
 			</g>
 		</g>
 		<g id="g10986-9_1_" transform="matrix(0.8,0,0,0.8,2.57329,240.82126)">
-
+			
 				<path id="path10988-2_1_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 				M-1665.9-1676.2h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1663.2-1674.7-1664.5-1676.2-1665.9-1676.2L-1665.9-1676.2z M-1700.6-1694.9h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1700.6-1694.9L-1700.6-1694.9z M-1669-1641.3h-31.6v-11.1h31.6V-1641.3L-1669-1641.3z"/>
+				V-1694.9L-1700.6-1694.9z M-1669-1641.3h-31.6v-11.1h31.6V-1641.3L-1669-1641.3z"/>
 			<path id="path10998-5_1_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="
-				M-1700.6-1694.9h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1700.6-1694.9z M-1669-1641.3h-31.6v-11.1h31.6V-1641.3
-				L-1669-1641.3z"/>
+				M-1700.6-1694.9h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1694.9z M-1669-1641.3h-31.6v-11.1h31.6V-1641.3L-1669-1641.3z"
+				/>
 		</g>
 	</g>
-	<text transform="matrix(0.8342 0 0 1.0036 -41.2588 99.5151)" class="st14 st16 st42">mzML</text>
+	<text transform="matrix(0.8342 0 0 1.0036 -41.2588 99.5152)" class="st14 st16 st41">mzML</text>
 </g>
 <g id="g75512_2_" transform="matrix(1,0,0,0.99644072,47.999999,-25.455682)">
-
+	
 		<g id="g7296_2_" transform="matrix(0.830789,0,0,0.83257119,1086.8209,1004.1008)" inkscape:export-filename="g6237.png" inkscape:export-xdpi="89" inkscape:export-ydpi="89">
 		<g id="g11000-0_2_" transform="matrix(0.8,0,0,0.8,14.51977,252.76794)">
-
+			
 				<path id="path11002-7_2_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 				M-1670.5-1327.9h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1667.8-1326.5-1669-1327.9-1670.5-1327.9L-1670.5-1327.9z M-1705.2-1346.6h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1705.2-1346.6L-1705.2-1346.6z M-1673.6-1293.1h-31.6v-11.1h31.6V-1293.1L-1673.6-1293.1z"/>
+				V-1346.6L-1705.2-1346.6z M-1673.6-1293.1h-31.6v-11.1h31.6V-1293.1L-1673.6-1293.1z"/>
 			<g id="flowRoot11004-8_2_" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 			</g>
 			<path id="path11012-4_2_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="
-				M-1705.2-1346.6h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1705.2-1346.6L-1705.2-1346.6z M-1673.6-1293.1h-31.6v-11.1
-				h31.6V-1293.1L-1673.6-1293.1z"/>
+				M-1705.2-1346.6h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1346.6L-1705.2-1346.6z M-1673.6-1293.1h-31.6v-11.1h31.6
+				V-1293.1L-1673.6-1293.1z"/>
 		</g>
 		<g id="g11014-3_2_" transform="matrix(0.8,0,0,0.8,8.54653,246.7946)">
 			<g id="g11016-1_2_">
-
+				
 					<path id="path11018-4_2_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 					M-1666.5-1316.3h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 					c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 					c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
-					C-1663.8-1314.8-1665-1316.3-1666.5-1316.3L-1666.5-1316.3z M-1701.3-1335h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-					L-1701.3-1335z M-1669.6-1281.5h-31.6v-11.1h31.6V-1281.5L-1669.6-1281.5z"/>
+					C-1663.8-1314.8-1665-1316.3-1666.5-1316.3L-1666.5-1316.3z M-1701.3-1335h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1335
+					z M-1669.6-1281.5h-31.6v-11.1h31.6V-1281.5L-1669.6-1281.5z"/>
 				<g id="flowRoot11020-9_2_" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 				</g>
 				<path id="path11028-8_2_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="M-1701.3-1335
-					h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1701.3-1335z M-1669.6-1281.5h-31.6v-11.1h31.6V-1281.5L-1669.6-1281.5z"/>
+					h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1335z M-1669.6-1281.5h-31.6v-11.1h31.6V-1281.5L-1669.6-1281.5z"/>
 			</g>
 		</g>
 		<g id="g10986-9_2_" transform="matrix(0.8,0,0,0.8,2.57329,240.82126)">
-
+			
 				<path id="path10988-2_2_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 				M-1662.6-1304.6h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1659.9-1303.2-1661.1-1304.6-1662.6-1304.6L-1662.6-1304.6z M-1697.3-1323.3h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1697.3-1323.3L-1697.3-1323.3z M-1665.6-1269.7h-31.6v-11.1h31.6V-1269.7L-1665.6-1269.7z"/>
+				V-1323.3L-1697.3-1323.3z M-1665.6-1269.7h-31.6v-11.1h31.6V-1269.7L-1665.6-1269.7z"/>
 			<path id="path10998-5_2_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="
-				M-1697.3-1323.3h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1697.3-1323.3z M-1665.6-1269.7h-31.6v-11.1h31.6V-1269.7
+				M-1697.3-1323.3h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1323.3z M-1665.6-1269.7h-31.6v-11.1h31.6V-1269.7
 				L-1665.6-1269.7z"/>
 		</g>
 	</g>
-	<text transform="matrix(0.8342 0 0 1.0036 -39.022 346.9959)" class="st14 st16 st42">fasta</text>
+	<text transform="matrix(0.8342 0 0 1.0036 -39.022 346.9957)" class="st14 st16 st41">fasta</text>
 </g>
 <g id="g75512_3_" transform="matrix(1,0,0,0.99644072,47.999999,-25.455682)">
-
+	
 		<g id="g7296_3_" transform="matrix(0.830789,0,0,0.83257119,1086.8209,1004.1008)" inkscape:export-filename="g6237.png" inkscape:export-xdpi="89" inkscape:export-ydpi="89">
 		<g id="g11000-0_3_" transform="matrix(0.8,0,0,0.8,14.51977,252.76794)">
-
+			
 				<path id="path11002-7_3_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 				M-1673.9-1443.7h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1671.1-1442.2-1672.4-1443.7-1673.9-1443.7L-1673.9-1443.7z M-1708.6-1462.3h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1708.6-1462.3L-1708.6-1462.3z M-1677-1408.8h-31.6v-11.1h31.6V-1408.8L-1677-1408.8z"/>
+				V-1462.3L-1708.6-1462.3z M-1677-1408.8h-31.6v-11.1h31.6V-1408.8L-1677-1408.8z"/>
 			<g id="flowRoot11004-8_3_" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 			</g>
 			<path id="path11012-4_3_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="
-				M-1708.6-1462.3h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1708.6-1462.3L-1708.6-1462.3z M-1677-1408.8h-31.6v-11.1h31.6
-				V-1408.8L-1677-1408.8z"/>
+				M-1708.6-1462.3h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1462.3L-1708.6-1462.3z M-1677-1408.8h-31.6v-11.1h31.6V-1408.8
+				L-1677-1408.8z"/>
 		</g>
 		<g id="g11014-3_3_" transform="matrix(0.8,0,0,0.8,8.54653,246.7946)">
 			<g id="g11016-1_3_">
-
+				
 					<path id="path11018-4_3_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 					M-1669.9-1432h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 					c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 					c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
-					C-1667.2-1430.5-1668.4-1432-1669.9-1432L-1669.9-1432z M-1704.6-1450.7h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-					L-1704.6-1450.7z M-1673-1397.2h-31.6v-11.1h31.6V-1397.2L-1673-1397.2z"/>
+					C-1667.2-1430.5-1668.4-1432-1669.9-1432L-1669.9-1432z M-1704.6-1450.7h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1450.7
+					z M-1673-1397.2h-31.6v-11.1h31.6V-1397.2L-1673-1397.2z"/>
 				<g id="flowRoot11020-9_3_" transform="matrix(1,0,0,-1,257.80291,3175.6791)">
 				</g>
 				<path id="path11028-8_3_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="
-					M-1704.6-1450.7h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1704.6-1450.7z M-1673-1397.2h-31.6v-11.1h31.6V-1397.2
-					L-1673-1397.2z"/>
+					M-1704.6-1450.7h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1450.7z M-1673-1397.2h-31.6v-11.1h31.6V-1397.2L-1673-1397.2z
+					"/>
 			</g>
 		</g>
 		<g id="g10986-9_3_" transform="matrix(0.8,0,0,0.8,2.57329,240.82126)">
-
+			
 				<path id="path10988-2_3_" inkscape:connector-curvature="0" sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc" d="
 				M-1665.9-1420.4h-1.2v-6.8c0-0.1,0-0.1,0-0.1c0-0.3-0.1-0.6-0.2-0.8l-9.4-12.9l0,0c-0.1-0.1-0.1-0.1-0.2-0.2c0,0-0.1,0-0.1-0.1
 				c-0.1-0.1-0.1-0.1-0.2-0.1h-0.1c-0.1,0-0.1,0-0.2,0h-23.2c-1.1,0-1.9,1.1-1.9,2.3v18.7h-1.2c-1.5,0-2.7,1.5-2.7,3.3v17.1
 				c0,1.8,1.2,3.3,2.7,3.3h1.2v11.7c0,1.3,0.9,2.3,1.9,2.3h31.6c1.1,0,1.9-1.1,1.9-2.3v-11.7h1.2c1.5,0,2.7-1.5,2.7-3.3v-17.1
 				C-1663.2-1418.9-1664.5-1420.4-1665.9-1420.4L-1665.9-1420.4z M-1700.6-1439h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6
-				L-1700.6-1439L-1700.6-1439z M-1669-1385.5h-31.6v-11.1h31.6V-1385.5L-1669-1385.5z"/>
+				V-1439L-1700.6-1439z M-1669-1385.5h-31.6v-11.1h31.6V-1385.5L-1669-1385.5z"/>
 			<path id="path10998-5_3_" inkscape:connector-curvature="0" sodipodi:nodetypes="ccsscccccccccc" class="st14" d="M-1700.6-1439
-				h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6L-1700.6-1439z M-1669-1385.5h-31.6v-11.1h31.6V-1385.5L-1669-1385.5z"/>
+				h22.2v11.8c0,0.6,0.4,1.1,0.9,1.1h8.5v5.8h-31.6V-1439z M-1669-1385.5h-31.6v-11.1h31.6V-1385.5L-1669-1385.5z"/>
 		</g>
 	</g>
-	<text transform="matrix(0.8342 0 0 1.0036 -41.2588 269.9216)" class="st14 st16 st42">.d</text>
+	<text transform="matrix(0.8342 0 0 1.0036 -41.2588 269.9214)" class="st14 st16 st41">.d</text>
 </g>
 <path class="st15" d="M6.7,12.7"/>
-<path class="st15" d="M203.8,245.2l625.5-3.2c0,0,0,0,2-234H2.8l0,253.6c-0.2,83-0.2,83-0.2,83l204.2-2.6v-94"/>
+<path class="st15" d="M203.8,245.2l625.5-3.2c0,0,0,0,2-234H2.8v253.6c-0.2,83-0.2,83-0.2,83l204.2-2.6v-94"/>
 </svg>

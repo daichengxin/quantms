@@ -34,7 +34,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 1. RAW file conversion to mzML ([`thermorawfileparser`](https://github.com/compomics/ThermoRawFileParser))
 2. Peptide identification using [`comet`](https://uwpr.github.io/Comet/) and/or [`msgf+`](https://github.com/MSGFPlus/msgfplus)
-3. (Optional) Add extra PSM features using [`ms2rescore`](https://github.com/compomics/ms2rescore)
+3. (Optional) Add extra PSM features using [`quantms-rescoring`](https://github.com/bigbio/quantms-rescoring)
 4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
 5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
 6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
@@ -47,7 +47,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 1. RAW file conversion to mzML ([`thermorawfileparser`](https://github.com/compomics/ThermoRawFileParser))
 2. Peptide identification using [`comet`](https://uwpr.github.io/Comet/) and/or [`msgf+`](https://github.com/MSGFPlus/msgfplus)
-3. (Optional) Add extra PSM features using [`ms2rescore`](https://github.com/compomics/ms2rescore)
+3. (Optional) Add extra PSM features using [`quantms-rescoring`](https://github.com/bigbio/quantms-rescoring)
 4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
 5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
 6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
