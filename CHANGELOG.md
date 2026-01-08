@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.7.0] bigbio/quantms - [08/01/2026] - [Guangzhou]
+## [1.7.0] bigbio/quantms - [08/01/2026] - [Caracas]
 
 ### `Added`
 
@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Changed`
 
-- [627](https://github.com/bigbio/quantms/pull/627) Move thermorawfileparser from local to bigbio nf-core
+- [627](https://github.com/bigbio/quantms/pull/627) Move thermorawfileparser and onsite modules from local to bigbio/nf-modules
 - [629](https://github.com/bigbio/quantms/pull/629) Update quantms-rescoring to 0.0.13 to support transfer learning
 - [615](https://github.com/bigbio/quantms/pull/615) Update quantms-utils 0.0.24 and pmultiqc 0.0.39
 - [614](https://github.com/bigbio/quantms/pull/614) enable_diann_mztab from true to false as default. For DIA pipelines the mzTab will not be generated unless specified by a parameter `--enable_diann_mztab true`.
