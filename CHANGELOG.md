@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Deprecations`
 
-- [626](https://github.com/bigbio/quantms/pull/626) Removed luciphor-specific parameters: `luciphor_neutral_losses`, `luciphor_decoy_mass`, `luciphor_decoy_neutral_losses`. These have been replaced with onsite parameters: `onsite_neutral_losses`, `onsite_decoy_mass`, `onsite_decoy_neutral_losses`. The new onsite module provides support for multiple PTM localization algorithms (AScore, PhosphoRS, and LucXor) with unified parameter naming.
+- [626](https://github.com/bigbio/quantms/pull/626) Removed luciphor-specific parameters: `luciphor_neutral_losses`, `luciphor_decoy_mass`, `luciphor_decoy_neutral_losses`. These have been replaced with onsite parameters: `onsite_neutral_losses`, `onsite_decoy_mass`, `onsite_decoy_neutral_losses`. The new onsite module provides support for multiple PTM localization algorithms (AScore, PhosphoRS, and LucXor) with unified parameter naming. See the [Migration Guide](docs/usage.md#migrating-from-luciphor_-to-onsite_-parameters-version-170) in the documentation for a complete parameter mapping table and migration instructions.
 
 ## [1.6.0] bigbio/quantms - [13/08/2025] - Munich
 
