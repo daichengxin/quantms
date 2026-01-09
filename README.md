@@ -6,7 +6,8 @@
 [![Cite with Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.15573386.svg)](https://doi.org/10.5281/zenodo.15573386)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.10.5-23aa62.svg)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.4.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.4.1)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/quantms)
@@ -33,10 +34,10 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 1. RAW file conversion to mzML ([`thermorawfileparser`](https://github.com/compomics/ThermoRawFileParser))
 2. Peptide identification using [`comet`](https://uwpr.github.io/Comet/) and/or [`msgf+`](https://github.com/MSGFPlus/msgfplus)
-3. (Optional) Add extra PSM features using [`ms2rescore`](https://github.com/compomics/ms2rescore)
+3. (Optional) Add extra PSM features using [`quantms-rescoring`](https://github.com/bigbio/quantms-rescoring)
 4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
 5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
-6. Modification localization [`luciphor`](https://github.com/dfermin/lucXor)
+6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
 7. Quantification: Feature detection [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteomicsLFQ.html)
 8. Protein inference and quantification [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteomicsLFQ.html)
 9. QC report generation [`pmultiqc`](https://github.com/bigbio/pmultiqc)
@@ -46,10 +47,10 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 1. RAW file conversion to mzML ([`thermorawfileparser`](https://github.com/compomics/ThermoRawFileParser))
 2. Peptide identification using [`comet`](https://uwpr.github.io/Comet/) and/or [`msgf+`](https://github.com/MSGFPlus/msgfplus)
-3. (Optional) Add extra PSM features using [`ms2rescore`](https://github.com/compomics/ms2rescore)
+3. (Optional) Add extra PSM features using [`quantms-rescoring`](https://github.com/bigbio/quantms-rescoring)
 4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
 5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
-6. Modification localization [`luciphor`](https://github.com/dfermin/lucXor)
+6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
 7. Extracts and normalizes isobaric labeling [`IsobaricAnalyzer`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_IsobaricAnalyzer.html)
 8. Protein inference [`ProteinInference`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinInference.html) or [`Epifany`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_Epifany.html) for bayesian inference.
 9. Protein Quantification [`ProteinQuantifier`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinQuantifier.html)
@@ -77,6 +78,22 @@ A graphical overview of suggested routes through the pipeline depending on conte
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
+### Supported file formats
+
+The pipeline supports the following mass spectrometry data file formats:
+
+- **`.raw`** - Thermo RAW files (automatically converted to mzML)
+- **`.mzML`** - Open standard mzML files
+- **`.d`** - Bruker timsTOF files (optionally converted to mzML when `--convert_dotd` is set)
+- **`.dia`** - DIA-NN native binary format (passed through without conversion)
+
+Compressed variants are supported for `.raw`, `.mzML`, and `.d` formats:
+
+- `.gz` (gzip compressed)
+- `.tar` (tar archive)
+- `.tar.gz` or `.tgz` (tar gzip compressed)
+- `.zip` (zip compressed)
+
 First, find or create a sample-to-data relationship file ([SDRF](https://github.com/bigbio/proteomics-sample-metadata)).
 Have a look at public datasets that were already annotated [here](https://github.com/bigbio/proteomics-sample-metadata/tree/master/annotated-projects).
 Those SDRFs should be ready for one-command re-analysis and you can just use the URL to the file on GitHub,
@@ -86,8 +103,6 @@ If you create your own, please adhere to the specifications and point the pipeli
 The second requirement is a protein sequence database. We suggest downloading a database for the organism(s)/proteins of interest from [Uniprot](https://www.uniprot.org/proteomes?query=*).
 
 Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
 nextflow run bigbio/quantms \

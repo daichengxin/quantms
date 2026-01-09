@@ -19,7 +19,23 @@ where the experimental design file has to be one of:
 - [Sample-to-data-relationship format](https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.0c00376) (.sdrf.tsv)
 - [OpenMS experimental design format](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1ExperimentalDesign.html#details) (.tsv)
 
-In the respective "comment[file uri]" or "Spectra_Filepath" columns, the raw or mzML files with the mass spectra to be staged have to be listed. URIs are possible,
+### Supported file formats
+
+The pipeline supports the following mass spectrometry data file formats:
+
+- **`.raw`** - Thermo RAW files (automatically converted to mzML)
+- **`.mzML`** - Open standard mzML files
+- **`.d`** - Bruker timsTOF files (optionally converted to mzML when `--convert_dotd` is set)
+- **`.dia`** - DIA-NN native binary format (passed through without conversion)
+
+Compressed variants are supported for `.raw`, `.mzML`, and `.d` formats:
+
+- `.gz` (gzip compressed)
+- `.tar` (tar archive)
+- `.tar.gz` or `.tgz` (tar gzip compressed)
+- `.zip` (zip compressed)
+
+In the respective "comment[file uri]" or "Spectra_Filepath" columns, the mass spectra files to be processed have to be listed. URIs are possible,
 and the root folder as well as the file endings can be changed in the options in case of previously downloaded, moved or converted experiments.
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -64,6 +80,31 @@ When you run the above command, Nextflow automatically pulls the pipeline code f
 ```bash
 nextflow pull bigbio/quantms
 ```
+
+## Migration Guide
+
+### Migrating from luciphor*\* to onsite*\* parameters (Version 1.7.0)
+
+Starting with version 1.7.0, luciphor-specific parameters have been replaced with the unified `onsite_*` parameter naming scheme. The new onsite module supports multiple PTM localization algorithms (AScore, PhosphoRS, and LucXor).
+
+#### Onsite Parameters
+
+| Parameter                        | Default    | Description                                                                                           |
+| -------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------- |
+| `onsite_algorithm`               | `'lucxor'` | PTM localization algorithm: `'ascore'`, `'phosphors'`, or `'lucxor'`                                  |
+| `onsite_fragment_method`         | `'CID'`    | Fragmentation method: `'CID'` or `'HCD'`                                                              |
+| `onsite_fragment_tolerance`      | `0.5`      | Fragment mass tolerance                                                                               |
+| `onsite_fragment_error_units`    | `'Da'`     | Fragment error units: `'Da'` or `'ppm'`                                                               |
+| `onsite_add_decoys`              | `false`    | Add decoy modifications for validation                                                                |
+| `onsite_neutral_losses`          | `null`     | List of neutral losses to consider for modification localization (replaces `luciphor_neutral_losses`) |
+| `onsite_decoy_mass`              | `null`     | Mass to add to an amino acid to make it a decoy (replaces `luciphor_decoy_mass`)                      |
+| `onsite_decoy_neutral_losses`    | `null`     | List of neutral losses for decoy sequences (replaces `luciphor_decoy_neutral_losses`)                 |
+| `onsite_threads`                 | `1`        | Number of threads for onsite processing                                                               |
+| `onsite_min_psms`                | `5`        | Minimum number of high-scoring PSMs for lucxor model training                                         |
+| `onsite_disable_split_by_charge` | `false`    | Disable splitting PSMs by charge state for lucxor                                                     |
+| `onsite_compute_all_scores`      | `false`    | Compute all scores for all candidate sites                                                            |
+
+**Note:** The old `luciphor_*` parameters are no longer supported. Update your configuration files to use the `onsite_*` parameters above. The default algorithm is `'lucxor'`, which provides the same functionality as the previous luciphor module.
 
 ### Reproducibility
 
@@ -111,7 +152,7 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `shifter`
   - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
 - `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
+  - A generic configuration profile to be used with [Charliecloud](https://charliecloud.io/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
 - `wave`
