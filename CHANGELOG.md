@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [627](https://github.com/bigbio/quantms/pull/627) Move thermorawfileparser and onsite modules from local to bigbio/nf-modules
 - [629](https://github.com/bigbio/quantms/pull/629) Update quantms-rescoring to 0.0.13 to support transfer learning
 - [615](https://github.com/bigbio/quantms/pull/615) Update quantms-utils 0.0.24 and pmultiqc 0.0.39
-- [614](https://github.com/bigbio/quantms/pull/614) enable_diann_mztab from true to false as default. For DIA pipelines the mzTab will not be generated unless specified by a parameter `--enable_diann_mztab true`.
+- [614](https://github.com/bigbio/quantms/pull/614) Changed enable_diann_mztab default from true to false. For DIA pipelines the mzTab will not be generated unless specified by a parameter `--enable_diann_mztab true`.
 - [635](https://github.com/bigbio/quantms/pull/635) Minimum Nextflow version requirement updated to `>=25.04.0`
 
 ### `Fixed`
