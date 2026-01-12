@@ -3,7 +3,6 @@
 
 """Provide functions to merge multiple versions.yml files."""
 
-
 import platform
 from textwrap import dedent
 
@@ -38,7 +37,7 @@ def _make_versions_html(versions):
                 dedent(
                     f"""\\
                     <tr>
-                        <td><samp>{process if (i == 0) else ''}</samp></td>
+                        <td><samp>{process if (i == 0) else ""}</samp></td>
                         <td><samp>{tool}</samp></td>
                         <td><samp>{version}</samp></td>
                     </tr>
@@ -59,9 +58,7 @@ def main():
     }
 
     with open("$versions") as f:
-        versions_by_process = (
-            yaml.load(f, Loader=yaml.BaseLoader) | versions_this_module
-        )
+        versions_by_process = yaml.load(f, Loader=yaml.BaseLoader) | versions_this_module
 
     # aggregate versions by the module name (derived from fully-qualified process name)
     versions_by_module = {}

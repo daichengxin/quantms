@@ -1,0 +1,36 @@
+name: samplesheet_check
+description: Validate and check samplesheet/experimental design files
+keywords:
+  - validation
+  - samplesheet
+  - experimental design
+  - sdrf
+tools:
+  - samplesheet_check
+input:
+  - meta: input_file
+    type: file
+    description: Input samplesheet or experimental design file
+    pattern: "*.{tsv,txt,csv}"
+  - meta: is_sdrf
+    type: boolean
+    description: Whether the input file is in SDRF format
+  - meta: validate_ontologies
+    type: boolean
+    description: Whether to validate ontologies
+output:
+  - meta: log
+    type: file
+    description: Log file from validation process
+    pattern: "*.log"
+  - meta: checked_file
+    type: file
+    description: Validated input file
+    pattern: "*.{tsv,txt,csv}"
+  - meta: versions
+    type: file
+    description: File containing software versions
+    pattern: "versions.yml"
+authors:
+  - "@nf-core"
+  - "@bigbio"

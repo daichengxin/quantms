@@ -1,11 +1,13 @@
 # ![bigbio/quantms](docs/images/nf-core-quantms_logo_light.png#gh-light-mode-only) ![bigbio/quantms](docs/images/nf-core-quantms_logo_dark.png#gh-dark-mode-only)
 
-[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/quantms/results)[![Cite with Zenodo](https://img.shields.io/badge/DOI-10.5281/zenodo.7754148-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.7754148)
 [![GitHub Actions CI Status](https://github.com/bigbio/quantms/actions/workflows/ci.yml/badge.svg)](https://github.com/bigbio/quantms/actions/workflows/ci.yml)
-[![GitHub Actions Linting Status](https://github.com/bigbio/quantms/actions/workflows/linting.yml/badge.svg)](https://github.com/bigbio/quantms/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/quantms/results)[![Cite with Zenodo](https://img.shields.io/badge/DOI-10.5281/zenodo.7754148-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.7754148)
+[![GitHub Actions Linting Status](https://github.com/bigbio/quantms/actions/workflows/linting.yml/badge.svg)](https://github.com/bigbio/quantms/actions/workflows/linting.yml)
+[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/quantms/results)
+[![Cite with Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.15573386.svg)](https://doi.org/10.5281/zenodo.15573386)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.10.5-23aa62.svg)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.4.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.4.1)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/quantms)
@@ -22,8 +24,6 @@
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
-The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
-
 On release, automated continuous integration tests run the pipeline on a full-sized dataset on the AWS cloud infrastructure. This ensures that the pipeline runs on AWS, has sensible resource allocation defaults set to run on real-world datasets, and permits the persistent storage of results to benchmark between pipeline releases and other analysis sources. The results obtained from the full-sized test can be viewed on the [nf-core website](https://nf-co.re/quantms/results). This gives you a hint on which reports and file types are produced by the pipeline in a standard run. The automatic continuous integration tests on every pull request evaluate different workflows, including peptide identification, quantification for LFQ, LFQ-DIA, and TMT test datasets.
 
 ## Pipeline summary
@@ -34,31 +34,33 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 1. RAW file conversion to mzML ([`thermorawfileparser`](https://github.com/compomics/ThermoRawFileParser))
 2. Peptide identification using [`comet`](https://uwpr.github.io/Comet/) and/or [`msgf+`](https://github.com/MSGFPlus/msgfplus)
-3. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
-4. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/dev/modules/local/openms/falsediscoveryrate/main.nf)
-5. Modification localization [`luciphor`](https://github.com/dfermin/lucXor)
-6. Quantification: Feature detection [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_ProteomicsLFQ.html)
-7. Protein inference and quantification [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_ProteomicsLFQ.html)
-8. QC report generation [`pmultiqc`](https://github.com/bigbio/pmultiqc)
-9. Normalization, imputation, significance testing with [`MSstats`](https://github.com/VitekLab/MSstats)
+3. (Optional) Add extra PSM features using [`quantms-rescoring`](https://github.com/bigbio/quantms-rescoring)
+4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
+5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
+6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
+7. Quantification: Feature detection [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteomicsLFQ.html)
+8. Protein inference and quantification [`proteomicsLFQ`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteomicsLFQ.html)
+9. QC report generation [`pmultiqc`](https://github.com/bigbio/pmultiqc)
+10. Normalization, imputation, significance testing with [`MSstats`](https://github.com/VitekLab/MSstats)
 
 ### DDA-ISO (data-dependent quantification via isobaric labelling)
 
 1. RAW file conversion to mzML ([`thermorawfileparser`](https://github.com/compomics/ThermoRawFileParser))
 2. Peptide identification using [`comet`](https://uwpr.github.io/Comet/) and/or [`msgf+`](https://github.com/MSGFPlus/msgfplus)
-3. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
-4. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/dev/modules/local/openms/falsediscoveryrate/main.nf)
-5. Modification localization [`luciphor`](https://github.com/dfermin/lucXor)
-6. Extracts and normalizes isobaric labeling [`IsobaricAnalyzer`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_IsobaricAnalyzer.html)
-7. Protein inference [`ProteinInference`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinInference.html) or [`Epifany`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_Epifany.html) for bayesian inference.
-8. Protein Quantification [`ProteinQuantifier`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinQuantifier.html)
-9. QC report generation [`pmultiqc`](https://github.com/bigbio/pmultiqc)
-10. Normalization, imputation, significance testing with [`MSstats`](https://github.com/VitekLab/MSstats)
+3. (Optional) Add extra PSM features using [`quantms-rescoring`](https://github.com/bigbio/quantms-rescoring)
+4. Re-scoring peptide identifications [`percolator`](https://github.com/percolator/percolator)
+5. Peptide identification FDR [`openms fdr tool`](https://github.com/bigbio/quantms/blob/HEAD/modules/local/openms/false_discovery_rate/main.nf)
+6. Modification localization [`onsite`](https://github.com/bigbio/onsite)
+7. Extracts and normalizes isobaric labeling [`IsobaricAnalyzer`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_IsobaricAnalyzer.html)
+8. Protein inference [`ProteinInference`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinInference.html) or [`Epifany`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_Epifany.html) for bayesian inference.
+9. Protein Quantification [`ProteinQuantifier`](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinQuantifier.html)
+10. QC report generation [`pmultiqc`](https://github.com/bigbio/pmultiqc)
+11. Normalization, imputation, significance testing with [`MSstats`](https://github.com/VitekLab/MSstats)
 
 ### DIA-LFQ (data-independent label-free quantification)
 
 1. RAW file conversion to mzML when RAW as input([`thermorawfileparser`](https://github.com/compomics/ThermoRawFileParser))
-2. Performing an [optional step](https://github.com/bigbio/quantms/blob/dev/modules/local/tdf2mzml/main.nf): Converting .d to mzML when bruker data as input and set `convert_dotd` to true
+2. Performing an [optional step](https://github.com/bigbio/quantms/blob/HEAD/modules/local/utils/tdf2mzml/main.nf): Converting .d to mzML when bruker data as input and set `convert_dotd` to true
 3. DIA-NN analysis [`dia-nn`](https://github.com/vdemichev/DiaNN/)
 4. Generation of output files (msstats)
 5. QC reports generation [`pmultiqc`](https://github.com/bigbio/pmultiqc)
@@ -76,6 +78,22 @@ A graphical overview of suggested routes through the pipeline depending on conte
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
+### Supported file formats
+
+The pipeline supports the following mass spectrometry data file formats:
+
+- **`.raw`** - Thermo RAW files (automatically converted to mzML)
+- **`.mzML`** - Open standard mzML files
+- **`.d`** - Bruker timsTOF files (optionally converted to mzML when `--convert_dotd` is set)
+- **`.dia`** - DIA-NN native binary format (passed through without conversion)
+
+Compressed variants are supported for `.raw`, `.mzML`, and `.d` formats:
+
+- `.gz` (gzip compressed)
+- `.tar` (tar archive)
+- `.tar.gz` or `.tgz` (tar gzip compressed)
+- `.zip` (zip compressed)
+
 First, find or create a sample-to-data relationship file ([SDRF](https://github.com/bigbio/proteomics-sample-metadata)).
 Have a look at public datasets that were already annotated [here](https://github.com/bigbio/proteomics-sample-metadata/tree/master/annotated-projects).
 Those SDRFs should be ready for one-command re-analysis and you can just use the URL to the file on GitHub,
@@ -85,8 +103,6 @@ If you create your own, please adhere to the specifications and point the pipeli
 The second requirement is a protein sequence database. We suggest downloading a database for the organism(s)/proteins of interest from [Uniprot](https://www.uniprot.org/proteomes?query=*).
 
 Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
 nextflow run bigbio/quantms \
@@ -98,8 +114,6 @@ nextflow run bigbio/quantms \
 
 > [!NOTE]
 > Conda is no longer supported in this pipeline. Please use Docker, Singularity, or other container-based profiles.
-
-```
 
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
@@ -126,6 +140,7 @@ We thank the following people for their extensive assistance in the development 
 - Timo Sachsenberg ([@timosachsenberg](https://github.com/timosachsenberg))
 - Wang Hong ([@WangHong007](https://github.com/WangHong007))
 - Henry Webel ([@enryH](https://github.com/enryH))
+- Fabian Egli ([@fabianegli](https://github.com/fabianegli))
 
 ## Contributions and Support
 
@@ -143,12 +158,7 @@ If you use **bigbio/quantms** for your analysis, please cite it using the follow
 >
 > _Nat Methods._ 2024 July 4. doi: [10.1038/s41592-024-02343-1](https://doi.org/10.1038/s41592-024-02343-1).
 
-## Other citations
-
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use bigbio/quantms for your analysis, please cite it using the following doi: [10.5281/zenodo.7754148](https://doi.org/10.5281/zenodo.7754148) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
+## How to cite nf-core
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
@@ -159,4 +169,3 @@ You can cite the `nf-core` publication as follows:
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
 > _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
-```

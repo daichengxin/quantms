@@ -34,13 +34,22 @@ jobs:
       fail-fast: false
       matrix:
         NXF_VER:
-          - "24.10.5"
-        test_profile: ["test_lfq", "test_dia", "test_localize", "test_tmt", "test_dda_id"]
+          - "25.04.0"
+        test_profile:
+          [
+            "test_lfq",
+            "test_dia",
+            "test_localize",
+            "test_tmt",
+            "test_dda_id_alphapeptdeep",
+            "test_dda_id_ms2pip",
+            "test_dda_id_fine_tuning",
+          ]
         exec_profile: ["docker"] # extended ci tests singularity.
 
     steps:
       - name: Check out pipeline code
-        uses: actions/checkout@v4
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
         with:
           fetch-depth: 0
 

@@ -3,7 +3,92 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.0] nfcore/quantms - [--/--/----] - Tubingen
+## [1.7.0] bigbio/quantms - [08/01/2026] - [Caracas]
+
+### `Added`
+
+- [626](https://github.com/bigbio/quantms/pull/626) Added onsite module to quantms
+- [629](https://github.com/bigbio/quantms/pull/629) Added transfer learning module for MS2 intensity prediction
+
+### `Changed`
+
+- [627](https://github.com/bigbio/quantms/pull/627) Move thermorawfileparser and onsite modules from local to bigbio/nf-modules
+- [629](https://github.com/bigbio/quantms/pull/629) Update quantms-rescoring to 0.0.13 to support transfer learning
+- [615](https://github.com/bigbio/quantms/pull/615) Update quantms-utils 0.0.24 and pmultiqc 0.0.39
+- [614](https://github.com/bigbio/quantms/pull/614) Changed enable_diann_mztab default from true to false. For DIA pipelines the mzTab will not be generated unless specified by a parameter `--enable_diann_mztab true`.
+- [635](https://github.com/bigbio/quantms/pull/635) Minimum Nextflow version requirement updated to `>=25.04.0`
+
+### `Fixed`
+
+- [619](https://github.com/bigbio/quantms/pull/619) quantms-rescoring bug fixed
+- [614](https://github.com/bigbio/quantms/pull/614) Multiple bugs fixed about diann, ptms and pmultiqc
+
+### `Dependencies`
+
+- Updated quantms-rescoring==0.0.13
+- Updated pmultiqc==0.0.39
+- Updated pyonsite==0.0.2
+- Updated quantms-utils==0.0.24
+
+### `Deprecations`
+
+- [626](https://github.com/bigbio/quantms/pull/626) Removed luciphor-specific parameters: `luciphor_neutral_losses`, `luciphor_decoy_mass`, `luciphor_decoy_neutral_losses`. These have been replaced with onsite parameters: `onsite_neutral_losses`, `onsite_decoy_mass`, `onsite_decoy_neutral_losses`. The new onsite module provides support for multiple PTM localization algorithms (AScore, PhosphoRS, and LucXor) with unified parameter naming. See the [Migration Guide](docs/usage.md#migrating-from-luciphor_-to-onsite_-parameters-version-170) in the documentation for a complete parameter mapping table and migration instructions.
+
+## [1.6.0] bigbio/quantms - [13/08/2025] - Munich
+
+### `Added`
+
+- [571](https://github.com/bigbio/quantms/pull/571) Added AlphaPeptDeep to quantms rescoring
+
+### `Changed`
+
+- [564](https://github.com/bigbio/quantms/pull/564) Small patch with DIA precursor and fragment masses limits
+- [567](https://github.com/bigbio/quantms/pull/567) Update nf-core template to 3.3.2
+- [560](https://github.com/bigbio/quantms/pull/560) Improvements in the documentation
+- Renamed `ms2pip_model_dir` → `ms2_model_dir`
+- Renamed `ms2pip_model` → `ms2_model`
+
+### `Fixed`
+
+- [568](https://github.com/bigbio/quantms/pull/568), [570](https://github.com/bigbio/quantms/pull/570) Multiple bugs fixed for pmultiqc library, multiple PRs, final version updated to version 0.0.33
+
+### `Dependencies`
+
+- Updated quantms-rescoring==0.0.12
+- Updated pmultiqc==0.0.33
+
+## [1.5.0] bigbio/quantms - [21/05/2025] - Zürich
+
+### `Added`
+
+- [#555](https://github.com/bigbio/quantms/pull/555) Added support for methionine excision to COMET and DIANN.
+
+### `Changed`
+
+- [551](https://github.com/bigbio/quantms/pull/551) Standardization of names in meta.yml for all tools & Big refactoring for all modules to subfolders
+- [#547](https://github.com/bigbio/quantms/pull/547) Minor refinements with quantms code style, update msstats LFQ -> 4.14.0
+- [#539](https://github.com/bigbio/quantms/pull/539) quantms-utils 0.0.23 & sdrf-pipelines 0.0.32. This includes a fix for TMT-labelled samples.
+- [#541](https://github.com/bigbio/quantms/pull/541) add mztab to results for pmultiqc
+
+### `Fixed`
+
+- [#547](https://github.com/bigbio/quantms/pull/547) Refinements of quantms code style
+- [#545](https://github.com/bigbio/quantms/pull/545) small bug in SNR step
+- [#544](https://github.com/bigbio/quantms/pull/544) Fixing bug issues with SNR; quantms-utils -> quantms-rescoring
+- [#543](https://github.com/bigbio/quantms/pull/543) add Fabian Egli as contributor
+- [#542](https://github.com/bigbio/quantms/pull/542) pmultiqc version increased to 0.0.28. Error fixed with diann_report.tsv
+- [#537](https://github.com/bigbio/quantms/pull/537) pmultiqc updated 0.0.27 version
+- [#536](https://github.com/bigbio/quantms/pull/536) update pmultiqc to 0.0.27
+- [#531](https://github.com/bigbio/quantms/pull/531) Update for README.md **Review effort 1/5**
+
+### `Dependencies`
+
+- Updated quantms-utils to version 0.0.23
+- Updated bioconductor-msstats to version 4.14.0
+- Updated pmultiqc to version 0.0.28
+- Updated sdrf-pipelines to version 0.0.32
+
+## [1.4.0] nfcore/quantms - [07/05/2025] - Tubingen
 
 ### `Added`
 

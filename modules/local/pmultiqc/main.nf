@@ -2,8 +2,8 @@ process PMULTIQC {
     label 'process_high'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pmultiqc:0.0.26--pyhdfd78af_0' :
-        'biocontainers/pmultiqc:0.0.26--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/pmultiqc:0.0.39--pyhdfd78af_0' :
+        'biocontainers/pmultiqc:0.0.39--pyhdfd78af_0' }"
 
     input:
     path 'results/*'
@@ -14,13 +14,13 @@ process PMULTIQC {
     path "*.db", optional: true, emit: ch_pmultiqc_db
     path "versions.yml", emit: versions
     path "*_data", emit: data
-    path "*_plots", optional: true, emit: plots
 
     script:
     def args = task.ext.args ?: ''
-    def disable_pmultiqc = (params.enable_pmultiqc) && (params.export_mztab) ? "" : "--disable_plugin"
+    def disable_pmultiqc = (params.enable_pmultiqc) && (params.export_mztab) ? "--quantms_plugin" : ""
     def disable_table_plots = (params.enable_pmultiqc) && (params.skip_table_plots) ? "--disable_table" : ""
     def disable_idxml_index = (params.enable_pmultiqc) && (params.pmultiqc_idxml_skip) ? "--ignored_idxml" : ""
+    def contaminant_affix = params.contaminant_string ? "--contaminant_affix ${params.contaminant_string}" : ""
 
     """
     set -x
@@ -33,11 +33,12 @@ process PMULTIQC {
 
     multiqc \\
         -f \\
+        ${disable_pmultiqc} \\
         --config ./results/multiqc_config.yml \\
         ${args} \\
-        ${disable_pmultiqc} \\
         ${disable_table_plots} \\
         ${disable_idxml_index} \\
+        ${contaminant_affix} \\
         --quantification_method $params.quantification_method \\
         ./results \\
         -o .
