@@ -30,9 +30,9 @@ process MSRESCORE_FINE_TUNING {
     ms2_tolerance_unit = meta[0]['fragmentmasstoleranceunit']
 
     if (params.ms2features_model_dir && params.ms2features_model_dir != true) {
-        ms2_model_dir = ms2_model_dir
+        model_dir = ms2_model_dir
     } else {
-        ms2_model_dir = "./"
+        model_dir = "./"
     }
 
     if (params.force_transfer_learning) {
@@ -55,7 +55,7 @@ process MSRESCORE_FINE_TUNING {
         --ms2_tolerance $ms2_tolerance \\
         --ms2_tolerance_unit $ms2_tolerance_unit \\
         --processes $task.cpus \\
-        --ms2_model_dir ${ms2_model_dir} \\
+        --ms2_model_dir ${model_dir} \\
         --calibration_set_size ${params.ms2features_calibration} \\
         --epoch_to_train_ms2 ${params.epoch_to_train_ms2} \\
         --transfer_learning_test_ratio ${params.transfer_learning_test_ratio} \\

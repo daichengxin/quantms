@@ -48,13 +48,15 @@ process MSRESCORE_FEATURES {
         // ms2pip only supports Da unit
         ms2_tolerance_unit = 'Da'
         ms2_tolerance = params.ms2features_tolerance
-        if (meta['fragmentmasstoleranceunit'].toLowerCase().endsWith('da')) {
+        def fragment_unit_lower = meta['fragmentmasstoleranceunit'].toLowerCase()
+        if (fragment_unit_lower.endsWith('da')) {
             ms2_tolerance = meta['fragmentmasstolerance']
-        } else if (params.ms2features_tolerance_unit == 'ppm') {
-            log.info "Warning: MS2pip only supports Da unit. Using default from config!"
-            ms2_tolerance = 0.05
+        } else if (fragment_unit_lower == 'ppm' || params.ms2features_tolerance_unit == 'ppm') {
+            log.warn "Warning: MS2pip only supports Da unit. Using default from config!"
+            ms2_tolerance = params.ms2features_tolerance
         } else {
-            log.info "Warning: MS2pip only supports Da unit. Using default from config!"
+            log.warn "Warning: MS2pip only supports Da unit. Fragment mass tolerance unit '${meta['fragmentmasstoleranceunit']}' is not supported. Using default from config! In the future, please use 'Da' or 'ppm'."
+            ms2_tolerance = params.ms2features_tolerance
         }
     }
 

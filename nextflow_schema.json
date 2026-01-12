@@ -1118,7 +1118,7 @@
                     "description": "The minimum intensity for a feature to be considered for quantification. (default: '1000')",
                     "default": 1000.0,
                     "fa_icon": "fas fa-filter",
-                    "help_text": "The minimum intensity for a feature to be considered for quantification. (default: '10000')"
+                    "help_text": "The minimum intensity for a feature to be considered for quantification. (default: '1000')"
                 },
                 "alignment_order": {
                     "type": "string",
@@ -1383,7 +1383,7 @@
             "properties": {
                 "enable_pmultiqc": {
                     "type": "boolean",
-                    "description": "Enable generation of pmultiqc report? default: 'false'",
+                    "description": "Enable generation of pmultiqc report? default: true",
                     "fa_icon": "fas fa-toggle-on",
                     "default": true
                 },

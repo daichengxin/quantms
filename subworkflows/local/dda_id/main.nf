@@ -98,7 +98,7 @@ workflow DDA_ID {
             .map { it -> it[1] }
             .set { ch_pmultiqc_ids }
     } else {
-        PSM_CONVERSION(ch_id_files.combine(ch_ms2_statistics, by: 0))
+        PSM_CONVERSION(ch_id_files_feats.combine(ch_ms2_statistics, by: 0))
     }
 
 
@@ -119,16 +119,4 @@ def add_file_prefix(file_path) {
     }
     file_name = file(file_path).name.take(position)
     return [file_name, file_path]
-}
-
-// Function to get sample map
-def get_sample_map(LinkedHashMap row) {
-    def sample_map = [:]
-
-    filestr               = row.Spectra_Filepath
-    file_name             = file(filestr).name.take(file(filestr).name.lastIndexOf('.'))
-    sample                = row.Sample
-
-    return [file_name, sample]
-
 }
