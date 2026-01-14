@@ -13,7 +13,7 @@ process SAMPLESHEET_CHECK {
 
     output:
     path "*.log", emit: log
-    path "*.sdrf.tsv", emit: checked_file
+    path "*.sdrf.tsv", includeInputs: true, emit: checked_file
     path "versions.yml", emit: versions
 
     when:
