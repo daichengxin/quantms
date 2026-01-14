@@ -8,7 +8,6 @@ include { SDRF_PARSING } from '../../../modules/local/sdrf_parsing/main'
 workflow CREATE_INPUT_CHANNEL {
     take:
     ch_sdrf
-    is_sdrf
 
     main:
     ch_versions = Channel.empty()
