@@ -41,7 +41,7 @@ process SAMPLESHEET_CHECK {
         cp "${input_file}" "\$OUTPUT_FILE"
     fi
 
-    quantmsutilsc checksamplesheet --exp_design "\$OUTPUT_FILE" \\
+    quantmsutilsc checksamplesheet --exp_design "\$OUTPUT_FILE" --is_sdrf \\
     ${string_skip_sdrf_validation} \\
     ${string_skip_ms_validation} \\
     ${string_skip_factor_validation} \\
