@@ -33,7 +33,7 @@ process SAMPLESHEET_CHECK {
     # Only trim extension if it matches .sdrf.tsv, .sdrf.csv, or .sdrf
     BASENAME=\$(echo "\$BASENAME" | sed -E 's/\\.(sdrf\\.tsv|sdrf\\.csv|sdrf)\$//')
     OUTPUT_FILE="\${BASENAME}.sdrf.tsv"
-    
+
     # Convert CSV to TSV if needed using pandas
     if [[ "${input_file}" == *.csv ]]; then
         python -c "import pandas as pd; df = pd.read_csv('${input_file}'); df.to_csv('\$OUTPUT_FILE', sep='\\t', index=False)"
