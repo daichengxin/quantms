@@ -36,6 +36,7 @@ This is **non-negotiable**. All code must pass formatting and style checks befor
 - **DIA-LFQ**: Data-independent acquisition with label-free quantification
 
 **Key Features:**
+
 - Built with Nextflow DSL2
 - Integrates multiple search engines: Comet, MSGF+, Sage, DIA-NN
 - Uses OpenMS tools for proteomics processing
@@ -94,12 +95,14 @@ quantms/
 ### 1. Pre-commit Hooks (MANDATORY)
 
 **Installation:**
+
 ```bash
 pip install pre-commit
 pre-commit install  # Install git hooks (one-time setup)
 ```
 
 **Run before EVERY commit:**
+
 ```bash
 pre-commit run --all-files
 ```
@@ -117,6 +120,7 @@ pre-commit run --all-files
    - Ensures files end with a single newline
 
 **Excluded Files:**
+
 - `CHANGELOG.md` (manually maintained)
 - `modules/nf-core/**` (managed by nf-core)
 - `subworkflows/nf-core/**` (managed by nf-core)
@@ -124,24 +128,29 @@ pre-commit run --all-files
 
 **Auto-fix in CI:**
 If you forget to run pre-commit locally, comment on your PR:
+
 ```
 @nf-core-bot fix linting
 ```
+
 The bot will run pre-commit and push fixes automatically.
 
 ### 2. Pipeline Linting (RECOMMENDED)
 
 **Run before creating PR:**
+
 ```bash
 nf-core pipelines lint
 ```
 
 **For master branch PRs:**
+
 ```bash
 nf-core pipelines lint --release
 ```
 
 This validates:
+
 - nf-core pipeline standards compliance
 - File structure and naming
 - Configuration completeness
@@ -150,6 +159,7 @@ This validates:
 ### 3. Schema Validation (REQUIRED for parameter changes)
 
 **After adding/modifying parameters in `nextflow.config`:**
+
 ```bash
 nf-core pipelines schema build
 ```
@@ -171,27 +181,31 @@ This updates `nextflow_schema.json` with interactive prompts to add descriptions
 ### When to Run Tests Locally
 
 #### 🟢 Documentation/Config-Only Changes
+
 **No testing required:**
+
 - README, CHANGELOG, docs/ updates
 - Minor config tweaks (labels, descriptions)
 - Comment additions
 - Asset file updates (email templates, correction matrices)
 
 #### 🟡 Targeted Testing Required
+
 **Run specific test profile(s):**
 
-| Change Area | Test Profile(s) | Command |
-|-------------|----------------|---------|
-| LFQ workflow | `test_lfq` | `nextflow run . -profile test_lfq,docker --outdir results` |
-| TMT/iTRAQ workflow | `test_tmt` | `nextflow run . -profile test_tmt,docker --outdir results` |
-| TMT with correction | `test_tmt_corr` | `nextflow run . -profile test_tmt_corr,docker --outdir results` |
-| DIA workflow | `test_dia` | `nextflow run . -profile test_dia,docker --outdir results` |
-| PTM localization | `test_localize` | `nextflow run . -profile test_localize,docker --outdir results` |
-| Sage search engine | `test_lfq_sage` | `nextflow run . -profile test_lfq_sage,docker --outdir results` |
+| Change Area             | Test Profile(s)             | Command                                                                     |
+| ----------------------- | --------------------------- | --------------------------------------------------------------------------- |
+| LFQ workflow            | `test_lfq`                  | `nextflow run . -profile test_lfq,docker --outdir results`                  |
+| TMT/iTRAQ workflow      | `test_tmt`                  | `nextflow run . -profile test_tmt,docker --outdir results`                  |
+| TMT with correction     | `test_tmt_corr`             | `nextflow run . -profile test_tmt_corr,docker --outdir results`             |
+| DIA workflow            | `test_dia`                  | `nextflow run . -profile test_dia,docker --outdir results`                  |
+| PTM localization        | `test_localize`             | `nextflow run . -profile test_localize,docker --outdir results`             |
+| Sage search engine      | `test_lfq_sage`             | `nextflow run . -profile test_lfq_sage,docker --outdir results`             |
 | AlphaPeptDeep rescoring | `test_dda_id_alphapeptdeep` | `nextflow run . -profile test_dda_id_alphapeptdeep,docker --outdir results` |
-| MS2PIP rescoring | `test_dda_id_ms2pip` | `nextflow run . -profile test_dda_id_ms2pip,docker --outdir results` |
+| MS2PIP rescoring        | `test_dda_id_ms2pip`        | `nextflow run . -profile test_dda_id_ms2pip,docker --outdir results`        |
 
 #### 🔴 Comprehensive Testing Required
+
 **Run nf-test suite:**
 
 ```bash
@@ -203,6 +217,7 @@ nf-test test tests/default.nf.test --profile debug,test,docker --verbose
 ```
 
 **When to run comprehensive tests:**
+
 - Core pipeline logic changes (main.nf, quantms.nf)
 - Cross-cutting subworkflow modifications
 - Module changes affecting multiple workflows
@@ -211,6 +226,7 @@ nf-test test tests/default.nf.test --profile debug,test,docker --verbose
 ### Test Configuration Files
 
 All test profiles are in `conf/tests/`:
+
 - `test_lfq.config` - Quick LFQ test (default)
 - `test_tmt.config` - TMT isobaric labeling
 - `test_tmt_corr.config` - TMT with plex correction
@@ -228,11 +244,13 @@ All test profiles are in `conf/tests/`:
 ### Snapshot Testing
 
 The pipeline uses snapshot-based testing (`tests/default.nf.test`):
+
 - Compares stable file names and content
 - Validates workflow success
-- Ignores volatile files (pipeline_info/*.{html,json,txt})
+- Ignores volatile files (pipeline_info/\*.{html,json,txt})
 
 **Updating snapshots after intentional changes:**
+
 ```bash
 nf-test test --profile debug,test,docker --update-snapshot
 ```
@@ -252,16 +270,19 @@ nf-test test --profile debug,test,docker --update-snapshot
 #### Channel Names
 
 **Initial output from a process:**
+
 ```groovy
 ch_output_from_<process_name>
 ```
 
 **Intermediate/terminal channels:**
+
 ```groovy
 ch_<previous_process>_for_<next_process>
 ```
 
 **Examples:**
+
 ```groovy
 ch_output_from_comet
 ch_comet_for_fdr_control
@@ -278,20 +299,21 @@ ch_fdr_for_protein_inference
 
 Defined in `conf/base.config`:
 
-| Label | CPU | Memory | Time | Use Case |
-|-------|-----|--------|------|----------|
-| `process_single` | 1 | 6 GB | 4h | Single-threaded tools |
-| `process_tiny` | 1 | 1 GB | 1h | Minimal processing |
-| `process_very_low` | 2 | 12 GB | 4h | Light parallelism |
-| `process_low` | 4 | 36 GB | 8h | Moderate workload |
-| `process_medium` | 8 | 72 GB | 16h | Standard processing |
-| `process_high` | 12 | 108 GB | 20h | Heavy computation |
+| Label              | CPU | Memory | Time | Use Case              |
+| ------------------ | --- | ------ | ---- | --------------------- |
+| `process_single`   | 1   | 6 GB   | 4h   | Single-threaded tools |
+| `process_tiny`     | 1   | 1 GB   | 1h   | Minimal processing    |
+| `process_very_low` | 2   | 12 GB  | 4h   | Light parallelism     |
+| `process_low`      | 4   | 36 GB  | 8h   | Moderate workload     |
+| `process_medium`   | 8   | 72 GB  | 16h  | Standard processing   |
+| `process_high`     | 12  | 108 GB | 20h  | Heavy computation     |
 
 **Usage in process:**
+
 ```groovy
 process MY_PROCESS {
     label 'process_medium'
-    
+
     cpus task.cpus
     memory task.memory
 }
@@ -355,6 +377,7 @@ Understanding what runs automatically helps you anticipate issues:
 
 **Triggers**: All PRs, releases
 **Runs**:
+
 - Pre-commit hooks (prettier, whitespace, EOF)
 - `nf-core pipelines lint` (with `--release` for master PRs)
 
@@ -364,11 +387,13 @@ Understanding what runs automatically helps you anticipate issues:
 
 **Triggers**: Push to dev/master, PRs, releases
 **Matrix**:
+
 - Nextflow: `25.04.0`
 - Test profiles: All 7 main profiles (lfq, tmt, dia, localize, sage, alphapeptdeep, ms2pip)
 - Container: Docker
 
 **Steps**:
+
 1. Checkout with full history
 2. Setup Java 17
 3. Install Nextflow
@@ -383,6 +408,7 @@ Understanding what runs automatically helps you anticipate issues:
 #### 3. **Extended CI** (`.github/workflows/ci_extended.yml`)
 
 **Matrix**:
+
 - Nextflow: `25.04.0` + `latest-everything`
 - Test profiles: All 8 profiles including `test_tmt_corr`
 - Runs without `dev` profile on master
@@ -495,6 +521,7 @@ nextflow run . -profile test,docker \
 ### Checking Pipeline Reports
 
 After running pipeline, check these files in `results/`:
+
 - `pipeline_info/execution_report.html` - Resource usage
 - `pipeline_info/execution_timeline.html` - Timeline visualization
 - `pipeline_info/execution_trace.txt` - Detailed trace
@@ -507,11 +534,13 @@ After running pipeline, check these files in `results/`:
 ### Pre-commit Issues
 
 **Problem**: Pre-commit hook fails with formatting issues
+
 ```
 Files were modified by this hook. Additional output:
 ```
 
 **Solution**: The files were auto-fixed. Stage and commit again:
+
 ```bash
 git add .
 git commit -m "your message"
@@ -522,6 +551,7 @@ git commit -m "your message"
 **Problem**: Pre-commit is slow on large changesets
 
 **Solution**: Run on specific files only:
+
 ```bash
 pre-commit run --files path/to/file1.nf path/to/file2.config
 ```
@@ -533,9 +563,11 @@ pre-commit run --files path/to/file1.nf path/to/file2.config
 **Problem**: Test fails with "Process exceeded memory limit"
 
 **Solution**: Ensure you're using the `test` profile with resource limits:
+
 ```bash
 nextflow run . -profile test,docker --outdir results
 ```
+
 The `test` profile sets `process.memory = 6.GB` and `process.cpus = 2` for CI compatibility.
 
 ---
@@ -543,16 +575,19 @@ The `test` profile sets `process.memory = 6.GB` and `process.cpus = 2` for CI co
 **Problem**: Snapshot test fails after intentional output changes
 
 **Solution**: Update snapshots:
+
 ```bash
 nf-test test --profile debug,test,docker --update-snapshot
 ```
+
 Then commit the updated `.snap` files.
 
 ---
 
 **Problem**: Container not found / pulling issues
 
-**Solution**: 
+**Solution**:
+
 1. Check internet connection
 2. Use alternative container engine:
    ```bash
@@ -568,6 +603,7 @@ Then commit the updated `.snap` files.
 **Problem**: Test data not accessible
 
 **Solution**: Test data is hosted on GitHub. Ensure:
+
 1. Internet connectivity
 2. No firewall blocking GitHub raw content
 3. Try with `-resume` to use cached data
@@ -579,6 +615,7 @@ Then commit the updated `.snap` files.
 **Problem**: "Nextflow version is too old"
 
 **Solution**: Update Nextflow:
+
 ```bash
 nextflow self-update
 # Or install specific version
@@ -591,6 +628,7 @@ nextflow -version
 **Problem**: "Process terminated with exit code 137"
 
 **Solution**: Out of memory. Either:
+
 1. Use test profile: `-profile test,docker`
 2. Increase Docker memory limit in Docker Desktop settings
 3. Reduce `params.max_memory` in config
@@ -599,7 +637,8 @@ nextflow -version
 
 **Problem**: "Error executing process > WORKFLOW:SUBWORKFLOW:PROCESS"
 
-**Solution**: 
+**Solution**:
+
 1. Check `.nextflow.log` for details:
    ```bash
    tail -100 .nextflow.log
@@ -620,7 +659,8 @@ nextflow -version
 
 **Problem**: "Unknown parameter"
 
-**Solution**: 
+**Solution**:
+
 1. Check if parameter is in `nextflow.config`
 2. Update schema:
    ```bash
@@ -636,6 +676,7 @@ nextflow -version
 **Problem**: Schema build fails / JSON validation error
 
 **Solution**:
+
 1. Check `nextflow_schema.json` syntax:
    ```bash
    cat nextflow_schema.json | jq .
@@ -653,6 +694,7 @@ nextflow -version
 **Problem**: CI tests pass locally but fail in GitHub Actions
 
 **Solution**: Common causes:
+
 1. **Resource limits**: CI has stricter limits (2 CPU, 6 GB RAM)
 2. **Test profile**: Ensure using `test` profile in CI config
 3. **Container differences**: CI uses different architecture (amd64)
@@ -663,6 +705,7 @@ nextflow -version
 **Problem**: Lint check fails in CI but passes locally
 
 **Solution**:
+
 1. Ensure using same nf-core version:
    ```bash
    # Check version in .nf-core.yml
@@ -679,7 +722,8 @@ nextflow -version
 
 **Problem**: `@nf-core-bot fix linting` doesn't work
 
-**Solution**: 
+**Solution**:
+
 1. Check bot has write permissions to your fork
 2. Ensure PR is from a branch (not fork's master)
 3. Manually run and commit:
@@ -697,6 +741,7 @@ nextflow -version
 **Problem**: "Module not found" error
 
 **Solution**:
+
 1. Check `modules.json` for module entry
 2. Install module:
    ```bash
@@ -709,6 +754,7 @@ nextflow -version
 **Problem**: Module config not applied
 
 **Solution**: Check `conf/modules/modules.config`:
+
 1. Use correct selector: `withName: 'EXACT_PROCESS_NAME'`
 2. Process names are case-sensitive
 3. For subworkflow processes: `withName: '.*:SUBWORKFLOW:PROCESS'`
