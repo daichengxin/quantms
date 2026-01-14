@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] bigbio/quantms - [Unreleased]
+
+### `Deprecations`
+
+- **BREAKING: Deprecated OpenMS experimental design format as input**: The pipeline now only accepts SDRF (Sample to Data Relation Format) files as input. The OpenMS experimental design format (`.tsv` without SDRF structure) is no longer supported. All input files are now treated as SDRF regardless of file extension. Supported file extensions for SDRF input are `.sdrf`, `.tsv`, and `.csv`. This change aligns with nf-core best practices and simplifies input handling for cloud storage interfaces like Seqera Datastudios and Explorer. Users must convert their OpenMS experimental design files to SDRF format. The `--labelling_type` and `--acquisition_method` parameters are no longer used for determining input file type - all information must be specified in the SDRF file.
+
 ## [1.7.0] bigbio/quantms - [08/01/2026] - [Caracas]
 
 ### `Added`
@@ -33,7 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Deprecations`
 
 - [626](https://github.com/bigbio/quantms/pull/626) Removed luciphor-specific parameters: `luciphor_neutral_losses`, `luciphor_decoy_mass`, `luciphor_decoy_neutral_losses`. These have been replaced with onsite parameters: `onsite_neutral_losses`, `onsite_decoy_mass`, `onsite_decoy_neutral_losses`. The new onsite module provides support for multiple PTM localization algorithms (AScore, PhosphoRS, and LucXor) with unified parameter naming. See the [Migration Guide](docs/usage.md#migrating-from-luciphor_-to-onsite_-parameters-version-170) in the documentation for a complete parameter mapping table and migration instructions.
-- **BREAKING: Deprecated OpenMS experimental design format as input**: The pipeline now only accepts SDRF (Sample to Data Relation Format) files as input. The OpenMS experimental design format (`.tsv` without SDRF structure) is no longer supported. All input files are now treated as SDRF regardless of file extension. Supported file extensions for SDRF input are `.sdrf`, `.tsv`, and `.csv`. This change aligns with nf-core best practices and simplifies input handling for cloud storage interfaces like Seqera Datastudios and Explorer. Users must convert their OpenMS experimental design files to SDRF format. The `--labelling_type` and `--acquisition_method` parameters are no longer used for determining input file type - all information must be specified in the SDRF file.
 
 ## [1.6.0] bigbio/quantms - [13/08/2025] - Munich
 
