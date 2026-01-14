@@ -12,7 +12,7 @@ workflow CREATE_INPUT_CHANNEL {
     is_sdrf
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     if (is_sdrf.toString().toLowerCase().contains("true")) {
         SDRF_PARSING(ch_sdrf_or_design)
@@ -45,11 +45,11 @@ workflow CREATE_INPUT_CHANNEL {
 
     ch_config
         .splitCsv(header: true, sep: '\t')
-        .map { create_meta_channel(it, is_sdrf, enzymes, files, wrapper) }
-        .branch {
-            ch_meta_config_dia: it[0].acquisition_method.contains("dia")
-            ch_meta_config_iso: it[0].labelling_type.contains("tmt") || it[0].labelling_type.contains("itraq")
-            ch_meta_config_lfq: it[0].labelling_type.contains("label free")
+        .map { row -> create_meta_channel(row, is_sdrf, enzymes, files, wrapper) }
+        .branch { item ->
+            ch_meta_config_dia: item[0].acquisition_method.contains("dia")
+            ch_meta_config_iso: item[0].labelling_type.contains("tmt") || item[0].labelling_type.contains("itraq")
+            ch_meta_config_lfq: item[0].labelling_type.contains("label free")
         }
         .set { result }
     ch_meta_config_iso = result.ch_meta_config_iso
