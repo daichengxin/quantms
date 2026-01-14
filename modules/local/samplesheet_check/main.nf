@@ -30,14 +30,14 @@ process SAMPLESHEET_CHECK {
     """
     # Get basename and create output filename
     BASENAME=\$(basename "${input_file}")
-    # Only trim extension if it matches .sdrf.tsv, .sdrf.csv, or .sdrf
-    BASENAME=\$(echo "\$BASENAME" | sed -E 's/\\.(sdrf\\.tsv|sdrf\\.csv|sdrf)\$//')
+    # Remove .sdrf.tsv, .sdrf.csv, or .sdrf extension (in that order to match longest first)
+    BASENAME=\$(echo "\$BASENAME" | sed -E 's/\\.sdrf\\.(tsv|csv)\$//' | sed -E 's/\\.sdrf\$//')
     OUTPUT_FILE="\${BASENAME}.sdrf.tsv"
 
     # Convert CSV to TSV if needed using pandas
     if [[ "${input_file}" == *.csv ]]; then
         python -c "import pandas as pd; df = pd.read_csv('${input_file}'); df.to_csv('\$OUTPUT_FILE', sep='\\t', index=False)"
-    else
+    elif [[ "${input_file}" != "\$OUTPUT_FILE" ]]; then
         cp "${input_file}" "\$OUTPUT_FILE"
     fi
 
