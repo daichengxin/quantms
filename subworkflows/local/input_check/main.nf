@@ -1,5 +1,5 @@
 //
-// Check input sdrf and get read channels
+// Check input SDRF and get read channels
 //
 
 include { SAMPLESHEET_CHECK } from '../../../modules/local/samplesheet_check'
@@ -12,15 +12,9 @@ workflow INPUT_CHECK {
 
     ch_software_versions = Channel.empty()
 
-    if (input_file.toString().toLowerCase().contains("sdrf")) {
-        is_sdrf = true
-    } else {
-        is_sdrf = false
-        if (!params.labelling_type || !params.acquisition_method) {
-            log.error "If no SDRF was given, specifying --labelling_type and --acquisition_method is mandatory."
-            exit 1
-        }
-    }
+    // Always treat input as SDRF (OpenMS experimental design format is deprecated)
+    is_sdrf = true
+    
     SAMPLESHEET_CHECK ( input_file, is_sdrf, params.validate_ontologies )
     ch_software_versions = ch_software_versions.mix(SAMPLESHEET_CHECK.out.versions)
 
