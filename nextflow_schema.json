@@ -18,7 +18,7 @@
                     "exists": true,
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.(?:csv|tsv|sdrf)$",
-                    "description": "URI/path to an [SDRF](https://github.com/bigbio/proteomics-metadata-standard/tree/master/annotated-projects) file in SDRF format with .sdrf, .tsv, or .csv extension",
+                    "description": "URI/path to an SDRF file in SDRF format with .sdrf, .tsv, or .csv extension. For more info see help text or docs.",
                     "help_text": "Input is specified by using a path or URI to a PRIDE Sample to Data Relation Format file (SDRF), e.g. as part of a submitted and annotated PRIDE experiment (see [here](https://github.com/bigbio/proteomics-metadata-standard/tree/master/annotated-projects) for examples). Input files will be downloaded and cached from the URIs specified in the SDRF file.\n\nThe SDRF file can have .sdrf, .tsv, or .csv extensions. An OpenMS-style experimental design will be generated based on the factor columns of the SDRF. The settings for the following parameters will currently be overwritten by the ones specified in the SDRF:\n\n    * `fixed_mods`,\n    * `variable_mods`,\n    * `precursor_mass_tolerance`,\n    * `precursor_mass_tolerance_unit`,\n    * `fragment_mass_tolerance`,\n    * `fragment_mass_tolerance_unit`,\n    * `fragment_method`,\n    * `enzyme`",
                     "fa_icon": "fas fa-file-csv"
                 },
