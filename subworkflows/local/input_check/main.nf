@@ -10,7 +10,7 @@ workflow INPUT_CHECK {
 
     main:
 
-    ch_software_versions = Channel.empty()
+    ch_software_versions = channel.empty()
 
     if (input_file.toString().toLowerCase().contains("sdrf")) {
         is_sdrf = true

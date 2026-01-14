@@ -36,7 +36,9 @@ process SAMPLESHEET_CHECK {
     ${string_skip_ms_validation} \\
     ${string_skip_factor_validation} \\
     ${string_skip_experimental_design_validation} \\
-    ${string_use_ols_cache_only} 2>&1 | tee input_check.log
+    ${string_use_ols_cache_only} \\
+    $args \\
+    2>&1 | tee input_check.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
