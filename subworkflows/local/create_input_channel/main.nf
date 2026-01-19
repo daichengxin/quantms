@@ -2,50 +2,34 @@
 // Create channel for input file
 //
 include { SDRF_PARSING } from '../../../modules/local/sdrf_parsing/main'
-include { PREPROCESS_EXPDESIGN } from '../../../modules/local/preprocess_expdesign'
 
 
 
 workflow CREATE_INPUT_CHANNEL {
     take:
-    ch_sdrf_or_design
-    is_sdrf
+    ch_sdrf
 
     main:
     ch_versions = channel.empty()
 
-    if (is_sdrf.toString().toLowerCase().contains("true")) {
-        SDRF_PARSING(ch_sdrf_or_design)
-        ch_versions = ch_versions.mix(SDRF_PARSING.out.versions)
-        ch_config = SDRF_PARSING.out.ch_sdrf_config_file
-
-        ch_expdesign = SDRF_PARSING.out.ch_expdesign
-    }
-    else {
-        PREPROCESS_EXPDESIGN(ch_sdrf_or_design)
-        ch_versions = ch_versions.mix(PREPROCESS_EXPDESIGN.out.versions)
-
-        ch_config = PREPROCESS_EXPDESIGN.out.ch_config
-        ch_expdesign = PREPROCESS_EXPDESIGN.out.ch_expdesign
-    }
+    // Always parse as SDRF (OpenMS experimental design format deprecated)
+    SDRF_PARSING(ch_sdrf)
+    ch_versions = ch_versions.mix(SDRF_PARSING.out.versions)
+    ch_config = SDRF_PARSING.out.ch_sdrf_config_file
+    ch_expdesign = SDRF_PARSING.out.ch_expdesign
 
     def Set enzymes = []
     def Set files = []
 
-    // TODO remove. We can't use the variable to direct channels anyway
     def wrapper = [
         labelling_type: "",
         acquisition_method: "",
-        experiment_id: ch_sdrf_or_design,
+        experiment_id: ch_sdrf,
     ]
-
-    if (is_sdrf.toString().toLowerCase().contains("false")) {
-        log.info("No SDRF given. Using parameters to determine tolerance, enzyme, mod. and labelling settings")
-    }
 
     ch_config
         .splitCsv(header: true, sep: '\t')
-        .map { row -> create_meta_channel(row, is_sdrf, enzymes, files, wrapper) }
+        .map { row -> create_meta_channel(row, enzymes, files, wrapper) }
         .branch { item ->
             ch_meta_config_dia: item[0].acquisition_method.contains("dia")
             ch_meta_config_iso: item[0].labelling_type.contains("tmt") || item[0].labelling_type.contains("itraq")
@@ -65,20 +49,16 @@ workflow CREATE_INPUT_CHANNEL {
 }
 
 // Function to get list of [meta, [ spectra_files ]]
-def create_meta_channel(LinkedHashMap row, is_sdrf, enzymes, files, wrapper) {
+def create_meta_channel(LinkedHashMap row, enzymes, files, wrapper) {
     def meta = [:]
     def filestr
 
-    if (is_sdrf.toString().toLowerCase().contains("false")) {
-        filestr = row.Spectra_Filepath.toString()
+    // Always use SDRF format
+    if (!params.root_folder) {
+        filestr = row.URI.toString()
     }
     else {
-        if (!params.root_folder) {
-            filestr = row.URI.toString()
-        }
-        else {
-            filestr = row.Filename.toString()
-        }
+        filestr = row.Filename.toString()
     }
 
     meta.mzml_id = file(filestr).name.take(file(filestr).name.lastIndexOf('.'))
@@ -92,72 +72,57 @@ def create_meta_channel(LinkedHashMap row, is_sdrf, enzymes, files, wrapper) {
             : filestr)
     }
 
-
-
     // existence check
     if (!file(filestr).exists()) {
         exit(1, "ERROR: Please check input file -> File Uri does not exist!\n${filestr}")
     }
 
-    // for sdrf read from config file, without it, read from params
-    if (is_sdrf.toString().toLowerCase().contains("false")) {
-        meta.labelling_type = params.labelling_type
-        meta.dissociationmethod = params.ms2_fragment_method
-        meta.fixedmodifications = params.fixed_mods
-        meta.variablemodifications = params.variable_mods
-        meta.precursormasstolerance = params.precursor_mass_tolerance
-        meta.precursormasstoleranceunit = params.precursor_mass_tolerance_unit
-        meta.fragmentmasstolerance = params.fragment_mass_tolerance
-        meta.fragmentmasstoleranceunit = params.fragment_mass_tolerance_unit
-        meta.enzyme = params.enzyme
-        meta.acquisition_method = params.acquisition_method
+    // Read metadata from SDRF config file
+    if (row["Proteomics Data Acquisition Method"].toString().toLowerCase().contains("data-dependent acquisition")) {
+        meta.acquisition_method = "dda"
+    }
+    else if (row["Proteomics Data Acquisition Method"].toString().toLowerCase().contains("data-independent acquisition")) {
+        meta.acquisition_method = "dia"
     }
     else {
-        if (row["Proteomics Data Acquisition Method"].toString().toLowerCase().contains("data-dependent acquisition")) {
-            meta.acquisition_method = "dda"
-        }
-        else if (row["Proteomics Data Acquisition Method"].toString().toLowerCase().contains("data-independent acquisition")) {
-            meta.acquisition_method = "dia"
-        }
-        else {
-            log.error("Currently DIA and DDA are supported for the pipeline. Check and Fix your SDRF.")
-            exit(1)
-        }
-
-        // dissociation method conversion
-        if (row.DissociationMethod == "COLLISION-INDUCED DISSOCIATION") {
-            meta.dissociationmethod = "CID"
-        }
-        else if (row.DissociationMethod == "HIGHER ENERGY BEAM-TYPE COLLISION-INDUCED DISSOCIATION") {
-            meta.dissociationmethod = "HCD"
-        }
-        else if (row.DissociationMethod == "ELECTRON TRANSFER DISSOCIATION") {
-            meta.dissociationmethod = "ETD"
-        }
-        else if (row.DissociationMethod == "ELECTRON CAPTURE DISSOCIATION") {
-            meta.dissociationmethod = "ECD"
-        }
-        else {
-            meta.dissociationmethod = row.DissociationMethod
-        }
-
-        wrapper.acquisition_method = meta.acquisition_method
-        meta.labelling_type = row.Label
-        meta.fixedmodifications = row.FixedModifications
-        meta.variablemodifications = row.VariableModifications
-        meta.precursormasstolerance = Double.parseDouble(row.PrecursorMassTolerance)
-        meta.precursormasstoleranceunit = row.PrecursorMassToleranceUnit
-        meta.fragmentmasstolerance = Double.parseDouble(row.FragmentMassTolerance)
-        meta.fragmentmasstoleranceunit = row.FragmentMassToleranceUnit
-        meta.enzyme = row.Enzyme
-
-        enzymes += row.Enzyme
-        if (enzymes.size() > 1) {
-            log.error("Currently only one enzyme is supported for the whole experiment. Specified was '${enzymes}'. Check or split your SDRF.")
-            log.error(filestr)
-            exit(1)
-        }
+        log.error("Currently DIA and DDA are supported for the pipeline. Check and Fix your SDRF.")
+        exit(1)
     }
+
+    // dissociation method conversion
+    if (row.DissociationMethod == "COLLISION-INDUCED DISSOCIATION") {
+        meta.dissociationmethod = "CID"
+    }
+    else if (row.DissociationMethod == "HIGHER ENERGY BEAM-TYPE COLLISION-INDUCED DISSOCIATION") {
+        meta.dissociationmethod = "HCD"
+    }
+    else if (row.DissociationMethod == "ELECTRON TRANSFER DISSOCIATION") {
+        meta.dissociationmethod = "ETD"
+    }
+    else if (row.DissociationMethod == "ELECTRON CAPTURE DISSOCIATION") {
+        meta.dissociationmethod = "ECD"
+    }
+    else {
+        meta.dissociationmethod = row.DissociationMethod
+    }
+
+    wrapper.acquisition_method = meta.acquisition_method
+    meta.labelling_type = row.Label
+    meta.fixedmodifications = row.FixedModifications
+    meta.variablemodifications = row.VariableModifications
+    meta.precursormasstolerance = Double.parseDouble(row.PrecursorMassTolerance)
+    meta.precursormasstoleranceunit = row.PrecursorMassToleranceUnit
+    meta.fragmentmasstolerance = Double.parseDouble(row.FragmentMassTolerance)
+    meta.fragmentmasstoleranceunit = row.FragmentMassToleranceUnit
+    meta.enzyme = row.Enzyme
+
+    enzymes += row.Enzyme
+    if (enzymes.size() > 1) {
+        log.error("Currently only one enzyme is supported for the whole experiment. Specified was '${enzymes}'. Check or split your SDRF.")
+        log.error(filestr)
+        exit(1)
+    }
+
     // Nothing to determine for dia. Only LFQ allowed there.
     if (!meta.acquisition_method.equals("dia")) {
         if (wrapper.labelling_type.equals("")) {
