@@ -1,36 +1,15 @@
-lint:
-  files_exist:
-    - conf/igenomes.config
-    - conf/test_full.config
-    - conf/test.config
-    - .github/workflows/awstest.yml
-    - .github/workflows/awsfulltest.yml
-    - .github/workflows/ci.yml
-    - .github/workflows/download_pipeline.yml
-    - .github/workflows/nf-test.yml
-    - .gitignore
-    - conf/modules.config
-    - conf/igenomes_ignored.config
-  files_unchanged:
-    - .github/PULL_REQUEST_TEMPLATE.md
-    - .github/CONTRIBUTING.md
-    - docs/README.md
-    - .github/workflows/awstest.yml
-    - .github/workflows/awsfulltest.yml
-    - .github/workflows/download_pipeline.yml
-    - conf/modules.config
-    - conf/igenomes_ignored.config
-  modules_config: false
-  multiqc_config: false
-  nextflow_config: false
-nf_core_version: 4.0.3
 repository_type: pipeline
+
+nf_core_version: 4.0.3
+
+lint: {}
+
 template:
-  author: Yasset Perez-Riverol
-  description: Quantitative Mass Spectrometry nf-core workflow
-  force: false
-  is_nfcore: true
-  name: quantms
   org: bigbio
-  outdir: .
+  name: quantms
+  description: Quantitative Mass Spectrometry nf-core workflow
+  author: Yasset Perez-Riverol
   version: 1.9.0dev
+  force: true
+  outdir: /home/daichengxin/gitrepo/latest/pr/43/quantms
+  is_nfcore: true

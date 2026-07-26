@@ -17,7 +17,7 @@ jobs:
       - name: Check PRs
         if: github.repository == 'bigbio/quantms'
         env:
-          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REPO:  ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           { [[ "$HEAD_REPO" == bigbio/quantms ]] && [[ $GITHUB_HEAD_REF == "dev" ]]; } || [[ $GITHUB_HEAD_REF == "patch" ]]
 
