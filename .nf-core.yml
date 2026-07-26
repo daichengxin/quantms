@@ -1,15 +1,12 @@
-repository_type: pipeline
-
-nf_core_version: 4.0.3
-
 lint: {}
-
+nf_core_version: 4.0.3
+repository_type: pipeline
 template:
-  org: bigbio
-  name: quantms
-  description: Quantitative Mass Spectrometry nf-core workflow
   author: Yasset Perez-Riverol
-  version: 1.9.0dev
-  force: true
-  outdir: /home/daichengxin/gitrepo/latest/pr/43/quantms
+  description: Quantitative Mass Spectrometry nf-core workflow
+  force: false
   is_nfcore: true
+  name: quantms
+  org: bigbio
+  outdir: .
+  version: 1.9.0dev
